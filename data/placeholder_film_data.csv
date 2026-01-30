@@ -1,0 +1,5 @@
+withdrawal_speed,dwell_time_s,substrate_type,pdms_concentration,solvent_type,etc_feature,total_film_thickness,bonded_film_thickness
+1.2,30,Glass,5.0,Toluene,0.1,12.4,8.9
+0.8,45,Silicon,7.5,Hexane,0.2,15.1,10.7
+1.5,25,Glass,4.0,Acetone,0.15,11.8,7.6
+1.0,60,Polymer,6.0,Toluene,0.05,13.3,9.4
