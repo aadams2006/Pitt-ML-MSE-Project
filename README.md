@@ -1,28 +1,33 @@
 # Pitt ML MSE Project
 
-This repository is organized as a lightweight, experimental machine-learning workspace. It provides a consistent structure for experimenting with multiple model families while sharing a common placeholder dataset schema for thin-film processing.
+This repository is organized as a machine-learning workspace for thin-film processing prediction. It provides a consistent structure for experimenting with multiple model families while sharing the aggregated dataset.
 
 ## Repository layout
 
-- `data/`: placeholder datasets and data documentation.
-- `models/`: model-specific experiment folders with starter pipelines.
+- `data/`: Dataset files and data documentation.
+  - `agg.data.xlsx`: Primary aggregated dataset for training and evaluation.
+- `models/`: Model-specific experiment folders with complete pipelines.
   - `bpnn/`: Backpropagation Neural Networks (BPNNs).
-  - `knn/`: Known Nearest Neighbors (KNN).
-  - `rfr/`: Random Forest Regression (RFR).
+  - `knn/`: K-Nearest Neighbors (KNN).
   - `linear_regression/`: Linear Regression.
+  - `rfr/`: Random Forest Regression (RFR).
 
-## Placeholder feature + target schema
+## Features
 
-**Feature inputs**
-- Withdrawal Speed
-- Dwell Time (s)
-- Substrate Type
-- PDMS Concentration
-- Solvent Type
-- Etc.
+Each model pipeline includes:
+- **Data loading**: Automatic loading of `agg.data.xlsx` with intelligent feature/target column detection
+- **Model training**: Train/test split with standard preprocessing
+- **Evaluation metrics**: MSE, RMSE, MAE, R² Score
+- **Visualizations**: 
+  - Predictions vs Actual scatter plots
+  - Residual analysis and distribution
+  - Performance metrics summary cards
+- **Output management**: Results saved to `model/results/` directory
 
-**Target outputs**
-- Total Film Thickness (μm or nm)
-- Bonded Film Thickness (μm or nm)
+## Usage
 
-Each model folder includes a `pipeline.py` with the same schema and a small helper for loading the placeholder CSV data.
+Each model folder contains a `pipeline.py` with the following functions:
+- `load_agg_data()`: Load the aggregated dataset
+- `split_features_targets()`: Separate features from targets
+- `train_and_evaluate()`: Train model and compute metrics
+- `plot_results()`: Generate and save evaluation visualizations
