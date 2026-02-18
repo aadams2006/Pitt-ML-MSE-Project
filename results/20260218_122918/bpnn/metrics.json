@@ -1,0 +1,18 @@
+{
+  "model": "BPNN",
+  "R2": 0.11138459326541295,
+  "RMSE": 0.06824826559676904,
+  "MAE": 0.06242646446385742,
+  "MSE": 0.004657825756967128,
+  "training_date": "2026-02-18T12:29:19.811419",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "features": [
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "n_train_samples": 46,
+  "n_test_samples": 12
+}

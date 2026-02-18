@@ -1,0 +1,18 @@
+{
+  "model": "Linear Regression",
+  "R2": 0.42954579005537363,
+  "RMSE": 0.054682088631712096,
+  "MAE": 0.04601579012139795,
+  "MSE": 0.002990130817126417,
+  "training_date": "2026-02-18T12:29:21.152318",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "features": [
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "n_train_samples": 46,
+  "n_test_samples": 12
+}

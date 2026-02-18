@@ -28,19 +28,20 @@ def load_agg_data(data_path: Path | None = None) -> pd.DataFrame:
 
 
 def get_feature_target_columns(df: pd.DataFrame) -> tuple[list[str], list[str]]:
-    """Automatically detect feature and target columns from dataframe."""
+    """Get feature and target columns for the aggregated dataset.
+    
+    Features: All columns except 'Bonded Thickness (nm)'
+    Target: 'Bonded Thickness (nm)'
+    """
     global FEATURE_COLUMNS, TARGET_COLUMNS
     
     if FEATURE_COLUMNS is None:
-        # Exclude common non-feature columns
-        exclude_patterns = ['thickness', 'film', 'thin']
-        features = [col for col in df.columns if not any(pattern.lower() in col.lower() for pattern in exclude_patterns)]
-        FEATURE_COLUMNS = features
+        # Features: everything except bonded thickness
+        FEATURE_COLUMNS = ['Concentration (g/mL)', 'Uncoated Layer (nm)', 'Total Thickness (nm)']
     
     if TARGET_COLUMNS is None:
-        # Target columns contain 'thickness' or 'film'
-        targets = [col for col in df.columns if any(pattern.lower() in col.lower() for pattern in ['thickness', 'film'])]
-        TARGET_COLUMNS = targets if targets else df.columns[-1:].tolist()
+        # Target: bonded thickness
+        TARGET_COLUMNS = ['Bonded Thickness (nm)']
     
     return FEATURE_COLUMNS, TARGET_COLUMNS
 
@@ -59,15 +60,19 @@ def train_and_evaluate(X_train, X_test, y_train, y_test, model_name: str = "KNN"
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
     
+    # Flatten y values to 1D arrays
+    y_train_flat = np.asarray(y_train).flatten()
+    y_test_flat = np.asarray(y_test).flatten()
+    
     model = KNeighborsRegressor(n_neighbors=5)
-    model.fit(X_train_scaled, y_train)
+    model.fit(X_train_scaled, y_train_flat)
     
     y_pred = model.predict(X_test_scaled)
     
-    mse = mean_squared_error(y_test, y_pred)
+    mse = mean_squared_error(y_test_flat, y_pred)
     rmse = np.sqrt(mse)
-    mae = mean_absolute_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
+    mae = mean_absolute_error(y_test_flat, y_pred)
+    r2 = r2_score(y_test_flat, y_pred)
     
     metrics = {
         "model": model_name,
@@ -76,7 +81,7 @@ def train_and_evaluate(X_train, X_test, y_train, y_test, model_name: str = "KNN"
         "MAE": mae,
         "R2": r2,
         "y_pred": y_pred,
-        "y_test": y_test,
+        "y_test": y_test_flat,
     }
     
     return metrics
@@ -88,8 +93,10 @@ def plot_results(metrics: dict, output_dir: Path | None = None) -> None:
         output_dir = Path(__file__).resolve().parent / "results"
     output_dir.mkdir(exist_ok=True)
     
-    y_pred = metrics["y_pred"]
-    y_test = metrics["y_test"]
+    # Convert to numpy arrays for consistent handling
+    import numpy as np
+    y_pred = np.asarray(metrics["y_pred"]).flatten()
+    y_test = np.asarray(metrics["y_test"]).flatten()
     model_name = metrics["model"]
     
     # Create figure with subplots

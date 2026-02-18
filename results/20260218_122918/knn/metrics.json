@@ -1,0 +1,18 @@
+{
+  "model": "KNN",
+  "R2": 0.6453418124006357,
+  "RMSE": 0.043116122274620215,
+  "MAE": 0.03150000000000001,
+  "MSE": 0.0018590000000000015,
+  "training_date": "2026-02-18T12:29:20.473760",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "features": [
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "n_train_samples": 46,
+  "n_test_samples": 12
+}

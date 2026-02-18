@@ -1,0 +1,18 @@
+{
+  "model": "Random Forest Regression",
+  "R2": 0.8984697491609248,
+  "RMSE": 0.02306919442636621,
+  "MAE": 0.019919444444444583,
+  "MSE": 0.0005321877314814859,
+  "training_date": "2026-02-18T12:29:21.981631",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "features": [
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "n_train_samples": 46,
+  "n_test_samples": 12
+}
