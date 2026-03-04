@@ -1,0 +1,13 @@
+{
+  "model": "Random Forest Regression",
+  "R2": 0.7861251406490672,
+  "RMSE": 0.04317311058895221,
+  "MAE": 0.027137171021184858,
+  "MSE": 0.001863917477925897,
+  "training_date": "2026-03-04T11:33:47.743729",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "n_train_samples": 800,
+  "n_test_samples": 200,
+  "data_source": "synthetic_data_improved.csv (correlation-preserving)"
+}

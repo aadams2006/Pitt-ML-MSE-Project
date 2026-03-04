@@ -1,0 +1,13 @@
+{
+  "model": "Linear Regression",
+  "R2": 0.7398078226178726,
+  "RMSE": 0.04761903493858362,
+  "MAE": 0.03992214522589206,
+  "MSE": 0.0022675724884820476,
+  "training_date": "2026-03-04T11:33:46.439539",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "n_train_samples": 800,
+  "n_test_samples": 200,
+  "data_source": "synthetic_data_improved.csv (correlation-preserving)"
+}

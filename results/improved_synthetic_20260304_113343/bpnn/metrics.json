@@ -1,0 +1,13 @@
+{
+  "model": "BPNN",
+  "R2": 0.7561337485941576,
+  "RMSE": 0.04610089142587803,
+  "MAE": 0.03721494850142294,
+  "MSE": 0.0021252921902605946,
+  "training_date": "2026-03-04T11:33:44.626988",
+  "train_test_split": "0.8/0.2",
+  "random_state": 42,
+  "n_train_samples": 800,
+  "n_test_samples": 200,
+  "data_source": "synthetic_data_improved.csv (correlation-preserving)"
+}
