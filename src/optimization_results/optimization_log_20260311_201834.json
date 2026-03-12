@@ -1,0 +1,84 @@
+{
+  "optimization_date": "2026-03-11T20:18:34.134622",
+  "data_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\data\\synthetic_data_improved.csv",
+  "train_shape": [
+    800,
+    3
+  ],
+  "test_shape": [
+    200,
+    3
+  ],
+  "models": {
+    "bpnn": {
+      "original_params": {
+        "hidden_layer_sizes": [
+          100,
+          50
+        ],
+        "learning_rate_init": 0.001,
+        "max_iter": 1000,
+        "alpha": 0.0001
+      },
+      "optimized_params": {
+        "alpha": 1e-05,
+        "hidden_layer_sizes": [
+          100,
+          50,
+          25
+        ],
+        "learning_rate_init": 0.01,
+        "max_iter": 500
+      },
+      "cv_r2_score": 0.8339700268327641,
+      "test_r2_score": 0.7983581418970526
+    },
+    "knn": {
+      "original_params": {
+        "n_neighbors": 5,
+        "weights": "uniform",
+        "p": 2,
+        "metric": "euclidean"
+      },
+      "optimized_params": {
+        "metric": "manhattan",
+        "n_neighbors": 20,
+        "p": 1,
+        "weights": "distance"
+      },
+      "cv_r2_score": 0.8539068116084744,
+      "test_r2_score": 0.7971714403585383
+    },
+    "linear_regression": {
+      "original_params": {
+        "fit_intercept": true,
+        "normalize": false
+      },
+      "optimized_params": {
+        "fit_intercept": true,
+        "normalize": false
+      },
+      "note": "Linear Regression has no hyperparameters to optimize",
+      "train_r2_score": 0.7529889410622128,
+      "test_r2_score": 0.7398078226178726
+    },
+    "rfr": {
+      "original_params": {
+        "n_estimators": 100,
+        "max_depth": null,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt"
+      },
+      "optimized_params": {
+        "n_estimators": 200,
+        "min_samples_split": 2,
+        "min_samples_leaf": 1,
+        "max_features": "sqrt",
+        "max_depth": 15
+      },
+      "cv_r2_score": 0.8521355072400763,
+      "test_r2_score": 0.8081998442277961
+    }
+  }
+}

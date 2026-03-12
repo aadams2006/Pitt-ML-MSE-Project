@@ -1,0 +1,9 @@
+{
+  "model": "Linear Regression",
+  "R2": 0.7398078226178726,
+  "RMSE": 0.04761903493858362,
+  "MAE": 0.03992214522589206,
+  "MSE": 0.0022675724884820476,
+  "training_date": "2026-03-11T20:21:08.087220",
+  "hyperparameter_optimization": "OPTIMIZED"
+}

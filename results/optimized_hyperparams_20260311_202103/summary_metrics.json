@@ -1,0 +1,38 @@
+[
+  {
+    "model": "BPNN",
+    "R2": 0.7983581418970526,
+    "RMSE": 0.04192024549001722,
+    "MAE": 0.031124536641882247,
+    "MSE": 0.0017573069819433096,
+    "training_date": "2026-03-11T20:21:06.366088",
+    "hyperparameter_optimization": "OPTIMIZED"
+  },
+  {
+    "model": "KNN",
+    "R2": 0.7971714403585383,
+    "RMSE": 0.04204341892842303,
+    "MAE": 0.02792897010314071,
+    "MSE": 0.0017676490751908803,
+    "training_date": "2026-03-11T20:21:07.198520",
+    "hyperparameter_optimization": "OPTIMIZED"
+  },
+  {
+    "model": "Linear Regression",
+    "R2": 0.7398078226178726,
+    "RMSE": 0.04761903493858362,
+    "MAE": 0.03992214522589206,
+    "MSE": 0.0022675724884820476,
+    "training_date": "2026-03-11T20:21:08.087220",
+    "hyperparameter_optimization": "OPTIMIZED"
+  },
+  {
+    "model": "Random Forest Regression",
+    "R2": 0.8081998442277962,
+    "RMSE": 0.040884430221571566,
+    "MAE": 0.027258662080592327,
+    "MSE": 0.0016715366345425545,
+    "training_date": "2026-03-11T20:21:09.314525",
+    "hyperparameter_optimization": "OPTIMIZED"
+  }
+]

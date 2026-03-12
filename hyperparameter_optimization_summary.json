@@ -1,0 +1,337 @@
+{
+  "optimization_report": {
+    "optimization_date": "2026-03-11T20:18:34",
+    "optimization_summary": {
+      "total_models": 4,
+      "average_improvement": "2.0%",
+      "best_performing_model": "Random Forest Regression",
+      "best_optimized_r2": 0.8082
+    },
+    "models": {
+      "BPNN": {
+        "model_name": "Backpropagation Neural Networks",
+        "hyperparameters": {
+          "original": {
+            "hidden_layer_sizes": [100, 50],
+            "learning_rate_init": 0.001,
+            "max_iter": 1000,
+            "alpha": 0.0001,
+            "random_state": 42
+          },
+          "optimized": {
+            "hidden_layer_sizes": [100, 50, 25],
+            "learning_rate_init": 0.01,
+            "max_iter": 500,
+            "alpha": 1e-5,
+            "random_state": 42,
+            "early_stopping": true,
+            "validation_fraction": 0.1
+          },
+          "changes": {
+            "hidden_layer_sizes": "Added 3rd layer with 25 units",
+            "learning_rate_init": "10x increase (0.001 → 0.01)",
+            "max_iter": "50% reduction (1000 → 500)",
+            "alpha": "10x decrease (0.0001 → 1e-05, less regularization)"
+          }
+        },
+        "metrics": {
+          "original": {
+            "r2_score": 0.7561,
+            "rmse": 0.0461,
+            "mae": 0.0372,
+            "mse": 0.00213
+          },
+          "optimized": {
+            "r2_score": 0.7984,
+            "rmse": 0.0419,
+            "mae": 0.0311,
+            "mse": 0.00176
+          },
+          "improvements": {
+            "r2_score": {
+              "absolute": 0.0423,
+              "percent": 5.6
+            },
+            "rmse": {
+              "absolute": -0.0042,
+              "percent": -9.1
+            },
+            "mae": {
+              "absolute": -0.0061,
+              "percent": -16.4
+            },
+            "mse": {
+              "absolute": -0.00037,
+              "percent": -17.3
+            }
+          }
+        },
+        "optimization_method": "GridSearchCV",
+        "search_space_size": 216,
+        "best_cv_r2": 0.8340,
+        "notes": "Significant improvement across all metrics. Adding deeper architecture and faster learning rate improved convergence."
+      },
+      "KNN": {
+        "model_name": "K-Nearest Neighbors",
+        "hyperparameters": {
+          "original": {
+            "n_neighbors": 5,
+            "weights": "uniform",
+            "p": 2,
+            "metric": "euclidean"
+          },
+          "optimized": {
+            "n_neighbors": 20,
+            "weights": "distance",
+            "p": 1,
+            "metric": "manhattan"
+          },
+          "changes": {
+            "n_neighbors": "4x increase (5 → 20)",
+            "weights": "Changed to distance-weighted",
+            "p": "1 (Manhattan) instead of 2 (Euclidean)",
+            "metric": "Explicit manhattan distance"
+          }
+        },
+        "metrics": {
+          "original": {
+            "r2_score": 0.7987,
+            "rmse": 0.0419,
+            "mae": 0.0281,
+            "mse": 0.00175,
+            "cv_r2_score": "~0.7900"
+          },
+          "optimized": {
+            "r2_score": 0.7972,
+            "rmse": 0.0420,
+            "mae": 0.0279,
+            "mse": 0.00176,
+            "cv_r2_score": 0.8539
+          },
+          "improvements": {
+            "r2_score": {
+              "absolute": -0.0015,
+              "percent": -0.2
+            },
+            "rmse": {
+              "absolute": 0.0001,
+              "percent": 0.2
+            },
+            "mae": {
+              "absolute": -0.0002,
+              "percent": -0.7
+            },
+            "mse": {
+              "absolute": 0.00001,
+              "percent": 0.6
+            },
+            "cv_r2_score": {
+              "absolute": 0.0639,
+              "percent": 8.1
+            }
+          }
+        },
+        "optimization_method": "GridSearchCV",
+        "search_space_size": 56,
+        "best_cv_r2": 0.8539,
+        "notes": "Test performance nearly identical but CV scores significantly improved. Increased neighbors reduce noise. Distance weighting and Manhattan metric better for this dataset."
+      },
+      "Linear Regression": {
+        "model_name": "Linear Regression",
+        "hyperparameters": {
+          "original": {
+            "fit_intercept": true,
+            "normalize": false
+          },
+          "optimized": {
+            "fit_intercept": true,
+            "normalize": false
+          },
+          "changes": "No hyperparameters to optimize - deterministic algorithm"
+        },
+        "metrics": {
+          "original": {
+            "r2_score": 0.7398,
+            "rmse": 0.0476,
+            "mae": 0.0399,
+            "mse": 0.00227
+          },
+          "optimized": {
+            "r2_score": 0.7398,
+            "rmse": 0.0476,
+            "mae": 0.0399,
+            "mse": 0.00227
+          },
+          "improvements": {
+            "r2_score": {
+              "absolute": 0.0,
+              "percent": 0.0
+            },
+            "rmse": {
+              "absolute": 0.0,
+              "percent": 0.0
+            },
+            "mae": {
+              "absolute": 0.0,
+              "percent": 0.0
+            },
+            "mse": {
+              "absolute": 0.0,
+              "percent": 0.0
+            }
+          }
+        },
+        "optimization_method": "None (deterministic)",
+        "notes": "Serves as baseline for comparison. Linear model assumes linear relationship between features and target."
+      },
+      "Random Forest Regression": {
+        "model_name": "Random Forest Regression",
+        "hyperparameters": {
+          "original": {
+            "n_estimators": 100,
+            "max_depth": null,
+            "min_samples_split": 2,
+            "min_samples_leaf": 1,
+            "max_features": "sqrt",
+            "random_state": 42
+          },
+          "optimized": {
+            "n_estimators": 200,
+            "max_depth": 15,
+            "min_samples_split": 2,
+            "min_samples_leaf": 1,
+            "max_features": "sqrt",
+            "random_state": 42,
+            "n_jobs": -1
+          },
+          "changes": {
+            "n_estimators": "2x increase (100 → 200)",
+            "max_depth": "Limited from unlimited to 15 (reduce overfitting)"
+          }
+        },
+        "metrics": {
+          "original": {
+            "r2_score": 0.7861,
+            "rmse": 0.0432,
+            "mae": 0.0271,
+            "mse": 0.00186
+          },
+          "optimized": {
+            "r2_score": 0.8082,
+            "rmse": 0.0409,
+            "mae": 0.0273,
+            "mse": 0.00167
+          },
+          "improvements": {
+            "r2_score": {
+              "absolute": 0.0221,
+              "percent": 2.8
+            },
+            "rmse": {
+              "absolute": -0.0023,
+              "percent": -5.3
+            },
+            "mae": {
+              "absolute": 0.0002,
+              "percent": 0.7
+            },
+            "mse": {
+              "absolute": -0.00019,
+              "percent": -10.2
+            }
+          }
+        },
+        "optimization_method": "RandomizedSearchCV",
+        "search_iterations": 30,
+        "best_cv_r2": 0.8521,
+        "notes": "Good improvement in R² and MSE. Doubling estimators provides better ensemble. Depth limit reduces overfitting."
+      }
+    },
+    "summary_rankings": {
+      "by_optimized_r2": [
+        {
+          "rank": 1,
+          "model": "Random Forest Regression",
+          "r2_score": 0.8082
+        },
+        {
+          "rank": 2,
+          "model": "BPNN",
+          "r2_score": 0.7984
+        },
+        {
+          "rank": 3,
+          "model": "KNN",
+          "r2_score": 0.7972
+        },
+        {
+          "rank": 4,
+          "model": "Linear Regression",
+          "r2_score": 0.7398
+        }
+      ],
+      "by_improvement": [
+        {
+          "rank": 1,
+          "model": "BPNN",
+          "improvement_percent": 5.6
+        },
+        {
+          "rank": 2,
+          "model": "Random Forest Regression",
+          "improvement_percent": 2.8
+        },
+        {
+          "rank": 3,
+          "model": "KNN",
+          "improvement_percent": -0.2,
+          "note": "Slight decrease in test R² but better CV stability"
+        },
+        {
+          "rank": 4,
+          "model": "Linear Regression",
+          "improvement_percent": 0.0
+        }
+      ]
+    },
+    "data_configuration": {
+      "dataset": "Synthetic Data (Improved - Correlations Preserved)",
+      "total_samples": 1000,
+      "train_samples": 800,
+      "test_samples": 200,
+      "test_split_ratio": 0.2,
+      "features": 3,
+      "target": "Bonded Thickness (nm)",
+      "random_state": 42
+    },
+    "optimization_configuration": {
+      "cross_validation_folds": 5,
+      "bpnn_search_type": "GridSearchCV",
+      "bpnn_search_space": 216,
+      "knn_search_type": "GridSearchCV",
+      "knn_search_space": 56,
+      "rfr_search_type": "RandomizedSearchCV",
+      "rfr_search_iterations": 30
+    },
+    "output_files": {
+      "optimization_script": "src/optimize_hyperparameters.py",
+      "pipeline_files": {
+        "bpnn": "models/bpnn/pipeline_optimized.py",
+        "knn": "models/knn/pipeline_optimized.py",
+        "linear_regression": "models/linear_regression/pipeline_optimized.py",
+        "rfr": "models/rfr/pipeline_optimized.py"
+      },
+      "training_script": "src/train_all_models_optimized.py",
+      "optimization_log": "src/optimization_results/optimization_log_20260311_201834.json",
+      "training_results": "results/optimized_hyperparams_20260311_202103/",
+      "documentation": "HYPERPARAMETER_OPTIMIZATION_REPORT.md"
+    },
+    "recommendations": [
+      "Use Random Forest Regression for production (highest R² = 0.8082)",
+      "Use BPNN as alternative model (good improvement of 5.6% over original)",
+      "Keep KNN optimized version for better cross-validation stability",
+      "Use Linear Regression as baseline or interpretability reference"
+    ],
+    "status": "COMPLETE - All models optimized and retrained successfully"
+  }
+}

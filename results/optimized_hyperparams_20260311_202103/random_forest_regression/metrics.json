@@ -1,0 +1,9 @@
+{
+  "model": "Random Forest Regression",
+  "R2": 0.8081998442277962,
+  "RMSE": 0.040884430221571566,
+  "MAE": 0.027258662080592327,
+  "MSE": 0.0016715366345425545,
+  "training_date": "2026-03-11T20:21:09.314525",
+  "hyperparameter_optimization": "OPTIMIZED"
+}
