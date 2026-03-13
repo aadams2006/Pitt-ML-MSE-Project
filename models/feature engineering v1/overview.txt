@@ -1,0 +1,2 @@
+-Added features of surface tension, polarity, viscosity, and boiling point to generalize ML models for different solvents instead of just hexane
+-Rest of features and targets remain the same
