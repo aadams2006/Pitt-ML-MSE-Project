@@ -34,13 +34,14 @@ def get_feature_target_columns(df: pd.DataFrame) -> tuple[list[str], list[str]]:
     """
     global FEATURE_COLUMNS, TARGET_COLUMNS
     
+    target_col = "Bonded Thickness (nm)"
     if FEATURE_COLUMNS is None:
         # Features: everything except bonded thickness
-        FEATURE_COLUMNS = ['Concentration (g/mL)', 'Uncoated Layer (nm)', 'Total Thickness (nm)', 'Surface Tension (mN/m)', 'Polarity (Debye)', 'Viscosity (mPa·s)', 'Boiling Point (°C)']
+        FEATURE_COLUMNS = [col for col in df.columns if col != target_col]
     
     if TARGET_COLUMNS is None:
         # Target: bonded thickness
-        TARGET_COLUMNS = ['Bonded Thickness (nm)']
+        TARGET_COLUMNS = [target_col]
     
     return FEATURE_COLUMNS, TARGET_COLUMNS
 
@@ -90,7 +91,7 @@ def plot_results(metrics: dict, output_dir: Path | None = None) -> None:
     """Generate and save evaluation plots."""
     if output_dir is None:
         output_dir = Path(__file__).resolve().parent / "results"
-    output_dir.mkdir(exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     
     # Convert to numpy arrays for consistent handling
     import numpy as np
@@ -140,3 +141,55 @@ MSE: {metrics['MSE']:.4f}"""
     plt.savefig(output_path, dpi=300, bbox_inches='tight')
     print(f"Plot saved to {output_path}")
     plt.close()
+
+
+def save_metrics(metrics: dict, output_dir: Path) -> None:
+    """Save evaluation metrics and predictions to CSV files."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    metrics_path = output_dir / "metrics.csv"
+    preds_path = output_dir / "predictions.csv"
+
+    metrics_df = pd.DataFrame([
+        {
+            "model": metrics["model"],
+            "MSE": metrics["MSE"],
+            "RMSE": metrics["RMSE"],
+            "MAE": metrics["MAE"],
+            "R2": metrics["R2"],
+        }
+    ])
+    metrics_df.to_csv(metrics_path, index=False)
+
+    preds_df = pd.DataFrame({
+        "y_true": np.asarray(metrics["y_test"]).flatten(),
+        "y_pred": np.asarray(metrics["y_pred"]).flatten(),
+    })
+    preds_df.to_csv(preds_path, index=False)
+
+
+
+def run_experiment(test_size: float = 0.2, random_state: int = 42) -> dict:
+    """Run a full train/eval cycle and persist outputs."""
+    if "load_agg_data" in globals():
+        df = load_agg_data()
+    else:
+        df = load_synthetic_data()
+
+    X, y = split_features_targets(df)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state
+    )
+
+    model_name = Path(__file__).stem
+    metrics = train_and_evaluate(X_train, X_test, y_train, y_test, model_name=model_name)
+
+    output_dir = Path(__file__).resolve().parent / "results" / model_name
+    save_metrics(metrics, output_dir)
+    plot_results(metrics, output_dir=output_dir)
+
+    print(f"Results saved to: {output_dir}")
+    return metrics
+
+
+if __name__ == "__main__":
+    run_experiment()
