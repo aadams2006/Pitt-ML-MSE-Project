@@ -1,0 +1,5 @@
+feature,diagnostic_summary,suggested_next_step
+Polarity (XLogP3),absolute residual correlation 0.212; high/low quartile MAE ratio 1.49,Test pairwise interactions among physicochemical variables.
+Surface Tension (mN/m),absolute residual correlation -0.091,Test pairwise interactions among physicochemical variables.
+Boiling Point (K),absolute residual correlation -0.170,Test spline or piecewise transformation for this feature.
+Total Thickness (nm),absolute residual correlation -0.180,Test log1p transform or quantile binning for this feature.

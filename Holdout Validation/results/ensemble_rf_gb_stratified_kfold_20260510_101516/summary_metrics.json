@@ -1,0 +1,151 @@
+{
+  "dataset": "Holdout Validation/Data/synthetic_data_improved.csv",
+  "validation_method": "StratifiedKFold on regression target bins",
+  "n_splits": 5,
+  "inner_splits_for_ensembles": 5,
+  "shuffle": true,
+  "random_state": 42,
+  "strata_bins_used": 10,
+  "n_samples": 3000,
+  "n_features": 7,
+  "features": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "rf_hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": 1,
+    "max_features": "sqrt"
+  },
+  "gb_hyperparameters": {
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "subsample": 0.8,
+    "random_state": 42,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 20,
+    "tol": 0.0001
+  },
+  "blend_weight_grid": [
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0
+  ],
+  "best_model_by_oof_r2": "Stacked Ridge",
+  "summary_metrics": [
+    {
+      "model": "Stacked Ridge",
+      "R2_mean": 0.9721761042014417,
+      "R2_std": 0.0033868638085354256,
+      "RMSE_mean": 0.030493226691846925,
+      "RMSE_std": 0.0017460461289514166,
+      "MAE_mean": 0.01985916517425978,
+      "MAE_std": 0.0008174395747329126,
+      "MSE_mean": 0.0009322758157479067,
+      "MSE_std": 0.00010667001774548849
+    },
+    {
+      "model": "Adaptive Blend",
+      "R2_mean": 0.9719613316936189,
+      "R2_std": 0.0034075811603550238,
+      "RMSE_mean": 0.03061123862461406,
+      "RMSE_std": 0.0017623978812998365,
+      "MAE_mean": 0.019823299913522812,
+      "MAE_std": 0.0007711634020483656,
+      "MSE_mean": 0.0009395327671666719,
+      "MSE_std": 0.0001079247744972209
+    },
+    {
+      "model": "Fixed Blend 50/50",
+      "R2_mean": 0.9718948624043506,
+      "R2_std": 0.003376012122864033,
+      "RMSE_mean": 0.030648401260698198,
+      "RMSE_std": 0.0017271089440463914,
+      "MAE_mean": 0.02014694818595652,
+      "MAE_std": 0.0008063032408973884,
+      "MSE_mean": 0.0009417108240804509,
+      "MSE_std": 0.0001063157368770765
+    },
+    {
+      "model": "Random Forest",
+      "R2_mean": 0.9715933830093185,
+      "R2_std": 0.0035329133260979615,
+      "RMSE_mean": 0.03080829975176853,
+      "RMSE_std": 0.001807314419430421,
+      "MAE_mean": 0.019663292274431227,
+      "MAE_std": 0.0009105552864979514,
+      "MSE_mean": 0.0009517644419233659,
+      "MSE_std": 0.00011126316781769474
+    },
+    {
+      "model": "Gradient Boosting",
+      "R2_mean": 0.9698153992317342,
+      "R2_std": 0.0034081503687238535,
+      "RMSE_mean": 0.03176730653390038,
+      "RMSE_std": 0.001666874240159793,
+      "MAE_mean": 0.02151814758358299,
+      "MAE_std": 0.000765589326071797,
+      "MSE_mean": 0.001011384540204796,
+      "MSE_std": 0.00010679836842358593
+    }
+  ],
+  "out_of_fold_metrics": [
+    {
+      "model": "Stacked Ridge",
+      "R2_out_of_fold": 0.9722015922218312,
+      "RMSE_out_of_fold": 0.03053319203339059,
+      "MAE_out_of_fold": 0.01985916517425978,
+      "MSE_out_of_fold": 0.0009322758157479066
+    },
+    {
+      "model": "Adaptive Blend",
+      "R2_out_of_fold": 0.9719852059428379,
+      "RMSE_out_of_fold": 0.030651798759072393,
+      "MAE_out_of_fold": 0.019823299913522812,
+      "MSE_out_of_fold": 0.000939532767166672
+    },
+    {
+      "model": "Fixed Blend 50/50",
+      "R2_out_of_fold": 0.9719202610915069,
+      "RMSE_out_of_fold": 0.030687307214554534,
+      "MAE_out_of_fold": 0.020146948185956515,
+      "MSE_out_of_fold": 0.0009417108240804507
+    },
+    {
+      "model": "Random Forest",
+      "R2_out_of_fold": 0.9716204843905323,
+      "RMSE_out_of_fold": 0.030850679764364446,
+      "MAE_out_of_fold": 0.019663292274431227,
+      "MSE_out_of_fold": 0.0009517644419233659
+    },
+    {
+      "model": "Gradient Boosting",
+      "R2_out_of_fold": 0.9698427446103021,
+      "RMSE_out_of_fold": 0.03180227256352596,
+      "MAE_out_of_fold": 0.02151814758358299,
+      "MSE_out_of_fold": 0.001011384540204796
+    }
+  ],
+  "training_date": "2026-05-10T10:15:16.626983"
+}

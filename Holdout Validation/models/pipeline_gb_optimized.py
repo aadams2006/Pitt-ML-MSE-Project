@@ -11,6 +11,19 @@ from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 
+MODEL_PARAMS = {
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "subsample": 0.8,
+    "random_state": 42,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 20,
+    "tol": 1e-4,
+}
+
 
 def load_holdout_data(split: str = "train") -> pd.DataFrame:
     """Load the holdout validation dataset."""
@@ -24,6 +37,15 @@ def load_holdout_data(split: str = "train") -> pd.DataFrame:
         raise ValueError(f"Invalid split: {split}")
     
     df = pd.read_csv(data_path)
+    df.columns = df.columns.str.strip()
+    return df
+
+
+def load_full_data() -> pd.DataFrame:
+    """Load the full 3000-sample dataset used for holdout validation."""
+    data_path = Path(__file__).resolve().parents[1] / "Data" / "synthetic_data_improved.csv"
+    df = pd.read_csv(data_path)
+    df.columns = df.columns.str.strip()
     return df
 
 
@@ -40,6 +62,13 @@ def split_features_targets(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame
     features = df[feature_cols].copy()
     targets = df[target_cols].copy()
     return features, targets
+
+
+def build_model(**overrides) -> GradientBoostingRegressor:
+    """Build the validated optimized Gradient Boosting model."""
+    params = MODEL_PARAMS.copy()
+    params.update(overrides)
+    return GradientBoostingRegressor(**params)
 
 
 def train_and_evaluate() -> dict:
@@ -61,18 +90,7 @@ def train_and_evaluate() -> dict:
     y_val_flat = np.asarray(y_val).flatten()
     
     # Train optimized Gradient Boosting: conservative learning rate with early stopping
-    model = GradientBoostingRegressor(
-        n_estimators=200,
-        learning_rate=0.05,
-        max_depth=6,
-        min_samples_split=5,
-        min_samples_leaf=2,
-        subsample=0.8,
-        random_state=42,
-        validation_fraction=0.1,
-        n_iter_no_change=20,
-        tol=1e-4
-    )
+    model = build_model()
     model.fit(X_train_scaled, y_train_flat)
     
     # Evaluate

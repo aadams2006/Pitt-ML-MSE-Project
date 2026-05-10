@@ -1,0 +1,106 @@
+model,fold,feature,importance
+Random Forest,1,Polarity (XLogP3),0.07000035643368623
+Gradient Boosting,1,Polarity (XLogP3),0.19967117022540584
+Adaptive Blend,1,Polarity (XLogP3),0.12186868195037409
+Random Forest,1,Viscosity (cP),0.046703873765940894
+Gradient Boosting,1,Viscosity (cP),0.017513748140563012
+Adaptive Blend,1,Viscosity (cP),0.03502782351578974
+Random Forest,1,Boiling Point (K),0.041721272298131565
+Gradient Boosting,1,Boiling Point (K),0.003325309919610746
+Adaptive Blend,1,Boiling Point (K),0.026362887346723235
+Random Forest,1,Surface Tension (mN/m),0.04843045635407235
+Gradient Boosting,1,Surface Tension (mN/m),0.022635292371099857
+Adaptive Blend,1,Surface Tension (mN/m),0.03811239076088335
+Random Forest,1,Concentration (g/mL),0.3348047811243855
+Gradient Boosting,1,Concentration (g/mL),0.4923527193932646
+Adaptive Blend,1,Concentration (g/mL),0.39782395643193713
+Random Forest,1,Uncoated Layer (nm),0.1817316003332083
+Gradient Boosting,1,Uncoated Layer (nm),0.11235491167386746
+Adaptive Blend,1,Uncoated Layer (nm),0.15398092486947196
+Random Forest,1,Total Thickness (nm),0.27660765969057516
+Gradient Boosting,1,Total Thickness (nm),0.15214684827618852
+Adaptive Blend,1,Total Thickness (nm),0.2268233351248205
+Random Forest,2,Polarity (XLogP3),0.07259832099351254
+Gradient Boosting,2,Polarity (XLogP3),0.22034982130275949
+Adaptive Blend,2,Polarity (XLogP3),0.10214862105536193
+Random Forest,2,Viscosity (cP),0.03798041016775788
+Gradient Boosting,2,Viscosity (cP),0.018391574312284793
+Adaptive Blend,2,Viscosity (cP),0.03406264299666326
+Random Forest,2,Boiling Point (K),0.04259802520041298
+Gradient Boosting,2,Boiling Point (K),0.003452545949777008
+Adaptive Blend,2,Boiling Point (K),0.03476892935028579
+Random Forest,2,Surface Tension (mN/m),0.0477952882877981
+Gradient Boosting,2,Surface Tension (mN/m),0.011601925309637044
+Adaptive Blend,2,Surface Tension (mN/m),0.04055661569216589
+Random Forest,2,Concentration (g/mL),0.33826122499201183
+Gradient Boosting,2,Concentration (g/mL),0.5084481229865666
+Adaptive Blend,2,Concentration (g/mL),0.3722986045909228
+Random Forest,2,Uncoated Layer (nm),0.1758377488102401
+Gradient Boosting,2,Uncoated Layer (nm),0.11237260413354
+Adaptive Blend,2,Uncoated Layer (nm),0.1631447198749001
+Random Forest,2,Total Thickness (nm),0.28492898154826657
+Gradient Boosting,2,Total Thickness (nm),0.12538340600543504
+Adaptive Blend,2,Total Thickness (nm),0.25301986643970026
+Random Forest,3,Polarity (XLogP3),0.0715097433994274
+Gradient Boosting,3,Polarity (XLogP3),0.21015295138831142
+Adaptive Blend,3,Polarity (XLogP3),0.0992383849972042
+Random Forest,3,Viscosity (cP),0.048954302883051776
+Gradient Boosting,3,Viscosity (cP),0.014170544016958586
+Adaptive Blend,3,Viscosity (cP),0.04199755110983314
+Random Forest,3,Boiling Point (K),0.027141362337360215
+Gradient Boosting,3,Boiling Point (K),0.010380524536509728
+Adaptive Blend,3,Boiling Point (K),0.023789194777190117
+Random Forest,3,Surface Tension (mN/m),0.046859216458478174
+Gradient Boosting,3,Surface Tension (mN/m),0.01559909967182844
+Adaptive Blend,3,Surface Tension (mN/m),0.04060719310114823
+Random Forest,3,Concentration (g/mL),0.353389710146259
+Gradient Boosting,3,Concentration (g/mL),0.504560322352548
+Adaptive Blend,3,Concentration (g/mL),0.38362383258751676
+Random Forest,3,Uncoated Layer (nm),0.17496892564384184
+Gradient Boosting,3,Uncoated Layer (nm),0.1022938862861462
+Adaptive Blend,3,Uncoated Layer (nm),0.1604339177723027
+Random Forest,3,Total Thickness (nm),0.27717673913158164
+Gradient Boosting,3,Total Thickness (nm),0.14284267174769766
+Adaptive Blend,3,Total Thickness (nm),0.25030992565480487
+Random Forest,4,Polarity (XLogP3),0.0672843008725716
+Gradient Boosting,4,Polarity (XLogP3),0.20233696032253765
+Adaptive Blend,4,Polarity (XLogP3),0.10780009870756142
+Random Forest,4,Viscosity (cP),0.04563217817656502
+Gradient Boosting,4,Viscosity (cP),0.030507273635443095
+Adaptive Blend,4,Viscosity (cP),0.04109470681422844
+Random Forest,4,Boiling Point (K),0.03353268470469986
+Gradient Boosting,4,Boiling Point (K),0.006705802221093807
+Adaptive Blend,4,Boiling Point (K),0.025484619959618045
+Random Forest,4,Surface Tension (mN/m),0.054263405380073904
+Gradient Boosting,4,Surface Tension (mN/m),0.00928715061931566
+Adaptive Blend,4,Surface Tension (mN/m),0.04077052895184643
+Random Forest,4,Concentration (g/mL),0.3477693826603817
+Gradient Boosting,4,Concentration (g/mL),0.5161013955731938
+Adaptive Blend,4,Concentration (g/mL),0.3982689865342253
+Random Forest,4,Uncoated Layer (nm),0.1788490823407682
+Gradient Boosting,4,Uncoated Layer (nm),0.10062299542696948
+Adaptive Blend,4,Uncoated Layer (nm),0.15538125626662858
+Random Forest,4,Total Thickness (nm),0.27266896586493966
+Gradient Boosting,4,Total Thickness (nm),0.13443842220144664
+Adaptive Blend,4,Total Thickness (nm),0.23119980276589175
+Random Forest,5,Polarity (XLogP3),0.06504482513582806
+Gradient Boosting,5,Polarity (XLogP3),0.2165205105614983
+Adaptive Blend,5,Polarity (XLogP3),0.11048753076352913
+Random Forest,5,Viscosity (cP),0.04823484466561034
+Gradient Boosting,5,Viscosity (cP),0.013880141320448536
+Adaptive Blend,5,Viscosity (cP),0.0379284336620618
+Random Forest,5,Boiling Point (K),0.042611865279785326
+Gradient Boosting,5,Boiling Point (K),0.007067556650128587
+Adaptive Blend,5,Boiling Point (K),0.0319485726908883
+Random Forest,5,Surface Tension (mN/m),0.048328349719475916
+Gradient Boosting,5,Surface Tension (mN/m),0.016609442773811954
+Adaptive Blend,5,Surface Tension (mN/m),0.03881267763577673
+Random Forest,5,Concentration (g/mL),0.3334405931546762
+Gradient Boosting,5,Concentration (g/mL),0.4886484556626217
+Adaptive Blend,5,Concentration (g/mL),0.3800029519070599
+Random Forest,5,Uncoated Layer (nm),0.17640531495132342
+Gradient Boosting,5,Uncoated Layer (nm),0.10241914514736557
+Adaptive Blend,5,Uncoated Layer (nm),0.15420946401013605
+Random Forest,5,Total Thickness (nm),0.28593420709330064
+Gradient Boosting,5,Total Thickness (nm),0.15485474788412534
+Adaptive Blend,5,Total Thickness (nm),0.24661036933054806

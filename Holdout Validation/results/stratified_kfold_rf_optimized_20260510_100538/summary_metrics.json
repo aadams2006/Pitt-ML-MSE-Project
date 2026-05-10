@@ -1,0 +1,45 @@
+{
+  "model": "Random Forest (Optimized)",
+  "dataset": "Holdout Validation/Data/synthetic_data_improved.csv",
+  "validation_method": "StratifiedKFold on regression target bins",
+  "n_splits": 5,
+  "shuffle": true,
+  "random_state": 42,
+  "n_samples": 3000,
+  "n_features": 7,
+  "features": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "strata_bins_used": 10,
+  "metrics": {
+    "R2_mean": 0.9715933830093185,
+    "R2_std": 0.0035329133260979537,
+    "RMSE_mean": 0.03080829975176853,
+    "RMSE_std": 0.0018073144194304198,
+    "MAE_mean": 0.019663292274431227,
+    "MAE_std": 0.0009105552864979513,
+    "MSE_mean": 0.0009517644419233659,
+    "MSE_std": 0.00011126316781769473,
+    "R2_out_of_fold": 0.9716204843905323,
+    "RMSE_out_of_fold": 0.030850679764364446,
+    "MAE_out_of_fold": 0.019663292274431227,
+    "MSE_out_of_fold": 0.0009517644419233659
+  },
+  "hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": 1,
+    "max_features": "sqrt"
+  },
+  "training_date": "2026-05-10T10:05:38.132280"
+}

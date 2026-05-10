@@ -1,0 +1,36 @@
+fold,feature,importance
+1,Polarity (XLogP3),0.07000035643368623
+1,Viscosity (cP),0.046703873765940894
+1,Boiling Point (K),0.041721272298131565
+1,Surface Tension (mN/m),0.04843045635407235
+1,Concentration (g/mL),0.3348047811243855
+1,Uncoated Layer (nm),0.1817316003332083
+1,Total Thickness (nm),0.27660765969057516
+2,Polarity (XLogP3),0.07259832099351254
+2,Viscosity (cP),0.03798041016775788
+2,Boiling Point (K),0.04259802520041298
+2,Surface Tension (mN/m),0.0477952882877981
+2,Concentration (g/mL),0.33826122499201183
+2,Uncoated Layer (nm),0.1758377488102401
+2,Total Thickness (nm),0.28492898154826657
+3,Polarity (XLogP3),0.0715097433994274
+3,Viscosity (cP),0.048954302883051776
+3,Boiling Point (K),0.027141362337360215
+3,Surface Tension (mN/m),0.046859216458478174
+3,Concentration (g/mL),0.353389710146259
+3,Uncoated Layer (nm),0.17496892564384184
+3,Total Thickness (nm),0.27717673913158164
+4,Polarity (XLogP3),0.0672843008725716
+4,Viscosity (cP),0.04563217817656502
+4,Boiling Point (K),0.03353268470469986
+4,Surface Tension (mN/m),0.054263405380073904
+4,Concentration (g/mL),0.3477693826603817
+4,Uncoated Layer (nm),0.1788490823407682
+4,Total Thickness (nm),0.27266896586493966
+5,Polarity (XLogP3),0.06504482513582806
+5,Viscosity (cP),0.04823484466561034
+5,Boiling Point (K),0.042611865279785326
+5,Surface Tension (mN/m),0.048328349719475916
+5,Concentration (g/mL),0.3334405931546762
+5,Uncoated Layer (nm),0.17640531495132342
+5,Total Thickness (nm),0.28593420709330064
