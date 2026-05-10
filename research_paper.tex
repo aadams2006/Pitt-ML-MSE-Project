@@ -23,7 +23,7 @@
 }
 
 \setstretch{1.15}
-\graphicspath{{./}}
+\graphicspath{{./}{paper_figures/}}
 
 \newcommand{\expfigure}[3][0.88]{
 \begin{figure}[H]
@@ -424,21 +424,21 @@ Direct training on the purely experimental hexane dataset preceded the synthetic
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/20260218_122918/bpnn/BPNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig01_exp_baseline_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/20260218_122918/knn/KNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig02_exp_baseline_knn.png}
 \caption{KNN}
 \end{subfigure}
 
 \vspace{0.6em}
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/20260218_122918/linear_regression/Linear Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig03_exp_baseline_linear_regression.png}
 \caption{Linear regression}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/20260218_122918/random_forest_regression/Random Forest Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig04_exp_baseline_random_forest.png}
 \caption{Random forest}
 \end{subfigure}
 \caption{Baseline model outputs from the direct experimental hexane dataset. These figures illustrate the limited stability achievable before synthetic-data augmentation.}
@@ -450,21 +450,21 @@ The first correlation-preserving synthetic hexane benchmark produced the evaluat
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/improved_synthetic_20260304_113343/bpnn/BPNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig05_hexane_synth_initial_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/improved_synthetic_20260304_113343/knn/KNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig06_hexane_synth_initial_knn.png}
 \caption{KNN}
 \end{subfigure}
 
 \vspace{0.6em}
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/improved_synthetic_20260304_113343/linear_regression/Linear Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig07_hexane_synth_initial_linear_regression.png}
 \caption{Linear regression}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/improved_synthetic_20260304_113343/random_forest_regression/Random Forest Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig08_hexane_synth_initial_random_forest.png}
 \caption{Random forest}
 \end{subfigure}
 \caption{Model outputs on the 1000-sample correlation-preserving synthetic hexane dataset before the later optimization pass.}
@@ -474,21 +474,21 @@ The first correlation-preserving synthetic hexane benchmark produced the evaluat
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/optimized_hyperparams_20260311_202103/bpnn/BPNN_evaluation_optimized.png}
+\includegraphics[width=\linewidth]{paper_figures/fig09_hexane_synth_optimized_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/optimized_hyperparams_20260311_202103/knn/KNN_evaluation_optimized.png}
+\includegraphics[width=\linewidth]{paper_figures/fig10_hexane_synth_optimized_knn.png}
 \caption{KNN}
 \end{subfigure}
 
 \vspace{0.6em}
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/optimized_hyperparams_20260311_202103/linear_regression/Linear Regression_evaluation_optimized.png}
+\includegraphics[width=\linewidth]{paper_figures/fig11_hexane_synth_optimized_linear_regression.png}
 \caption{Linear regression}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{results/optimized_hyperparams_20260311_202103/random_forest_regression/Random Forest Regression_evaluation_optimized.png}
+\includegraphics[width=\linewidth]{paper_figures/fig12_hexane_synth_optimized_random_forest.png}
 \caption{Random forest}
 \end{subfigure}
 \caption{Optimized-model outputs on the 1000-sample synthetic hexane dataset. These figures correspond to the results summarized in Table~\ref{tab:phase1}.}
@@ -509,21 +509,21 @@ This collapse was traced to strong regime shift between the first 2000 and last 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_validation_20260502_113931/BPNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig13_holdout_baseline_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_validation_20260502_113931/KNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig14_holdout_baseline_knn.png}
 \caption{KNN}
 \end{subfigure}
 
 \vspace{0.6em}
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_validation_20260502_113931/Linear_Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig15_holdout_baseline_linear_regression.png}
 \caption{Linear regression}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_validation_20260502_113931/Random_Forest_Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig16_holdout_baseline_random_forest.png}
 \caption{Random forest}
 \end{subfigure}
 \caption{Original sequential holdout-validation outputs on the aggregated 3000-sample solvent-expanded dataset. These figures visually confirm the severe degradation caused by regime shift.}
@@ -541,15 +541,15 @@ This was a major recovery, but it still represented a regime-shift validation ou
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_optimized_20260502_130645/BPNN_Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig17_holdout_optimized_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_optimized_20260502_130645/Gradient_Boosting_Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig18_holdout_optimized_gradient_boosting.png}
 \caption{Gradient boosting}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/holdout_optimized_20260502_130645/Random_Forest_Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig19_holdout_optimized_random_forest.png}
 \caption{Random forest}
 \end{subfigure}
 \caption{Optimized holdout-validation outputs after feature expansion to seven variables. The random-forest panel corresponds to the strongest regime-shift result.}
@@ -561,15 +561,15 @@ For completeness, the comparison study that directly juxtaposed original and opt
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/BPNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig20_comparison_bpnn.png}
 \caption{BPNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/KNN_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig21_comparison_knn.png}
 \caption{KNN}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/Random_Forest_Regression_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig22_comparison_original_random_forest.png}
 \caption{Original RF}
 \end{subfigure}
 \caption{First comparison panel for the holdout study, showing original-model behavior under the sequential validation split.}
@@ -579,15 +579,15 @@ For completeness, the comparison study that directly juxtaposed original and opt
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/Random_Forest_Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig23_comparison_optimized_random_forest.png}
 \caption{Optimized RF}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/Random_Forest_Ultra-Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig24_comparison_ultra_optimized_random_forest.png}
 \caption{Ultra-optimized RF}
 \end{subfigure}\hfill
 \begin{subfigure}{0.32\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/comparison_20260502_130745/Gradient_Boosting_Optimized_evaluation.png}
+\includegraphics[width=\linewidth]{paper_figures/fig25_comparison_optimized_gradient_boosting.png}
 \caption{Optimized GB}
 \end{subfigure}
 \caption{Second comparison panel for the holdout study, highlighting the recovery obtained through feature expansion and tree-based optimization.}
@@ -610,17 +610,17 @@ This result showed that the underlying full-dataset learning problem was highly 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/full_dataset_rf_optimized_20260510_092043/random_forest_optimized_full_dataset_training.png}
+\includegraphics[width=\linewidth]{paper_figures/fig26_full_dataset_rf_training_diagnostics.png}
 \caption{Full-data retraining diagnostics}
 \end{subfigure}\hfill
 \begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/stratified_kfold_rf_optimized_20260510_100457/stratified_kfold_rf_optimized_summary.png}
+\includegraphics[width=\linewidth]{paper_figures/fig27_stratified_cv_rf_initial_summary.png}
 \caption{Initial stratified CV summary}
 \end{subfigure}
 
 \vspace{0.6em}
 \begin{subfigure}{0.70\linewidth}
-\includegraphics[width=\linewidth]{Holdout Validation/results/stratified_kfold_rf_optimized_20260510_100538/stratified_kfold_rf_optimized_summary.png}
+\includegraphics[width=\linewidth]{paper_figures/fig28_stratified_cv_rf_corrected_summary.png}
 \caption{Corrected stratified CV summary}
 \end{subfigure}
 \caption{Full-dataset optimized random-forest diagnostics and stratified cross-validation summaries. The corrected rerun reflects the final metadata-consistent version used for interpretation.}
@@ -649,7 +649,7 @@ Gradient Boosting & 0.969843 & 0.031802 & 0.021518 & 0.0010114 \\
 
 The stacked ensemble provided the strongest ensemble result, but the improvement over the untuned optimized random forest was modest. Inner cross-validation for the adaptive blend selected random-forest weights between 0.6 and 0.8 across folds, showing that random forest remained the dominant component.
 
-\expfigure{Holdout Validation/results/ensemble_rf_gb_stratified_kfold_20260510_101516/ensemble_comparison_summary.png}{Ensemble-comparison summary figure for random forest, gradient boosting, and RF+GB combinations under stratified 5-fold validation.}
+\expfigure{paper_figures/fig29_ensemble_comparison_summary.png}{Ensemble-comparison summary figure for random forest, gradient boosting, and RF+GB combinations under stratified 5-fold validation.}
 
 \subsection{Bayesian-optimized ceiling performance}
 Bayesian optimization of random forest regression yielded the following best parameters:
@@ -669,7 +669,7 @@ R^2_{\mathrm{OOF}} = 0.973424, \qquad \mathrm{RMSE}_{\mathrm{OOF}} = 0.029855, \
 
 Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. This surpassed the stacked ensemble and established the Bayesian-optimized random forest as the final best model.
 
-\expfigure{Holdout Validation/results/rf_bayesian_optimization_full_dataset_20260510_102621/optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
+\expfigure{paper_figures/fig30_bayesian_optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
 
 \section{Detailed Analysis}
 

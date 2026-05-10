@@ -1,0 +1,776 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{grffile}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,calc}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue
+}
+
+\setstretch{1.15}
+\graphicspath{{./}{paper_figures/}}
+
+\newcommand{\expfigure}[3][0.88]{
+\begin{figure}[H]
+\centering
+\includegraphics[width=#1\linewidth]{#2}
+\caption{#3}
+\end{figure}
+}
+
+\title{Machine Learning for Dip-Coated PDMS Thin-Film Thickness Prediction:\\
+From Classical Coating Theory to Bayesian-Optimized Random Forests}
+\author{\small Replace with author names and affiliations before submission}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Dip coating is a foundational thin-film manufacturing route across biomedical coatings, flexible electronics, microelectronics, semiconductor processing, optical layers, aerospace surface engineering, storage devices, energy materials, sensors, and protective polymer films. Its industrial value comes from geometric simplicity, compatibility with large-area substrates, low equipment complexity, and its ability to translate solution-state chemistry into functional solid films. However, predicting final bonded thickness remains difficult when coating outcomes depend not only on withdrawal hydrodynamics but also on multivariable solvent chemistry, concentration-dependent solids loading, interfacial effects, evaporation, and post-deposition consolidation. Classical scaling relations such as the Landau--Levich formulation provide physically essential insight into entrained liquid-film thickness, but they do not by themselves close the bonded-thickness prediction problem for multicomponent polymer systems.
+
+This study develops a complete machine-learning framework for predicting bonded thickness in dip-coated poly(dimethylsiloxane) (PDMS) films processed with hexane, toluene, and ethyl acetate solvent systems. The investigation began with a small experimental hexane dataset, where direct model training produced trivial results due to sample scarcity. Synthetic-data augmentation was therefore introduced in two stages: an initial \textit{conditional tabular generative adversarial network} (CTGAN) synthesis stage, and a second, more reliable bootstrap-plus-correlated-noise stage based on Cholesky decomposition of the empirical correlation structure. The first synthetic campaign generated a 1000-sample hexane dataset retaining the original experimental variables. The study then expanded the descriptor space by adding polarity (XLogP3), viscosity, boiling point, and surface tension from PubChem and repeated the synthetic workflow across hexane, toluene, and ethyl acetate, yielding an aggregated 3000-sample dataset.
+
+Five regression families were examined: linear regression, $k$-nearest neighbors, backpropagation neural networks, random forest regression, and gradient boosting regression. On a 1000-sample random-split benchmark, the optimized random forest achieved the strongest single-model performance with $R^2 = 0.8082$. A more stringent sequential holdout study on the 3000-sample dataset exposed severe train--validation distribution shift and drove all baseline models to negative $R^2$ values; after feature expansion from 3 to 7 variables and model-specific optimization, the holdout random forest recovered to $R^2 = 0.3284$. To remove sequential split artifacts, stratified 5-fold cross-validation with target-quantile bins was applied to the full dataset. Under this protocol, the optimized random forest achieved an out-of-fold $R^2 = 0.9716$, a stacked random forest plus gradient boosting ensemble reached $R^2 = 0.9722$, and final Bayesian hyperparameter optimization raised the random forest to $R^2 = 0.9734$, outperforming all other tested models.
+
+The results show that the dominant challenges in this coating-prediction problem were not merely algorithmic, but methodological: small-data scarcity, feature incompleteness, validation design, and synthetic-data realism all materially shaped the conclusions. The final Bayesian-optimized random forest established the highest predictive ceiling in the study, while residual and feature-importance analyses identified concrete next steps in physicochemical interaction engineering and constraint-aware synthetic-data generation.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{Importance of dip coating in modern technology}
+Dip coating is one of the most broadly used wet-processing methods for depositing functional films on solid surfaces. Its importance extends across biomedical devices, drug-delivery and implant coatings, transparent and conductive layers in electronics, dielectric and passivation coatings in semiconductor processing, antireflective and protective optics, corrosion-resistant aerospace surfaces, storage media, flexible sensors, energy devices, filtration membranes, and polymer-based surface modifications. In each of these application areas, film thickness is not a cosmetic detail; it directly influences optical transmission, adhesion, barrier performance, electrical behavior, mechanical durability, biocompatibility, and chemical stability.
+
+The practical appeal of dip coating is clear. It is experimentally simple, adaptable to different geometries, compatible with laboratory and scale-up settings, and naturally suited to solution-processable materials. Yet those same advantages come with complexity. Real dip-coating outcomes depend on the coupled action of fluid viscosity, withdrawal conditions, surface tension, solvent volatility, concentration, substrate condition, and post-withdrawal solidification. In polymer-solvent systems, the final bonded layer can differ substantially from the initially entrained wet film, especially when evaporation, interfacial transport, or bonding phenomena alter the coating after withdrawal.
+
+\subsection{Classical modeling and its limitations}
+The classical fluid-mechanics description of plate withdrawal is most commonly associated with the Landau--Levich law and later Landau--Levich--Derjaguin interpretations. For a Newtonian liquid withdrawn at velocity $U$, the wet entrained thickness is often expressed as
+\begin{equation}
+h \approx 0.94 \, \ell_c \, \mathrm{Ca}^{2/3},
+\end{equation}
+where $\ell_c = \sqrt{\gamma/(\rho g)}$ is the capillary length and $\mathrm{Ca} = \mu U/\gamma$ is the capillary number \cite{landau1942,rio2017}. This relation is foundational because it formalizes the balance between viscous entrainment and capillary restoration.
+
+However, that law does not solve the present research problem. First, it predicts a liquid-film thickness, whereas the quantity of interest here is bonded thickness after downstream evolution. Second, it assumes an idealized flow regime with limited representation of chemistry-specific descriptors. Third, it cannot by itself absorb mixed solvent-property inputs such as polarity, boiling point, or viscosity descriptors derived from external chemical databases. Fourth, in real materials workflows the experimental data volume is often far too limited to calibrate rich mechanistic closures.
+
+For these reasons, classical dip-coating theory should be seen here not as a competing framework but as the physical context that motivates the learning problem. The present investigation is not concerned with replacing coating physics; rather, it develops a data-driven surrogate for a coating outcome that is only partially captured by first-principles scaling.
+
+\subsection{Why machine learning is a strong candidate}
+Machine learning is especially attractive for this class of problem because the governing inputs are heterogeneous, nonlinear, and interaction-heavy. Concentration affects solids loading, solvent properties modulate capillary and evaporation behavior, and thickness-related variables encode process-state information that may summarize prior deposition history. These couplings are difficult to express analytically, especially in a data-limited environment. Machine learning can instead infer the mapping
+\begin{equation}
+\hat{y} = \hat{f}(x),
+\end{equation}
+where $x$ contains process and physicochemical descriptors and $y$ is the bonded thickness.
+
+This study therefore asks whether supervised learning can provide a practical predictive route for PDMS dip-coated films when classical theory is informative but incomplete.
+
+\subsection{Scope of the investigation}
+The investigation proceeds through four linked stages:
+\begin{enumerate}
+    \item baseline regression on small-data and synthetic-data benchmarks;
+    \item diagnosis of failure under sequential holdout validation;
+    \item correction through feature expansion, improved validation design, and ensemble comparison; and
+    \item final ceiling-performance estimation via Bayesian hyperparameter optimization.
+\end{enumerate}
+
+The manuscript is intentionally detailed because the value of the study lies not only in the final score, but in the methodological pathway by which unreliable early results were converted into a high-performing and interpretable predictive workflow.
+
+\section{Background and Related Work}
+
+\subsection{Dip-coating science}
+Landau and Levich provided the canonical analysis of liquid entrainment by a moving plate \cite{landau1942}. Subsequent reviews have shown that the governing balance remains highly useful for Newtonian, relatively ideal systems, but practical dip coating often departs from the ideal regime through evaporation, Marangoni effects, non-Newtonian rheology, particulate loading, and chemistry-specific interfacial dynamics \cite{rio2017}. These complications are especially relevant when the quantity of interest is a final solid-state thickness rather than an intermediate wet film.
+
+\subsection{Machine learning in materials informatics}
+Machine learning has become an increasingly important instrument in materials science because it can exploit high-dimensional descriptor spaces and uncover nonlinear process--structure or process--property relationships that are difficult to formulate analytically \cite{schmidt2019,kailkhura2019}. In thin-film and coating settings, the appeal is obvious: descriptors may include concentrations, thermal properties, rheological measures, surface energetics, and experimentally measured state variables, all of which may interact nonlinearly.
+
+\subsection{Relevant regression families}
+The study examined five model families that span distinct inductive biases:
+\begin{itemize}
+    \item \textbf{Linear regression}, a transparent affine baseline.
+    \item \textbf{$k$-nearest neighbors (KNN)}, a local nonparametric model based on geometric similarity \cite{aha1991}.
+    \item \textbf{Backpropagation neural networks (BPNN)}, multilayer feed-forward models optimized via gradient-based error propagation \cite{rumelhart1986}.
+    \item \textbf{Random forest regression (RFR)}, a bagged ensemble of decorrelated trees \cite{breiman2001}.
+    \item \textbf{Gradient boosting regression (GBR)}, a stagewise additive tree ensemble that learns by residual correction \cite{friedman2001}.
+\end{itemize}
+
+\subsection{Bayesian optimization}
+Hyperparameter optimization was ultimately required to determine ceiling performance. Bayesian optimization treats model validation performance as a black-box objective and adaptively samples promising regions of the hyperparameter space rather than evaluating a fixed exhaustive grid \cite{snoek2012}. This is particularly attractive when each evaluation is itself a cross-validation study.
+
+\section{Materials, Data, and Descriptor Construction}
+
+\subsection{Experimental system}
+The physical system studied here was PDMS deposited by dip coating using three solvent families:
+\begin{enumerate}
+    \item hexane,
+    \item toluene,
+    \item ethyl acetate.
+\end{enumerate}
+
+PDMS was treated as the constant solute, while solvent identity changed the physicochemical environment. The original direct experimental modeling effort was conducted on the purely experimental hexane dataset, using measured concentration, uncoated layer thickness, total thickness, and bonded thickness. The original hexane dataset contains 58 observations and 4 columns. Because 58 samples were insufficient for stable nonlinear regression, direct modeling on the raw experimental table produced trivial or weakly informative outcomes.
+
+\subsection{Motivation for synthetic-data augmentation}
+The sparse original dataset created two problems. First, complex learners such as neural networks or flexible tree ensembles could not be reliably compared on only a few dozen observations. Second, the available experimental coverage did not span enough combinations of concentration and thickness states to support a systematic validation program. Synthetic-data augmentation was therefore introduced as a methodological necessity rather than a convenience.
+
+\subsection{Stage 1: conditional tabular generative adversarial network synthesis}
+The first synthetic-data stage used a \textit{conditional tabular generative adversarial network} (CTGAN) through the SDV framework to generate tabular samples from the original experimental table \cite{xu2019}. CTGAN is often effective for mixed tabular data, but in this setting the original experimental table was too sparse to make generative adversarial synthesis fully trustworthy. The resulting synthetic dataset was useful as an exploratory step but not sufficiently stable to serve as the final basis of the study.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.2cm, >=Latex]
+\node[draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm] (real) {Real coating data};
+\node[draw, rounded corners, right=of real, minimum width=2.4cm, minimum height=0.9cm] (cond) {Conditional vector};
+\node[draw, rounded corners, right=of cond, minimum width=2.4cm, minimum height=0.9cm] (gen) {Generator};
+\node[draw, rounded corners, below=1.2cm of gen, minimum width=2.4cm, minimum height=0.9cm] (fake) {Synthetic samples};
+\node[draw, rounded corners, left=of fake, minimum width=2.4cm, minimum height=0.9cm] (disc) {Discriminator};
+\draw[->, thick] (real) -- (cond);
+\draw[->, thick] (cond) -- (gen);
+\draw[->, thick] (gen) -- (fake);
+\draw[->, thick] (fake) -- (disc);
+\draw[->, thick] (real) |- (disc);
+\draw[->, thick, dashed] (disc) -| node[pos=0.25, below] {adversarial feedback} (gen);
+\end{tikzpicture}
+\caption{Conceptual CTGAN architecture for tabular synthesis. A conditional vector guides the generator, while the discriminator learns to distinguish real coating data from synthetic samples.}
+\end{figure}
+
+\subsection{Stage 2: bootstrap plus correlated noise}
+To improve reliability, a second synthetic-data generator was developed. This method:
+\begin{enumerate}
+    \item bootstrapped rows from the original experimental dataset,
+    \item estimated the empirical correlation matrix,
+    \item used Cholesky decomposition to construct correlated perturbations, and
+    \item added scaled correlated noise to bootstrapped samples while clipping values near the original data range.
+\end{enumerate}
+
+This produced a 1000-sample dataset that retained the original four-column structure:
+\begin{enumerate}
+    \item Concentration (g/mL)
+    \item Uncoated Layer (nm)
+    \item Total Thickness (nm)
+    \item Bonded Thickness (nm)
+\end{enumerate}
+
+This 1000-sample dataset was used for the first substantive machine-learning comparison under random train/test splitting.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.1cm, >=Latex]
+\node[draw, rounded corners, minimum width=2.5cm, minimum height=0.9cm] (orig) {Experimental hexane data};
+\node[draw, rounded corners, right=of orig, minimum width=2.3cm, minimum height=0.9cm] (boot) {Bootstrap resample};
+\node[draw, rounded corners, right=of boot, minimum width=2.7cm, minimum height=0.9cm] (corr) {Correlation matrix + Cholesky};
+\node[draw, rounded corners, right=of corr, minimum width=2.3cm, minimum height=0.9cm] (noise) {Correlated noise};
+\node[draw, rounded corners, below=1.3cm of corr, minimum width=3.2cm, minimum height=0.9cm] (synth) {Synthetic sample with preserved structure};
+\draw[->, thick] (orig) -- (boot);
+\draw[->, thick] (boot) -- (corr);
+\draw[->, thick] (corr) -- (noise);
+\draw[->, thick] (boot) -- (synth);
+\draw[->, thick] (noise) |- (synth);
+\end{tikzpicture}
+\caption{Bootstrap-plus-correlated-noise synthesis pipeline. Experimental observations are resampled, perturbed through a Cholesky-derived correlation structure, and recombined into synthetic coating samples.}
+\end{figure}
+
+\subsection{Stage 3: feature engineering and solvent-property expansion}
+To move beyond a purely thickness-and-concentration formulation, the descriptor space was expanded using solvent-property variables collected from PubChem \cite{kim2023}. Four additional descriptors were introduced:
+\begin{enumerate}
+    \item Polarity (XLogP3)
+    \item Viscosity (cP)
+    \item Boiling Point (K)
+    \item Surface Tension (mN/m)
+\end{enumerate}
+
+The same descriptor engineering process was then applied to the hexane, toluene, and ethyl acetate solvent systems. Each solvent-specific table was synthesized to 1000 samples, and the three solvent families were aggregated into a 3000-sample dataset. The final aggregated dataset therefore contained:
+\begin{enumerate}
+    \item Polarity (XLogP3)
+    \item Viscosity (cP)
+    \item Boiling Point (K)
+    \item Surface Tension (mN/m)
+    \item Concentration (g/mL)
+    \item Uncoated Layer (nm)
+    \item Total Thickness (nm)
+    \item Bonded Thickness (nm)
+\end{enumerate}
+
+\subsection{Dataset summary}
+Table~\ref{tab:datasets} summarizes the dataset evolution.
+
+\begin{table}[H]
+\centering
+\caption{Datasets used in the investigation.}
+\label{tab:datasets}
+\begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash}p{3.1cm} >{\centering\arraybackslash}p{1.5cm} >{\centering\arraybackslash}p{1.7cm} X}
+\toprule
+Dataset stage & Samples & Variables & Role \\
+\midrule
+Experimental hexane dataset & 58 & 3 inputs + 1 target & Original purely experimental dataset used for baseline learning and as the source distribution for synthetic-data generation. \\
+Correlation-preserving synthetic hexane dataset & 1000 & 3 inputs + 1 target & Synthetic benchmark set used for preliminary comparison and initial model optimization. \\
+Aggregated solvent-expanded dataset & 3000 & 7 inputs + 1 target & Combined hexane, toluene, and ethyl acetate synthetic dataset used for holdout validation, full-dataset cross-validation, ensembles, and Bayesian optimization. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Statistical characteristics of the aggregated dataset}
+The aggregated 3000-sample dataset had mean bonded thickness of approximately 0.525 nm and standard deviation approximately 0.183 nm. Concentration and total thickness were the strongest positively associated variables in the final dataset, while polarity and viscosity showed weak negative correlations with the target. Because the synthetic generator allowed limited extrapolation beyond the empirical range, small negative values appear in concentration and total thickness. These values are not physically ideal and are treated as a known limitation of the synthetic-generation stage.
+
+\section{Model Families and Their Operating Principles}
+
+\subsection{Linear regression}
+Linear regression assumes that bonded thickness can be expressed as an affine function of the inputs:
+\begin{equation}
+\hat{y} = \beta_0 + \sum_{j=1}^{p}\beta_j x_j.
+\end{equation}
+Its value in the present investigation is not its flexibility but its interpretability. If a linear model were competitive, then the nonlinear machinery of forests or neural networks would be unnecessary.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.4cm, >=Latex]
+\node[draw, rounded corners, minimum width=2.2cm, minimum height=1cm] (x1) {Features};
+\node[draw, rounded corners, right=of x1, minimum width=2.6cm, minimum height=1cm] (sum) {Weighted sum};
+\node[draw, rounded corners, right=of sum, minimum width=2.0cm, minimum height=1cm] (yhat) {$\hat{y}$};
+\draw[->, thick] (x1) -- node[above] {$\beta_j x_j$} (sum);
+\draw[->, thick] (sum) -- node[above] {$+\beta_0$} (yhat);
+\end{tikzpicture}
+\caption{Schematic of linear regression as an affine mapping from engineered inputs to predicted bonded thickness.}
+\end{figure}
+
+\subsection{K-nearest neighbors}
+KNN regression predicts from the local neighborhood of a query point:
+\begin{equation}
+\hat{y}(x) = \frac{\sum_{i \in \mathcal{N}_k(x)} w_i y_i}{\sum_{i \in \mathcal{N}_k(x)} w_i},
+\end{equation}
+where the neighborhood $\mathcal{N}_k(x)$ is determined by a distance metric \cite{aha1991}. KNN can represent nonlinear local structure, but it is highly sensitive to how well training and test data occupy the same geometric region.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=1.0, >=Latex]
+\draw[->] (0,0) -- (5.2,0) node[right] {Feature 1};
+\draw[->] (0,0) -- (0,4.2) node[above] {Feature 2};
+\foreach \x/\y in {0.8/1.0,1.3/2.8,1.7/1.8,2.2/3.1,2.7/2.0,3.1/1.2,3.6/3.0,4.2/2.2}
+    \filldraw[blue] (\x,\y) circle (2pt);
+\filldraw[red] (2.5,2.5) circle (3pt) node[above right] {Query};
+\draw[dashed] (2.5,2.5) circle (1.2);
+\end{tikzpicture}
+\caption{KNN prediction concept: the query point is predicted from nearby training observations inside a local neighborhood.}
+\end{figure}
+
+\subsection{Backpropagation neural network}
+The BPNN is a multilayer feed-forward model:
+\begin{equation}
+\hat{y} = W_L \sigma\left(W_{L-1}\sigma\left(\cdots \sigma(W_1 x + b_1)\right)+b_{L-1}\right)+b_L,
+\end{equation}
+with parameters optimized by backpropagation \cite{rumelhart1986}. BPNNs are expressive but data-hungry and can become unstable when the available training distribution is too small or too shifted.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.7cm,y=1.0cm, >=Latex]
+\foreach \y/\name in {0/Ia,1/Ib,2/Ic}
+    \node[circle,draw,minimum size=8mm] (\name) at (0,\y) {};
+\foreach \y/\name in {0/Ha,1/Hb,2/Hc,3/Hd}
+    \node[circle,draw,minimum size=8mm] (\name) at (1.8,\y-0.5) {};
+\foreach \y/\name in {0/Ga,1/Gb,2/Gc}
+    \node[circle,draw,minimum size=8mm] (\name) at (3.6,\y) {};
+\node[circle,draw,minimum size=8mm] (O) at (5.3,1) {};
+\foreach \i in {Ia,Ib,Ic}
+    \foreach \j in {Ha,Hb,Hc,Hd}
+        \draw[gray] (\i) -- (\j);
+\foreach \i in {Ha,Hb,Hc,Hd}
+    \foreach \j in {Ga,Gb,Gc}
+        \draw[gray] (\i) -- (\j);
+\foreach \i in {Ga,Gb,Gc}
+    \draw[gray] (\i) -- (O);
+\node at (0,-1.0) {Inputs};
+\node at (1.8,-1.0) {Hidden layer 1};
+\node at (3.6,-1.0) {Hidden layer 2};
+\node at (5.3,-1.0) {Output};
+\end{tikzpicture}
+\caption{Illustrative multilayer feed-forward neural-network topology for BPNN regression.}
+\end{figure}
+
+\subsection{Random forest regression}
+Random forest regression averages many decorrelated trees:
+\begin{equation}
+\hat{y}(x) = \frac{1}{T}\sum_{t=1}^{T} f_t(x).
+\end{equation}
+Each tree is trained on a bootstrap sample and split using random feature subsets, reducing variance while preserving nonlinear flexibility \cite{breiman2001}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.0cm, >=Latex]
+\node[draw, rounded corners, minimum width=2.2cm, minimum height=0.9cm] (input) {Input vector};
+\node[draw, rounded corners, below left=1.0cm and 1.2cm of input, minimum width=1.8cm, minimum height=0.9cm] (t1) {Tree 1};
+\node[draw, rounded corners, below=1.6cm of input, minimum width=1.8cm, minimum height=0.9cm] (t2) {Tree 2};
+\node[draw, rounded corners, below right=1.0cm and 1.2cm of input, minimum width=1.8cm, minimum height=0.9cm] (t3) {Tree $T$};
+\node[draw, rounded corners, below=3.3cm of input, minimum width=2.2cm, minimum height=0.9cm] (avg) {Average};
+\node[draw, rounded corners, below=1.0cm of avg, minimum width=1.6cm, minimum height=0.9cm] (pred) {$\hat{y}$};
+\draw[->] (input) -- (t1);
+\draw[->] (input) -- (t2);
+\draw[->] (input) -- (t3);
+\draw[->] (t1) -- (avg);
+\draw[->] (t2) -- (avg);
+\draw[->] (t3) -- (avg);
+\draw[->] (avg) -- (pred);
+\end{tikzpicture}
+\caption{Random forest as an ensemble average of many decorrelated decision trees.}
+\end{figure}
+
+\subsection{Gradient boosting regression}
+Gradient boosting builds an additive model stage by stage:
+\begin{equation}
+F_M(x) = \sum_{m=1}^{M}\nu \gamma_m h_m(x),
+\end{equation}
+where each new learner is fitted to reduce prior residuals \cite{friedman2001}. Boosting can be highly accurate but tends to be more hyperparameter-sensitive than bagged forests.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.2cm, >=Latex]
+\node[draw, rounded corners, minimum width=1.8cm, minimum height=0.9cm] (base) {Model 1};
+\node[draw, rounded corners, right=of base, minimum width=1.8cm, minimum height=0.9cm] (res1) {Residuals};
+\node[draw, rounded corners, right=of res1, minimum width=1.8cm, minimum height=0.9cm] (base2) {Model 2};
+\node[draw, rounded corners, right=of base2, minimum width=1.8cm, minimum height=0.9cm] (sum) {Update sum};
+\draw[->] (base) -- (res1);
+\draw[->] (res1) -- (base2);
+\draw[->] (base2) -- (sum);
+\node[below=0.6cm of res1] {fit next learner to errors};
+\end{tikzpicture}
+\caption{Gradient boosting builds a predictor stagewise by fitting new learners to prior residuals.}
+\end{figure}
+
+\section{Methodology}
+
+\subsection{Prediction target}
+The prediction target throughout the investigation was bonded thickness (nm). This choice is significant because bonded thickness is the experimentally relevant outcome for many PDMS film applications and is not fully determined by the wet-film thickness predicted by classical withdrawal theory.
+
+\subsection{Evaluation metrics}
+Performance was reported using mean squared error (MSE), root mean squared error (RMSE), mean absolute error (MAE), and coefficient of determination ($R^2$):
+\begin{align}
+\mathrm{MSE} &= \frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{y}_i)^2, \\
+\mathrm{RMSE} &= \sqrt{\mathrm{MSE}}, \\
+\mathrm{MAE} &= \frac{1}{n}\sum_{i=1}^{n}|y_i-\hat{y}_i|, \\
+R^2 &= 1 - \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{\sum_{i=1}^{n}(y_i-\bar{y})^2}.
+\end{align}
+
+\subsection{Phase I: small-data and synthetic-data benchmarking}
+The first quantitative phase used the 1000-sample correlation-preserving hexane synthetic dataset. All major model families were trained using random 80/20 train/test splitting, with standard scaling applied to neural-network and distance-based models.
+
+\subsection{Phase II: sequential holdout validation}
+The next phase used the 3000-sample aggregated dataset and intentionally adopted a deterministic sequential split:
+\begin{itemize}
+    \item rows 0--1999: training set,
+    \item rows 2000--2999: validation set.
+\end{itemize}
+This design was used to test whether models trained in one regime generalized to later data without any shuffling.
+
+\subsection{Phase III: full-dataset stratified cross-validation}
+Because the sequential split exposed severe distribution shift, the study then moved to a more balanced validation protocol. Continuous bonded-thickness values were binned into target quantiles, and stratified 5-fold cross-validation was performed using those bins. This regression-oriented stratification scheme ensured that each fold saw a similar target-range composition.
+
+\subsection{Phase IV: ensemble comparison}
+Two ensemble strategies were evaluated on the full 3000-sample dataset:
+\begin{enumerate}
+    \item a fixed 50/50 average of random forest and gradient boosting predictions;
+    \item an adaptive blend with inner cross-validation selecting the random-forest weight over the grid $\{0.0,0.1,\ldots,1.0\}$.
+\end{enumerate}
+In addition, a stacked ensemble was trained using ridge regression as a meta-learner over out-of-fold predictions from random forest and gradient boosting.
+
+\subsection{Phase V: Bayesian optimization}
+The strongest single model family was random forest regression. It therefore entered the final ceiling-performance stage, where \texttt{BayesSearchCV} optimized:
+\begin{itemize}
+    \item \texttt{n\_estimators} from 100 to 450,
+    \item \texttt{max\_depth} from 8 to 30,
+    \item \texttt{min\_samples\_split} from 2 to 12,
+    \item \texttt{min\_samples\_leaf} from 1 to 6,
+    \item \texttt{max\_features} in \{\texttt{sqrt}, \texttt{log2}, \texttt{None}\},
+    \item \texttt{bootstrap} in \{\texttt{True}, \texttt{False}\}.
+\end{itemize}
+
+The Bayesian search ran for 32 iterations over the same stratified 5-fold splits used in the full-dataset validation stage.
+
+\section{Results}
+
+\subsection{Preliminary random-split benchmarking on the 1000-sample dataset}
+Table~\ref{tab:phase1} summarizes optimized model performance on the 1000-sample correlation-preserving synthetic hexane dataset.
+
+\begin{table}[H]
+\centering
+\caption{Optimized model performance on the 1000-sample synthetic hexane dataset under an 80/20 random split.}
+\label{tab:phase1}
+\begin{tabular}{lcccc}
+\toprule
+Model & $R^2$ & RMSE & MAE & MSE \\
+\midrule
+Random Forest & 0.8082 & 0.0409 & 0.0273 & 0.00167 \\
+BPNN & 0.7984 & 0.0419 & 0.0311 & 0.00176 \\
+KNN & 0.7972 & 0.0420 & 0.0279 & 0.00176 \\
+Linear Regression & 0.7398 & 0.0476 & 0.0399 & 0.00227 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+At this stage, random forest already emerged as the strongest single model, but the performance gap relative to BPNN and KNN was still narrow enough to justify a broader family comparison.
+
+Direct training on the purely experimental hexane dataset preceded the synthetic-data benchmarks and produced the baseline diagnostic plots shown in Figure~\ref{fig:exp-baseline}. Those outputs were useful primarily as evidence that the raw experimental table was too small for stable comparative learning.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig01_exp_baseline_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig02_exp_baseline_knn.png}
+\caption{KNN}
+\end{subfigure}
+
+\vspace{0.6em}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig03_exp_baseline_linear_regression.png}
+\caption{Linear regression}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig04_exp_baseline_random_forest.png}
+\caption{Random forest}
+\end{subfigure}
+\caption{Baseline model outputs from the direct experimental hexane dataset. These figures illustrate the limited stability achievable before synthetic-data augmentation.}
+\label{fig:exp-baseline}
+\end{figure}
+
+The first correlation-preserving synthetic hexane benchmark produced the evaluation outputs shown in Figure~\ref{fig:hexane-synth-initial}, followed by the optimized-model outputs in Figure~\ref{fig:hexane-synth-optimized}.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig05_hexane_synth_initial_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig06_hexane_synth_initial_knn.png}
+\caption{KNN}
+\end{subfigure}
+
+\vspace{0.6em}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig07_hexane_synth_initial_linear_regression.png}
+\caption{Linear regression}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig08_hexane_synth_initial_random_forest.png}
+\caption{Random forest}
+\end{subfigure}
+\caption{Model outputs on the 1000-sample correlation-preserving synthetic hexane dataset before the later optimization pass.}
+\label{fig:hexane-synth-initial}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig09_hexane_synth_optimized_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig10_hexane_synth_optimized_knn.png}
+\caption{KNN}
+\end{subfigure}
+
+\vspace{0.6em}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig11_hexane_synth_optimized_linear_regression.png}
+\caption{Linear regression}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig12_hexane_synth_optimized_random_forest.png}
+\caption{Random forest}
+\end{subfigure}
+\caption{Optimized-model outputs on the 1000-sample synthetic hexane dataset. These figures correspond to the results summarized in Table~\ref{tab:phase1}.}
+\label{fig:hexane-synth-optimized}
+\end{figure}
+
+\subsection{Sequential holdout validation revealed severe distribution shift}
+On the 3000-sample aggregated dataset, the sequential holdout baseline was highly unstable. The original 3-feature models performed worse than predicting the mean:
+\begin{itemize}
+    \item BPNN: $R^2 = -331.96$
+    \item Linear regression: $R^2 = -220.36$
+    \item KNN: $R^2 = -2.23$
+    \item Random forest: $R^2 = -1.221$
+\end{itemize}
+
+This collapse was traced to strong regime shift between the first 2000 and last 1000 samples. Concentration, total thickness, surface tension, and viscosity all shifted materially, meaning the validation block occupied a different operating regime than the training block.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig13_holdout_baseline_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig14_holdout_baseline_knn.png}
+\caption{KNN}
+\end{subfigure}
+
+\vspace{0.6em}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig15_holdout_baseline_linear_regression.png}
+\caption{Linear regression}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig16_holdout_baseline_random_forest.png}
+\caption{Random forest}
+\end{subfigure}
+\caption{Original sequential holdout-validation outputs on the aggregated 3000-sample solvent-expanded dataset. These figures visually confirm the severe degradation caused by regime shift.}
+\label{fig:holdout-baseline}
+\end{figure}
+
+\subsection{Optimized holdout models after feature expansion}
+Once all seven descriptors were used and the model focus shifted toward tree ensembles, performance improved sharply. The optimized holdout random forest reached
+\begin{equation}
+R^2 = 0.3284, \qquad \mathrm{RMSE} = 0.1065, \qquad \mathrm{MAE} = 0.0745.
+\end{equation}
+
+This was a major recovery, but it still represented a regime-shift validation outcome rather than a balanced full-distribution estimate.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig17_holdout_optimized_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig18_holdout_optimized_gradient_boosting.png}
+\caption{Gradient boosting}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig19_holdout_optimized_random_forest.png}
+\caption{Random forest}
+\end{subfigure}
+\caption{Optimized holdout-validation outputs after feature expansion to seven variables. The random-forest panel corresponds to the strongest regime-shift result.}
+\label{fig:holdout-optimized}
+\end{figure}
+
+For completeness, the comparison study that directly juxtaposed original and optimized variants is shown in Figures~\ref{fig:comparison-a} and \ref{fig:comparison-b}.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig20_comparison_bpnn.png}
+\caption{BPNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig21_comparison_knn.png}
+\caption{KNN}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig22_comparison_original_random_forest.png}
+\caption{Original RF}
+\end{subfigure}
+\caption{First comparison panel for the holdout study, showing original-model behavior under the sequential validation split.}
+\label{fig:comparison-a}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig23_comparison_optimized_random_forest.png}
+\caption{Optimized RF}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig24_comparison_ultra_optimized_random_forest.png}
+\caption{Ultra-optimized RF}
+\end{subfigure}\hfill
+\begin{subfigure}{0.32\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig25_comparison_optimized_gradient_boosting.png}
+\caption{Optimized GB}
+\end{subfigure}
+\caption{Second comparison panel for the holdout study, highlighting the recovery obtained through feature expansion and tree-based optimization.}
+\label{fig:comparison-b}
+\end{figure}
+
+\subsection{Stratified 5-fold cross-validation on the full dataset}
+When the same 3000-sample dataset was evaluated with target-stratified 5-fold cross-validation, the optimized random forest achieved:
+\begin{equation}
+R^2_{\mathrm{OOF}} = 0.971620, \qquad \mathrm{RMSE}_{\mathrm{OOF}} = 0.030851, \qquad \mathrm{MAE}_{\mathrm{OOF}} = 0.019663.
+\end{equation}
+
+The mean fold-level $R^2$ was
+\begin{equation}
+R^2_{\mathrm{mean}} = 0.971593 \pm 0.003533.
+\end{equation}
+
+This result showed that the underlying full-dataset learning problem was highly tractable once sequential partition artifacts were removed.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig26_full_dataset_rf_training_diagnostics.png}
+\caption{Full-data retraining diagnostics}
+\end{subfigure}\hfill
+\begin{subfigure}{0.48\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig27_stratified_cv_rf_initial_summary.png}
+\caption{Initial stratified CV summary}
+\end{subfigure}
+
+\vspace{0.6em}
+\begin{subfigure}{0.70\linewidth}
+\includegraphics[width=\linewidth]{paper_figures/fig28_stratified_cv_rf_corrected_summary.png}
+\caption{Corrected stratified CV summary}
+\end{subfigure}
+\caption{Full-dataset optimized random-forest diagnostics and stratified cross-validation summaries. The corrected rerun reflects the final metadata-consistent version used for interpretation.}
+\label{fig:full-rf}
+\end{figure}
+
+\subsection{Ensemble comparison}
+Table~\ref{tab:ensemble} compares full-dataset out-of-fold performance for the base and ensemble models.
+
+\begin{table}[H]
+\centering
+\caption{Out-of-fold performance under stratified 5-fold cross-validation for base models and ensembles.}
+\label{tab:ensemble}
+\begin{tabular}{lcccc}
+\toprule
+Model & $R^2_{\mathrm{OOF}}$ & RMSE$_{\mathrm{OOF}}$ & MAE$_{\mathrm{OOF}}$ & MSE$_{\mathrm{OOF}}$ \\
+\midrule
+Stacked Ridge (RF + GB) & 0.972202 & 0.030533 & 0.019859 & 0.0009323 \\
+Adaptive Blend (RF + GB) & 0.971985 & 0.030652 & 0.019823 & 0.0009395 \\
+Fixed Blend 50/50 & 0.971920 & 0.030687 & 0.020147 & 0.0009417 \\
+Random Forest & 0.971620 & 0.030851 & 0.019663 & 0.0009518 \\
+Gradient Boosting & 0.969843 & 0.031802 & 0.021518 & 0.0010114 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The stacked ensemble provided the strongest ensemble result, but the improvement over the untuned optimized random forest was modest. Inner cross-validation for the adaptive blend selected random-forest weights between 0.6 and 0.8 across folds, showing that random forest remained the dominant component.
+
+\expfigure{paper_figures/fig29_ensemble_comparison_summary.png}{Ensemble-comparison summary figure for random forest, gradient boosting, and RF+GB combinations under stratified 5-fold validation.}
+
+\subsection{Bayesian-optimized ceiling performance}
+Bayesian optimization of random forest regression yielded the following best parameters:
+\begin{itemize}
+    \item \texttt{bootstrap = True}
+    \item \texttt{max\_depth = 30}
+    \item \texttt{max\_features = log2}
+    \item \texttt{min\_samples\_leaf = 1}
+    \item \texttt{min\_samples\_split = 2}
+    \item \texttt{n\_estimators = 323}
+\end{itemize}
+
+The tuned random forest achieved:
+\begin{equation}
+R^2_{\mathrm{OOF}} = 0.973424, \qquad \mathrm{RMSE}_{\mathrm{OOF}} = 0.029855, \qquad \mathrm{MAE}_{\mathrm{OOF}} = 0.018591.
+\end{equation}
+
+Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. This surpassed the stacked ensemble and established the Bayesian-optimized random forest as the final best model.
+
+\expfigure{paper_figures/fig30_bayesian_optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
+
+\section{Detailed Analysis}
+
+\subsection{The central methodological lesson}
+The most important lesson from the investigation is that validation design controls interpretation. The low holdout $R^2$ did not imply an intrinsically weak predictor; rather, it revealed that the original sequential split measured extrapolation into a shifted regime. Once the evaluation design was changed to target-stratified full-dataset cross-validation, the predictive structure of the aggregated dataset became clear.
+
+\subsection{Why the original hexane-only workflow was insufficient}
+The original hexane-only experimental table was too small for robust nonlinear regression. The CTGAN stage provided a useful proof of concept but was not sufficiently reliable because the source table was sparse. The bootstrap-plus-Cholesky stage improved stability by explicitly preserving empirical correlation structure. This was methodologically stronger because it grounded synthetic variation in the original dataset's covariance geometry.
+
+\subsection{Why tree models dominated}
+Tree ensembles dominated because they handle heterogeneous descriptors, nonlinear interactions, and monotonic nonlinearities without requiring carefully chosen transformations. They are also comparatively robust to mixed scales and irregular distributions. These advantages became decisive once the descriptor space expanded from three process/thickness variables to seven mixed process-and-chemistry features.
+
+\subsection{Residual structure and future feature engineering}
+Residual diagnostics identified several systematic opportunities:
+\begin{itemize}
+    \item \textbf{Polarity}: high absolute residual correlation suggests a regime effect not fully linearized by current features.
+    \item \textbf{Surface tension}: residual dependence indicates that capillarity-linked behavior still contains unresolved structure.
+    \item \textbf{Boiling point}: a spline or piecewise representation may better capture evaporation-related effects.
+    \item \textbf{Total thickness}: positive skew and residual trends suggest the utility of log or quantile transforms.
+\end{itemize}
+
+These signals support future interaction engineering between polarity, viscosity, and surface tension, as well as transformed versions of thickness variables.
+
+\subsection{Interpretation of final feature importance}
+The final optimized random forest placed the greatest weight on concentration, total thickness, and uncoated layer, with polarity serving as the strongest secondary solvent descriptor. This ranking is physically plausible. Concentration governs solids loading, total thickness and uncoated layer summarize film-state evolution, and the solvent descriptors modulate the chemistry and transport environment rather than dominating it directly.
+
+\subsection{Limitations}
+Several limitations should be stated explicitly:
+\begin{enumerate}
+    \item The final datasets are predominantly synthetic, even though they originate from real dip-coating experiments.
+    \item The synthetic generator permits slight excursions into nonphysical value ranges.
+    \item Solvent descriptors were imported from PubChem rather than measured under experiment-specific laboratory conditions.
+    \item Only a small set of solvents was examined and only one solute, PDMS, was held constant throughout the investigation; future work should expand both solvent diversity and solute diversity.
+    \item External validation on newly measured PDMS dip-coating experiments remains necessary before deployment claims can be made with confidence.
+\end{enumerate}
+
+\section{Conclusion}
+This investigation developed a complete machine-learning framework for bonded-thickness prediction in PDMS dip coating across hexane, toluene, and ethyl acetate solvent systems. The work began from a sparse hexane experimental dataset, progressed through two synthetic-data-generation stages, expanded the descriptor space using solvent properties, and culminated in a full-dataset validation and optimization program.
+
+The main conclusions are as follows. First, dip-coating outcomes of practical interest cannot be captured adequately by classical thickness scaling alone when the prediction target is final bonded thickness in a multivariable polymer-solvent system. Second, the most serious early limitation was not model complexity but sample scarcity and validation mismatch. Third, tree-based models, especially random forests, were the most robust learners across all stages of the investigation. Fourth, while RF+GB ensembles produced incremental gains, Bayesian optimization of the random forest ultimately provided the strongest predictive ceiling. The final tuned random forest reached out-of-fold $R^2 = 0.9734$, outperforming all other tested models.
+
+The broader implication is methodological. For coating informatics in small-data regimes, the critical path is: start from physically meaningful descriptors, diagnose validation failure honestly, augment data cautiously, compare model families systematically, and only then invest in global hyperparameter optimization. That workflow transformed a sparse and initially unstable dip-coating dataset into a high-performing predictive surrogate with a clear path for future refinement.
+
+\section*{References}
+\begin{thebibliography}{99}
+
+\bibitem{landau1942}
+L. Landau and B. Levich,
+``Dragging of a liquid by a moving plate,''
+\textit{Acta Physicochimica U.R.S.S.}, vol. 17, no. 1--2, pp. 42--54, 1942.
+
+\bibitem{rio2017}
+E. Rio and F. Boulogne,
+``Withdrawing a solid from a bath: How much liquid is coated?''
+\textit{Advances in Colloid and Interface Science}, vol. 247, pp. 100--114, 2017.
+
+\bibitem{schmidt2019}
+J. Schmidt, M. R. G. Marques, S. Botti, and M. A. L. Marques,
+``Recent advances and applications of machine learning in solid-state materials science,''
+\textit{npj Computational Materials}, vol. 5, article 83, 2019.
+
+\bibitem{kailkhura2019}
+B. Kailkhura, B. Gallagher, S. Kim, A. Hiszpanski, and T. Y.-J. Han,
+``Reliable and explainable machine-learning methods for accelerated material discovery,''
+\textit{npj Computational Materials}, vol. 5, article 108, 2019.
+
+\bibitem{aha1991}
+D. W. Aha, D. Kibler, and M. K. Albert,
+``Instance-based learning algorithms,''
+\textit{Machine Learning}, vol. 6, no. 1, pp. 37--66, 1991.
+
+\bibitem{rumelhart1986}
+D. E. Rumelhart, G. E. Hinton, and R. J. Williams,
+``Learning representations by back-propagating errors,''
+\textit{Nature}, vol. 323, pp. 533--536, 1986.
+
+\bibitem{breiman2001}
+L. Breiman,
+``Random forests,''
+\textit{Machine Learning}, vol. 45, no. 1, pp. 5--32, 2001.
+
+\bibitem{friedman2001}
+J. H. Friedman,
+``Greedy function approximation: A gradient boosting machine,''
+\textit{The Annals of Statistics}, vol. 29, no. 5, pp. 1189--1232, 2001.
+
+\bibitem{xu2019}
+L. Xu, M. Skoularidou, A. Cuesta-Infante, and K. Veeramachaneni,
+``Modeling tabular data using conditional GAN,''
+arXiv:1907.00503, 2019.
+
+\bibitem{snoek2012}
+J. Snoek, H. Larochelle, and R. P. Adams,
+``Practical Bayesian optimization of machine learning algorithms,''
+in \textit{Advances in Neural Information Processing Systems 25}, 2012, pp. 2951--2959.
+
+\bibitem{kim2023}
+S. Kim, J. Chen, T. Cheng, A. Gindulyte, J. He, S. He, Q. Li, B. A. Shoemaker, P. A. Thiessen, B. Yu, L. Zaslavsky, J. Zhang, and E. E. Bolton,
+``PubChem 2023 update,''
+\textit{Nucleic Acids Research}, vol. 51, no. D1, pp. D1373--D1380, 2023.
+
+\end{thebibliography}
+
+\end{document}
