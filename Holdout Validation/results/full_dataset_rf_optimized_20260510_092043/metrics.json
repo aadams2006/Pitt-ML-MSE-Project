@@ -1,0 +1,31 @@
+{
+  "model": "Random Forest (Optimized Full Dataset)",
+  "dataset": "Holdout Validation/Data/synthetic_data_improved.csv",
+  "n_samples": 3000,
+  "n_features": 7,
+  "MSE": 0.00032108952896542624,
+  "RMSE": 0.017918971202762347,
+  "MAE": 0.01126488599275577,
+  "R2_training": 0.9904258187236998,
+  "OOB_R2": 0.9729705870153916,
+  "training_date": "2026-05-10T09:20:43.187109",
+  "hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": -1,
+    "max_features": "sqrt"
+  },
+  "features": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)"
+}

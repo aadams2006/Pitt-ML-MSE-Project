@@ -11,6 +11,16 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from sklearn.preprocessing import StandardScaler
 
+MODEL_PARAMS = {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": -1,
+    "max_features": "sqrt",
+}
+
 
 def load_holdout_data(split: str = "train") -> pd.DataFrame:
     """Load the holdout validation dataset."""
@@ -24,6 +34,15 @@ def load_holdout_data(split: str = "train") -> pd.DataFrame:
         raise ValueError(f"Invalid split: {split}")
     
     df = pd.read_csv(data_path)
+    df.columns = df.columns.str.strip()
+    return df
+
+
+def load_full_data() -> pd.DataFrame:
+    """Load the full 3000-sample dataset used for holdout validation."""
+    data_path = Path(__file__).resolve().parents[1] / "Data" / "synthetic_data_improved.csv"
+    df = pd.read_csv(data_path)
+    df.columns = df.columns.str.strip()
     return df
 
 
@@ -40,6 +59,13 @@ def split_features_targets(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame
     features = df[feature_cols].copy()
     targets = df[target_cols].copy()
     return features, targets
+
+
+def build_model(**overrides) -> RandomForestRegressor:
+    """Build the validated optimized Random Forest model."""
+    params = MODEL_PARAMS.copy()
+    params.update(overrides)
+    return RandomForestRegressor(**params)
 
 
 def train_and_evaluate() -> dict:
@@ -61,15 +87,7 @@ def train_and_evaluate() -> dict:
     y_val_flat = np.asarray(y_val).flatten()
     
     # Train optimized Random Forest: more trees with controlled depth for better generalization
-    model = RandomForestRegressor(
-        n_estimators=200,
-        max_depth=20,
-        min_samples_split=5,
-        min_samples_leaf=2,
-        random_state=42,
-        n_jobs=-1,
-        max_features='sqrt'
-    )
+    model = build_model()
     model.fit(X_train_scaled, y_train_flat)
     
     # Evaluate
