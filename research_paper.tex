@@ -42,11 +42,11 @@ From Classical Coating Theory to Bayesian-Optimized Random Forests}
 \maketitle
 
 \begin{abstract}
-Dip coating is a foundational thin-film manufacturing route across biomedical coatings, flexible electronics, microelectronics, semiconductor processing, optical layers, aerospace surface engineering, storage devices, energy materials, sensors, and protective polymer films. Its industrial value comes from geometric simplicity, compatibility with large-area substrates, low equipment complexity, and its ability to translate solution-state chemistry into functional solid films. However, predicting final bonded thickness remains difficult when coating outcomes depend not only on withdrawal hydrodynamics but also on multivariable solvent chemistry, concentration-dependent solids loading, interfacial effects, evaporation, and post-deposition consolidation. Classical scaling relations such as the Landau--Levich formulation provide physically essential insight into entrained liquid-film thickness, but they do not by themselves close the bonded-thickness prediction problem for multicomponent polymer systems.
+Dip coating is a widely used thin-film manufacturing route in biomedical devices, electronics, semiconductors, optics, aerospace coatings, storage media, and other solution-processed technologies. Yet final bonded-thickness prediction remains difficult because coating outcomes depend not only on withdrawal hydrodynamics but also on solvent chemistry, solids loading, interfacial effects, evaporation, and post-deposition consolidation. Classical relations such as the Landau--Levich formulation therefore provide important physical context but do not fully resolve bonded-thickness prediction in multicomponent polymer systems.
 
 This study develops a complete machine-learning framework for predicting bonded thickness in dip-coated poly(dimethylsiloxane) (PDMS) films processed with hexane, toluene, and ethyl acetate solvent systems. The investigation began with a small experimental hexane dataset, where direct model training produced trivial results due to sample scarcity. Synthetic-data augmentation was therefore introduced in two stages: an initial \textit{conditional tabular generative adversarial network} (CTGAN) synthesis stage, and a second, more reliable bootstrap-plus-correlated-noise stage based on Cholesky decomposition of the empirical correlation structure. The first synthetic campaign generated a 1000-sample hexane dataset retaining the original experimental variables. The study then expanded the descriptor space by adding polarity (XLogP3), viscosity, boiling point, and surface tension from PubChem and repeated the synthetic workflow across hexane, toluene, and ethyl acetate, yielding an aggregated 3000-sample dataset.
 
-Five regression families were examined: linear regression, $k$-nearest neighbors, backpropagation neural networks, random forest regression, and gradient boosting regression. On a 1000-sample random-split benchmark, the optimized random forest achieved the strongest single-model performance with $R^2 = 0.8082$. A more stringent sequential holdout study on the 3000-sample dataset exposed severe train--validation distribution shift and drove all baseline models to negative $R^2$ values; after feature expansion from 3 to 7 variables and model-specific optimization, the holdout random forest recovered to $R^2 = 0.3284$. To remove sequential split artifacts, stratified 5-fold cross-validation with target-quantile bins was applied to the full dataset. Under this protocol, the optimized random forest achieved an out-of-fold $R^2 = 0.9716$, a stacked random forest plus gradient boosting ensemble reached $R^2 = 0.9722$, and final Bayesian hyperparameter optimization raised the random forest to $R^2 = 0.9734$, outperforming all other tested models.
+Five regression families were examined: linear regression, $k$-nearest neighbors, backpropagation neural networks, random forest regression, and gradient boosting regression. On a 1000-sample random-split benchmark, the optimized random forest achieved the strongest single-model performance with $R^2 = 0.8082$. A more stringent sequential holdout study on the aggregated 3000-sample dataset then exposed severe train--validation distribution shift and drove all baseline models to negative $R^2$ values; with the already expanded seven-variable descriptor set and subsequent model-specific optimization, the holdout random forest recovered to $R^2 = 0.3284$. To remove sequential split artifacts, stratified 5-fold cross-validation with target-quantile bins was applied to the full dataset. Under this protocol, the optimized random forest achieved an out-of-fold $R^2 = 0.9716$, a stacked random forest plus gradient boosting ensemble reached $R^2 = 0.9722$, and final Bayesian hyperparameter optimization raised the random forest to $R^2 = 0.9734$, outperforming all other tested models.
 
 The results show that the dominant challenges in this coating-prediction problem were not merely algorithmic, but methodological: small-data scarcity, feature incompleteness, validation design, and synthetic-data realism all materially shaped the conclusions. The final Bayesian-optimized random forest established the highest predictive ceiling in the study, while residual and feature-importance analyses identified concrete next steps in physicochemical interaction engineering and constraint-aware synthetic-data generation.
 \end{abstract}
@@ -83,7 +83,7 @@ The investigation proceeds through four linked stages:
 \begin{enumerate}
     \item baseline regression on small-data and synthetic-data benchmarks;
     \item diagnosis of failure under sequential holdout validation;
-    \item correction through feature expansion, improved validation design, and ensemble comparison; and
+    \item expansion from the initial three-variable synthetic workflow to a seven-variable descriptor set after the first 1000-sample study, followed by reevaluation on the expanded 1000-sample workflow and the aggregated multi-solvent dataset under improved validation and ensemble comparison; and
     \item final ceiling-performance estimation via Bayesian hyperparameter optimization.
 \end{enumerate}
 
@@ -131,19 +131,22 @@ The first synthetic-data stage used a \textit{conditional tabular generative adv
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[node distance=1.2cm, >=Latex]
-\node[draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm] (real) {Real coating data};
-\node[draw, rounded corners, right=of real, minimum width=2.4cm, minimum height=0.9cm] (cond) {Conditional vector};
-\node[draw, rounded corners, right=of cond, minimum width=2.4cm, minimum height=0.9cm] (gen) {Generator};
-\node[draw, rounded corners, below=1.2cm of gen, minimum width=2.4cm, minimum height=0.9cm] (fake) {Synthetic samples};
-\node[draw, rounded corners, left=of fake, minimum width=2.4cm, minimum height=0.9cm] (disc) {Discriminator};
-\draw[->, thick] (real) -- (cond);
+\node[draw, rounded corners, minimum width=2.6cm, minimum height=0.9cm] (table) {Experimental table};
+\node[draw, rounded corners, below=1.2cm of table, minimum width=2.6cm, minimum height=0.9cm] (cond) {Conditioned column};
+\node[draw, rounded corners, right=1.8cm of cond, minimum width=2.5cm, minimum height=0.9cm] (noise) {Latent noise $z$};
+\node[draw, rounded corners, right=1.8cm of table, minimum width=2.8cm, minimum height=0.9cm] (gen) {Generator};
+\node[draw, rounded corners, right=1.8cm of gen, minimum width=2.7cm, minimum height=0.9cm] (fake) {Synthetic records};
+\node[draw, rounded corners, below=1.4cm of gen, minimum width=2.8cm, minimum height=0.9cm] (disc) {Discriminator};
+\node[align=center, below=0.1cm of disc] (loss) {\footnotesize real vs. synthetic\\\footnotesize classification};
 \draw[->, thick] (cond) -- (gen);
+\draw[->, thick] (noise) -- (gen);
 \draw[->, thick] (gen) -- (fake);
-\draw[->, thick] (fake) -- (disc);
-\draw[->, thick] (real) |- (disc);
-\draw[->, thick, dashed] (disc) -| node[pos=0.25, below] {adversarial feedback} (gen);
+\draw[->, thick] (table) -- (disc);
+\draw[->, thick] (fake) |- (disc);
+\draw[->, thick, dashed] (disc) -| node[pos=0.25, below] {gradient feedback} (gen);
+\draw[->, thick, dashed] (table) -- (cond);
 \end{tikzpicture}
-\caption{Conceptual CTGAN architecture for tabular synthesis. A conditional vector guides the generator, while the discriminator learns to distinguish real coating data from synthetic samples.}
+\caption{Conceptual architecture of the conditional tabular generative adversarial network used in the first synthesis stage. A conditioned column from the experimental table and latent noise are passed to the generator, while the discriminator learns to separate real and synthetic tabular records and provides adversarial feedback.}
 \end{figure}
 
 \subsection{Stage 2: bootstrap plus correlated noise}
@@ -168,18 +171,22 @@ This 1000-sample dataset was used for the first substantive machine-learning com
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[node distance=1.1cm, >=Latex]
-\node[draw, rounded corners, minimum width=2.5cm, minimum height=0.9cm] (orig) {Experimental hexane data};
-\node[draw, rounded corners, right=of orig, minimum width=2.3cm, minimum height=0.9cm] (boot) {Bootstrap resample};
-\node[draw, rounded corners, right=of boot, minimum width=2.7cm, minimum height=0.9cm] (corr) {Correlation matrix + Cholesky};
-\node[draw, rounded corners, right=of corr, minimum width=2.3cm, minimum height=0.9cm] (noise) {Correlated noise};
-\node[draw, rounded corners, below=1.3cm of corr, minimum width=3.2cm, minimum height=0.9cm] (synth) {Synthetic sample with preserved structure};
+\node[draw, rounded corners, minimum width=2.7cm, minimum height=0.9cm] (orig) {Experimental hexane data};
+\node[draw, rounded corners, right=1.5cm of orig, minimum width=2.5cm, minimum height=0.9cm] (boot) {Bootstrap resampling};
+\node[draw, rounded corners, below=1.2cm of boot, minimum width=2.8cm, minimum height=0.9cm] (corr) {Empirical correlation matrix};
+\node[draw, rounded corners, right=1.7cm of boot, minimum width=2.8cm, minimum height=0.9cm] (chol) {Cholesky factor};
+\node[draw, rounded corners, below=1.2cm of chol, minimum width=2.8cm, minimum height=0.9cm] (noise) {Correlated perturbations};
+\node[draw, rounded corners, right=1.7cm of chol, minimum width=3.0cm, minimum height=0.9cm] (synth) {Synthetic sample generation};
+\node[draw, rounded corners, below=1.2cm of synth, minimum width=3.0cm, minimum height=0.9cm] (clip) {Clipping and range control};
 \draw[->, thick] (orig) -- (boot);
-\draw[->, thick] (boot) -- (corr);
-\draw[->, thick] (corr) -- (noise);
+\draw[->, thick] (orig) |- (corr);
+\draw[->, thick] (corr) -- (chol);
 \draw[->, thick] (boot) -- (synth);
-\draw[->, thick] (noise) |- (synth);
+\draw[->, thick] (chol) -- (noise);
+\draw[->, thick] (noise) -- (clip);
+\draw[->, thick] (synth) -- (clip);
 \end{tikzpicture}
-\caption{Bootstrap-plus-correlated-noise synthesis pipeline. Experimental observations are resampled, perturbed through a Cholesky-derived correlation structure, and recombined into synthetic coating samples.}
+\caption{Bootstrap-plus-Cholesky synthesis used in the second augmentation stage. Experimental rows are resampled, the empirical correlation structure is factorized, correlated perturbations are generated, and the final synthetic records are range-controlled to preserve physical plausibility.}
 \end{figure}
 
 \subsection{Stage 3: feature engineering and solvent-property expansion}
@@ -697,14 +704,9 @@ These signals support future interaction engineering between polarity, viscosity
 The final optimized random forest placed the greatest weight on concentration, total thickness, and uncoated layer, with polarity serving as the strongest secondary solvent descriptor. This ranking is physically plausible. Concentration governs solids loading, total thickness and uncoated layer summarize film-state evolution, and the solvent descriptors modulate the chemistry and transport environment rather than dominating it directly.
 
 \subsection{Limitations}
-Several limitations should be stated explicitly:
-\begin{enumerate}
-    \item The final datasets are predominantly synthetic, even though they originate from real dip-coating experiments.
-    \item The synthetic generator permits slight excursions into nonphysical value ranges.
-    \item Solvent descriptors were imported from PubChem rather than measured under experiment-specific laboratory conditions.
-    \item Only a small set of solvents was examined and only one solute, PDMS, was held constant throughout the investigation; future work should expand both solvent diversity and solute diversity.
-    \item External validation on newly measured PDMS dip-coating experiments remains necessary before deployment claims can be made with confidence.
-\end{enumerate}
+The principal limitation of the study is that the final learning corpus is still predominantly synthetic, even though it originates from real dip-coating experiments. That choice was methodologically necessary because the original experimental coverage was too sparse to support reliable nonlinear model comparison, but it also means that the final performance estimates remain partly contingent on the fidelity of the synthetic generator. In addition, the bootstrap-plus-correlated-noise procedure can permit small excursions into nonphysical regions of the descriptor space, and the solvent-property descriptors were imported from PubChem rather than measured directly under experiment-specific laboratory conditions.
+
+The chemical scope of the investigation was also intentionally narrow. Only a small set of solvents was examined, and only one solute, PDMS, was held constant throughout the study. As a result, the present model should be interpreted as a high-quality predictive surrogate within a constrained chemistry space rather than as a universal dip-coating predictor. Future work should therefore expand both solvent diversity and solute diversity, and should pair that broader chemistry space with new fully experimental validation campaigns before any deployment-oriented claims are made.
 
 \section{Conclusion}
 This investigation developed a complete machine-learning framework for bonded-thickness prediction in PDMS dip coating across hexane, toluene, and ethyl acetate solvent systems. The work began from a sparse hexane experimental dataset, progressed through two synthetic-data-generation stages, expanded the descriptor space using solvent properties, and culminated in a full-dataset validation and optimization program.
