@@ -65,7 +65,7 @@ h \approx 0.94 \, \ell_c \, \mathrm{Ca}^{2/3},
 \end{equation}
 where $\ell_c = \sqrt{\gamma/(\rho g)}$ is the capillary length and $\mathrm{Ca} = \mu U/\gamma$ is the capillary number \cite{landau1942,rio2017}. This relation is foundational because it formalizes the balance between viscous entrainment and capillary restoration.
 
-However, that law does not solve the present research problem. First, it predicts a liquid-film thickness, whereas the quantity of interest here is bonded thickness after downstream evolution. Second, it assumes an idealized flow regime with limited representation of chemistry-specific descriptors. Third, it cannot by itself absorb mixed solvent-property inputs such as polarity, boiling point, or viscosity descriptors derived from external chemical databases. Fourth, in real materials workflows the experimental data volume is often far too limited to calibrate rich mechanistic closures.
+However, that law does not solve the present research problem. First, it predicts a liquid-film thickness, whereas the quantity of interest here is bonded thickness after downstream evolution. Second, it assumes an idealized flow regime with limited representation of chemistry-specific descriptors. Third, it cannot by itself absorb mixed solvent-property inputs such as polarity, boiling point, or viscosity descriptors derived from external chemical databases. Fourth, in real materials workflows the experimental data volume is often far too limited to calibrate rich mechanistic closures. For that reason, Landau--Levich predictions were used here as physical context only and were not computed as a numerical comparison target, because the response variable is bonded rather than wet-film thickness.
 
 For these reasons, classical dip-coating theory should be seen here not as a competing framework but as the physical context that motivates the learning problem. The present investigation is not concerned with replacing coating physics; rather, it develops a data-driven surrogate for a coating outcome that is only partially captured by first-principles scaling.
 
@@ -126,7 +126,7 @@ PDMS was treated as the constant solute, while solvent identity changed the phys
 The sparse original dataset created two problems. First, complex learners such as neural networks or flexible tree ensembles could not be reliably compared on only a few dozen observations. Second, the available experimental coverage did not span enough combinations of concentration and thickness states to support a systematic validation program. Synthetic-data augmentation was therefore introduced as a methodological necessity rather than a convenience.
 
 \subsection{Stage 1: conditional tabular generative adversarial network synthesis}
-The first synthetic-data stage used a \textit{conditional tabular generative adversarial network} (CTGAN) through the SDV framework to generate tabular samples from the original experimental table \cite{xu2019}. CTGAN is often effective for mixed tabular data, but in this setting the original experimental table was too sparse to make generative adversarial synthesis fully trustworthy. The resulting synthetic dataset was useful as an exploratory step but not sufficiently stable to serve as the final basis of the study.
+The first synthetic-data stage used a \textit{conditional tabular generative adversarial network} (CTGAN) through the SDV framework to generate tabular samples from the original experimental table \cite{xu2019}. CTGAN is often effective for mixed tabular data, but in this setting the original experimental table was too sparse to make generative adversarial synthesis fully trustworthy. In preliminary checks, models trained on the CTGAN-generated table produced uniformly weak or negative test-set $R^2$ values, consistent with degradation of the original correlation structure. The resulting synthetic dataset was therefore retained only as an exploratory step and not used as the final basis of the study.
 
 \begin{figure}[H]
 \centering
@@ -222,7 +222,7 @@ Aggregated solvent-expanded dataset & 3000 & 7 inputs + 1 target & Combined hexa
 \end{table}
 
 \subsection{Statistical characteristics of the aggregated dataset}
-The aggregated 3000-sample dataset had mean bonded thickness of approximately 0.525 nm and standard deviation approximately 0.183 nm. Concentration and total thickness were the strongest positively associated variables in the final dataset, while polarity and viscosity showed weak negative correlations with the target. Because the synthetic generator allowed limited extrapolation beyond the empirical range, small negative values appear in concentration and total thickness. These values are not physically ideal and are treated as a known limitation of the synthetic-generation stage.
+The aggregated 3000-sample dataset had mean bonded thickness of approximately 0.525 nm and standard deviation approximately 0.183 nm. This sub-nanometer scale was already present in the raw AFM summary tables rather than introduced by the synthetic pipeline; for example, the original hexane worksheet reports bonded-thickness values around 0.34--0.59 with units marked nm. The values should therefore be interpreted as AFM-derived bonded-layer increments relative to the measured baseline, although the absolute unit convention should still be rechecked against the original instrument/export workflow. Concentration and total thickness were the strongest positively associated variables in the final dataset, while polarity and viscosity showed weak negative correlations with the target. Because the synthetic generator allowed limited extrapolation beyond the empirical range, small negative values appear in concentration and total thickness. These values are not physically ideal and are treated as a known limitation of the synthetic-generation stage.
 
 \section{Model Families and Their Operating Principles}
 
@@ -362,7 +362,7 @@ R^2 &= 1 - \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{\sum_{i=1}^{n}(y_i-\bar{y})^2}
 \end{align}
 
 \subsection{Phase I: small-data and synthetic-data benchmarking}
-The first quantitative phase used the 1000-sample correlation-preserving hexane synthetic dataset. All major model families were trained using random 80/20 train/test splitting, with standard scaling applied to neural-network and distance-based models.
+The first quantitative phase used the 1000-sample correlation-preserving hexane synthetic dataset. The four families benchmarked at this stage were linear regression, KNN, BPNN, and random forest, trained using random 80/20 train/test splitting with standard scaling applied to neural-network and distance-based models. Gradient boosting was introduced later, once the workflow moved to the seven-feature aggregated dataset and tree-ensemble comparison became a main focus.
 
 \subsection{Phase II: sequential holdout validation}
 The next phase used the 3000-sample aggregated dataset and intentionally adopted a deterministic sequential split:
@@ -632,12 +632,13 @@ Table~\ref{tab:ensemble} compares full-dataset out-of-fold performance for the b
 
 \begin{table}[H]
 \centering
-\caption{Out-of-fold performance under stratified 5-fold cross-validation for base models and ensembles.}
+\caption{Out-of-fold performance under stratified 5-fold cross-validation for base models, ensembles, and the final Bayesian-optimized random forest.}
 \label{tab:ensemble}
 \begin{tabular}{lcccc}
 \toprule
 Model & $R^2_{\mathrm{OOF}}$ & RMSE$_{\mathrm{OOF}}$ & MAE$_{\mathrm{OOF}}$ & MSE$_{\mathrm{OOF}}$ \\
 \midrule
+Bayesian RF (final) & 0.973424 & 0.029855 & 0.018591 & 0.0008913 \\
 Stacked Ridge (RF + GB) & 0.972202 & 0.030533 & 0.019859 & 0.0009323 \\
 Adaptive Blend (RF + GB) & 0.971985 & 0.030652 & 0.019823 & 0.0009395 \\
 Fixed Blend 50/50 & 0.971920 & 0.030687 & 0.020147 & 0.0009417 \\
@@ -647,7 +648,7 @@ Gradient Boosting & 0.969843 & 0.031802 & 0.021518 & 0.0010114 \\
 \end{tabular}
 \end{table}
 
-The stacked ensemble provided the strongest ensemble result, but the improvement over the untuned optimized random forest was modest. Inner cross-validation for the adaptive blend selected random-forest weights between 0.6 and 0.8 across folds, showing that random forest remained the dominant component.
+The stacked ensemble provided the strongest RF+GB ensemble result, but the final Bayesian-optimized random forest still performed best overall. The improvement over the untuned optimized random forest was modest. Inner cross-validation for the adaptive blend selected random-forest weights between 0.6 and 0.8 across folds, showing that random forest remained the dominant component.
 
 \expfigure{paper_figures/fig29_ensemble_comparison_summary.png}{Ensemble-comparison summary figure for random forest, gradient boosting, and RF+GB combinations under stratified 5-fold validation.}
 
@@ -667,7 +668,7 @@ The tuned random forest achieved:
 R^2_{\mathrm{OOF}} = 0.973424, \qquad \mathrm{RMSE}_{\mathrm{OOF}} = 0.029855, \qquad \mathrm{MAE}_{\mathrm{OOF}} = 0.018591.
 \end{equation}
 
-Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. This surpassed the stacked ensemble and established the Bayesian-optimized random forest as the final best model.
+Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. This surpassed the stacked ensemble and established the Bayesian-optimized random forest as the final best model. The gap between out-of-fold $R^2 = 0.9734$ and in-sample $R^2 = 0.9965$ indicates some residual overfitting when the refitted model is evaluated on the same data used for training, so the out-of-fold score remains the primary estimate of deployable performance.
 
 \expfigure{paper_figures/fig30_bayesian_optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
 
