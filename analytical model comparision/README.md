@@ -38,6 +38,16 @@ The current experimental table is the original hexane dataset and only contains 
 - [src/analytical_models.py](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/src/analytical_models.py): Registry for analytical formulas
 - [results](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/results): Output directory for metrics, predictions, and plots
 
+## Implemented Analytical Models
+
+- `Bonded-Layer Adsorption`
+- `Concentration-Dependent Adsorption Time`
+- `Landau-Levich Wet/Mobile Layer`
+- `Capillarity / Evaporation Regime`
+- `Combined Capillarity + Landau-Levich`
+
+These are implemented as executable literature-inspired formulas with fallback assumptions for missing variables such as dwell time, withdrawal speed, coated width, evaporation rate, and density.
+
 ## Usage
 
 Run:
