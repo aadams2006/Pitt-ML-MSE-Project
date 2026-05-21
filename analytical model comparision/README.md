@@ -32,7 +32,8 @@ For the analytical models:
 
 - `Concentration (g/mL)` is read directly from `agg.data.xlsx`
 - the process constants that are not in the dataset are currently treated as fixed experiment-level constants for the `PDMS + hexane` experiment
-- the evaporation-rate term is currently a solvent-based effective estimate for hexane, not a direct lab measurement
+- the current evaporation-rate value is a temporary placeholder and is not yet tied to a cited source
+- the density used in the Landau-Levich wet-film term is the coating-solution density, currently approximated by hexane for the dilute `PDMS + hexane` bath
 
 ## Validation Caveat
 

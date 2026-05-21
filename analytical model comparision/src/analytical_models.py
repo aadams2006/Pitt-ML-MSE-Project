@@ -26,10 +26,13 @@ EXPERIMENT_SOLVENT = "hexane"
 DEFAULT_DWELL_TIME_S = 2000.0
 DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
 DEFAULT_FILM_WIDTH_M = 0.065
-# Effective ambient hexane evaporation-rate estimate used as a first-pass proxy
-# in the capillarity-style models. This is not a direct lab measurement and should
-# be replaced by an experiment-specific value when available.
+# Temporary placeholder used in the capillarity-style models. This numeric value
+# is not currently tied to a specific cited source and should be replaced by an
+# experiment-specific effective evaporation rate when available.
 DEFAULT_EVAPORATION_RATE_M_S = 1.0e-7
+# Coating-solution density used in the Landau-Levich wet-film term. For the
+# current dilute PDMS + hexane implementation, this is treated as a hexane-based
+# approximation to the bath density, not the density of pure PDMS.
 DEFAULT_DENSITY_KG_M3 = 655.0
 DEFAULT_WET_TO_BONDED_RETENTION = 1.0e-3
 
@@ -99,7 +102,7 @@ def _get_surface_tension_n_m(df: pd.DataFrame) -> pd.Series:
 
 
 def _get_density_kg_m3(df: pd.DataFrame) -> pd.Series:
-    """Return a fixed experiment-level liquid density in kg/m^3."""
+    """Return a fixed experiment-level coating-solution density in kg/m^3."""
     return pd.Series(DEFAULT_DENSITY_KG_M3, index=df.index, dtype=float)
 
 
@@ -174,6 +177,10 @@ def landau_levich_wet_mobile_layer_model(df: pd.DataFrame) -> pd.Series:
     Because the experimental target is bonded thickness rather than wet-film
     thickness, the wet-film result is converted to a retained bonded-thickness
     proxy using concentration scaling and a small retention factor.
+
+    Density interpretation:
+    - The density term here is the liquid bath / coating-solution density.
+    - For the present dilute PDMS + hexane setup, it is approximated by hexane.
     """
     concentration = _get_proxy_concentration(df)
     viscosity_pa_s = _get_viscosity_pa_s(df)
