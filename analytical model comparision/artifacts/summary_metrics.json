@@ -1,0 +1,63 @@
+{
+  "dataset": "Holdout Validation/Data/synthetic_data_improved.csv",
+  "n_samples": 3000,
+  "n_features": 7,
+  "features": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Bonded Thickness (nm)",
+  "validation_method": "StratifiedKFold on regression target bins",
+  "n_splits": 5,
+  "strata_bins_used": 10,
+  "optimizer": "BayesSearchCV",
+  "n_iter": 32,
+  "scoring": "r2",
+  "baseline_params": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "random_state": 42,
+    "n_jobs": 1,
+    "max_features": "sqrt"
+  },
+  "best_params": {
+    "bootstrap": true,
+    "max_depth": 30,
+    "max_features": "log2",
+    "min_samples_leaf": 1,
+    "min_samples_split": 2,
+    "n_estimators": 323,
+    "random_state": 42,
+    "n_jobs": 1
+  },
+  "best_cv_r2": 0.973391683230574,
+  "baseline_oof_metrics": {
+    "label": "Baseline RF",
+    "R2": 0.9716204843905323,
+    "RMSE": 0.030850679764364446,
+    "MAE": 0.019663292274431227,
+    "MSE": 0.0009517644419233659
+  },
+  "optimized_oof_metrics": {
+    "label": "Optimized RF",
+    "R2": 0.9734235207363564,
+    "RMSE": 0.029854580421817926,
+    "MAE": 0.018590958307296117,
+    "MSE": 0.0008912959721627943
+  },
+  "full_fit_metrics": {
+    "label": "Optimized RF Full-Fit",
+    "R2": 0.9965190463025078,
+    "RMSE": 0.010804666632994788,
+    "MAE": 0.006664847237037861,
+    "MSE": 0.00011674082105015093
+  },
+  "training_date": "2026-05-10T10:26:21.892729"
+}
