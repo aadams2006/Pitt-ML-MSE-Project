@@ -28,6 +28,12 @@ The current experimental table is the original hexane dataset and only contains 
 - `Boiling Point (K) = 342.039`
 - `Surface Tension (mN/m) = 17.89`
 
+For the analytical models:
+
+- `Concentration (g/mL)` is read directly from `agg.data.xlsx`
+- the process constants that are not in the dataset are currently treated as fixed experiment-level constants for the `PDMS + hexane` experiment
+- the evaporation-rate term is currently a solvent-based effective estimate for hexane, not a direct lab measurement
+
 ## Validation Caveat
 
 `agg.data.xlsx` was not used as a direct 58-row training table for the final RF artifact, but the final RF was trained on synthetic data generated from this experimental source plus related solvent-expanded datasets. That means this comparison is useful for experimental alignment, but it is not a fully independent external validation.

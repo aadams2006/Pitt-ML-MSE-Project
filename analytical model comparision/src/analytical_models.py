@@ -1,9 +1,9 @@
 """Analytical thickness models used by the comparison runner.
 
-The experimental PDMS dataset does not contain every process variable required by
-the literature formulas (for example withdrawal speed and dwell time). To keep the
-models executable on the available table, each model uses documented fallback
-assumptions when a required column is missing.
+`Concentration (g/mL)` is taken directly from `agg.data.xlsx`. Several other
+process terms required by the literature formulas are not present in that table,
+so the current implementation uses documented experiment-level constants for the
+PDMS + hexane experiment until lab-confirmed values are available.
 """
 
 from __future__ import annotations
@@ -18,11 +18,17 @@ import pandas as pd
 G = 9.81
 NM_PER_M = 1e9
 
-# Fallback assumptions used when the experimental dataframe does not contain
-# the process variables required by the literature expressions.
+# Experiment-level constants used by the analytical models when the literature
+# formulas require process variables that are not present in ``agg.data.xlsx``.
+# These are treated as fixed constants for the whole experiment.
+EXPERIMENT_SOLUTE = "PDMS"
+EXPERIMENT_SOLVENT = "hexane"
 DEFAULT_DWELL_TIME_S = 2000.0
 DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
 DEFAULT_FILM_WIDTH_M = 0.065
+# Effective ambient hexane evaporation-rate estimate used as a first-pass proxy
+# in the capillarity-style models. This is not a direct lab measurement and should
+# be replaced by an experiment-specific value when available.
 DEFAULT_EVAPORATION_RATE_M_S = 1.0e-7
 DEFAULT_DENSITY_KG_M3 = 655.0
 DEFAULT_WET_TO_BONDED_RETENTION = 1.0e-3
@@ -51,7 +57,7 @@ def _series_or_default(df: pd.DataFrame, column: str, default: float) -> pd.Seri
 
 
 def _get_concentration(df: pd.DataFrame) -> pd.Series:
-    """Return concentration using the project column name."""
+    """Return concentration directly from the experimental dataset."""
     return _series_or_default(df, "Concentration (g/mL)", 0.1).clip(lower=0.0)
 
 
@@ -70,17 +76,13 @@ def _get_proxy_concentration(df: pd.DataFrame) -> pd.Series:
 
 
 def _get_dwell_time(df: pd.DataFrame) -> pd.Series:
-    """Return dwell time in seconds, using fallback literature conditions."""
-    return _series_or_default(df, "Dwell Time (s)", DEFAULT_DWELL_TIME_S).clip(lower=0.0)
+    """Return a fixed experiment-level dwell time in seconds."""
+    return pd.Series(DEFAULT_DWELL_TIME_S, index=df.index, dtype=float)
 
 
 def _get_withdrawal_speed_m_s(df: pd.DataFrame) -> pd.Series:
-    """Return withdrawal speed in SI units."""
-    speed_mm_s = _series_or_default(
-        df,
-        "Withdrawal Speed (mm/s)",
-        DEFAULT_WITHDRAWAL_SPEED_MM_S,
-    ).clip(lower=1e-9)
+    """Return a fixed experiment-level withdrawal speed in SI units."""
+    speed_mm_s = pd.Series(DEFAULT_WITHDRAWAL_SPEED_MM_S, index=df.index, dtype=float)
     return speed_mm_s / 1000.0
 
 
@@ -97,22 +99,18 @@ def _get_surface_tension_n_m(df: pd.DataFrame) -> pd.Series:
 
 
 def _get_density_kg_m3(df: pd.DataFrame) -> pd.Series:
-    """Return liquid density in kg/m^3."""
-    return _series_or_default(df, "Density (kg/m^3)", DEFAULT_DENSITY_KG_M3).clip(lower=1e-9)
+    """Return a fixed experiment-level liquid density in kg/m^3."""
+    return pd.Series(DEFAULT_DENSITY_KG_M3, index=df.index, dtype=float)
 
 
 def _get_evaporation_rate_m_s(df: pd.DataFrame) -> pd.Series:
-    """Return solvent evaporation rate in m/s."""
-    return _series_or_default(
-        df,
-        "Evaporation Rate (m/s)",
-        DEFAULT_EVAPORATION_RATE_M_S,
-    ).clip(lower=1e-12)
+    """Return a fixed experiment-level evaporation rate in m/s."""
+    return pd.Series(DEFAULT_EVAPORATION_RATE_M_S, index=df.index, dtype=float)
 
 
 def _get_film_width_m(df: pd.DataFrame) -> pd.Series:
-    """Return coated width in meters."""
-    return _series_or_default(df, "Film Width (m)", DEFAULT_FILM_WIDTH_M).clip(lower=1e-9)
+    """Return a fixed experiment-level coated width in meters."""
+    return pd.Series(DEFAULT_FILM_WIDTH_M, index=df.index, dtype=float)
 
 
 def bonded_layer_adsorption_model(df: pd.DataFrame) -> pd.Series:

@@ -12,7 +12,16 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from analytical_models import get_analytical_models
+from analytical_models import (
+    DEFAULT_DENSITY_KG_M3,
+    DEFAULT_DWELL_TIME_S,
+    DEFAULT_EVAPORATION_RATE_M_S,
+    DEFAULT_FILM_WIDTH_M,
+    DEFAULT_WITHDRAWAL_SPEED_MM_S,
+    EXPERIMENT_SOLUTE,
+    EXPERIMENT_SOLVENT,
+    get_analytical_models,
+)
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
@@ -154,6 +163,17 @@ def main() -> None:
         "target_column": TARGET_COLUMN,
         "feature_order": feature_order,
         "hexane_properties_used_for_ml_only": HEXANE_PROPERTIES,
+        "analytical_model_experiment_identity": {
+            "solute": EXPERIMENT_SOLUTE,
+            "solvent": EXPERIMENT_SOLVENT,
+        },
+        "fixed_experimental_constants_used_by_analytical_models": {
+            "dwell_time_s": DEFAULT_DWELL_TIME_S,
+            "withdrawal_speed_mm_s": DEFAULT_WITHDRAWAL_SPEED_MM_S,
+            "film_width_m": DEFAULT_FILM_WIDTH_M,
+            "evaporation_rate_m_s": DEFAULT_EVAPORATION_RATE_M_S,
+            "density_kg_m3": DEFAULT_DENSITY_KG_M3,
+        },
         "analytical_models_registered": [model.name for model in analytical_models],
         "n_rows_evaluated": int(len(experimental_df)),
     }
@@ -172,6 +192,10 @@ def main() -> None:
         f"- Experimental dataset: `{EXPERIMENTAL_DATA_PATH}`",
         f"- Best model artifact: `{BEST_MODEL_PATH}`",
         f"- Rows evaluated: {comparison_metadata['n_rows_evaluated']}",
+        f"- Analytical models are currently configured for `{EXPERIMENT_SOLUTE}` in `{EXPERIMENT_SOLVENT}`.",
+        "- Concentration is read directly from `agg.data.xlsx`.",
+        "- Dwell time, withdrawal speed, film width, evaporation rate, and density are fixed experiment-level constants in the current implementation.",
+        "- The evaporation-rate term is a solvent-based effective estimate, not a direct lab measurement.",
         "",
         "## Models Included",
         "",
