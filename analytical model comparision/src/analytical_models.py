@@ -23,13 +23,11 @@ NM_PER_M = 1e9
 # These are treated as fixed constants for the whole experiment.
 EXPERIMENT_SOLUTE = "PDMS"
 EXPERIMENT_SOLVENT = "hexane"
+HEXANE_RELATIVE_EVAPORATION_BUAC = 9.0
+HEXANE_RELATIVE_EVAPORATION_SOURCE = "USDA"
 DEFAULT_DWELL_TIME_S = 2000.0
 DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
 DEFAULT_FILM_WIDTH_M = 0.065
-# Temporary placeholder used in the capillarity-style models. This numeric value
-# is not currently tied to a specific cited source and should be replaced by an
-# experiment-specific effective evaporation rate when available.
-DEFAULT_EVAPORATION_RATE_M_S = 1.0e-7
 # Coating-solution density used in the Landau-Levich wet-film term. For the
 # current dilute PDMS + hexane implementation, this is treated as a hexane-based
 # approximation to the bath density, not the density of pure PDMS.
@@ -44,6 +42,8 @@ class AnalyticalModel:
     name: str
     description: str
     predictor: Callable[[pd.DataFrame], pd.Series]
+    requires_effective_e: bool = False
+    symbolic_expression: str | None = None
 
     def predict(self, df: pd.DataFrame) -> pd.Series:
         """Return model predictions aligned to the input dataframe index."""
@@ -104,11 +104,6 @@ def _get_surface_tension_n_m(df: pd.DataFrame) -> pd.Series:
 def _get_density_kg_m3(df: pd.DataFrame) -> pd.Series:
     """Return a fixed experiment-level coating-solution density in kg/m^3."""
     return pd.Series(DEFAULT_DENSITY_KG_M3, index=df.index, dtype=float)
-
-
-def _get_evaporation_rate_m_s(df: pd.DataFrame) -> pd.Series:
-    """Return a fixed experiment-level evaporation rate in m/s."""
-    return pd.Series(DEFAULT_EVAPORATION_RATE_M_S, index=df.index, dtype=float)
 
 
 def _get_film_width_m(df: pd.DataFrame) -> pd.Series:
@@ -206,18 +201,10 @@ def capillarity_evaporation_regime_model(df: pd.DataFrame) -> pd.Series:
     Implemented form:
     h_cap = k_i * E / (L * U)
 
-    For direct use on the PDMS table, concentration is used as the material term
-    inside k_i so that the model remains row-varying without requiring extra
-    process columns.
+    This model should be left in symbolic form until an effective evaporation
+    rate E is available for the experiment.
     """
-    concentration = _get_proxy_concentration(df)
-    evaporation_rate_m_s = _get_evaporation_rate_m_s(df)
-    film_width_m = _get_film_width_m(df)
-    withdrawal_speed_m_s = _get_withdrawal_speed_m_s(df)
-
-    material_constant_nm = 800.0
-    prediction = material_constant_nm * concentration * evaporation_rate_m_s / (film_width_m * withdrawal_speed_m_s)
-    return prediction.astype(float)
+    raise RuntimeError("This model requires an effective evaporation rate E and is intentionally left symbolic.")
 
 
 def combined_capillarity_landau_levich_model(df: pd.DataFrame) -> pd.Series:
@@ -227,18 +214,10 @@ def combined_capillarity_landau_levich_model(df: pd.DataFrame) -> pd.Series:
     Literature basis:
     - h_f = k_i * E / (L * U) + D * U^(2/3)
 
-    As with the pure capillarity model, concentration is used as the row-varying
-    material term so the model can run on the available dataset.
+    This model should be left in symbolic form until an effective evaporation
+    rate E is available for the experiment.
     """
-    concentration = _get_proxy_concentration(df)
-    evaporation_rate_m_s = _get_evaporation_rate_m_s(df)
-    film_width_m = _get_film_width_m(df)
-    withdrawal_speed_m_s = _get_withdrawal_speed_m_s(df)
-
-    capillary_term_nm = 800.0 * concentration * evaporation_rate_m_s / (film_width_m * withdrawal_speed_m_s)
-    draining_term_nm = 120.0 * concentration * np.power(withdrawal_speed_m_s, 2.0 / 3.0)
-    prediction = capillary_term_nm + draining_term_nm
-    return prediction.astype(float)
+    raise RuntimeError("This model requires an effective evaporation rate E and is intentionally left symbolic.")
 
 
 def get_analytical_models() -> list[AnalyticalModel]:
@@ -261,12 +240,16 @@ def get_analytical_models() -> list[AnalyticalModel]:
         ),
         AnalyticalModel(
             name="Capillarity / Evaporation Regime",
-            description="Capillary-feed / evaporation-controlled thickness proxy.",
+            description="Capillary-feed / evaporation-controlled model, kept symbolic in terms of E.",
             predictor=capillarity_evaporation_regime_model,
+            requires_effective_e=True,
+            symbolic_expression="h_cap = k_i E / (L U)",
         ),
         AnalyticalModel(
             name="Combined Capillarity + Landau-Levich",
-            description="Superposed capillarity and draining contributions.",
+            description="Superposed capillarity and draining model, kept symbolic in terms of E.",
             predictor=combined_capillarity_landau_levich_model,
+            requires_effective_e=True,
+            symbolic_expression="h_f = k_i E / (L U) + D U^(2/3)",
         ),
     ]

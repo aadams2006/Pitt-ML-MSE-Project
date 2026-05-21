@@ -1,6 +1,6 @@
 # Analytical Model Comparision
 
-This folder is the comparison workspace for the best machine-learning model from the project and the analytical coating models that will be added from the reference papers.
+This folder is the comparison workspace for the best machine-learning model from the project and the analytical coating models derived from the reference papers.
 
 ## Current ML Baseline
 
@@ -19,7 +19,7 @@ This folder is the comparison workspace for the best machine-learning model from
   - `Total Thickness (nm)`
   - `Bonded Thickness (nm)`
 
-## Important Assumption
+## Important Assumptions
 
 The current experimental table is the original hexane dataset and only contains the 3 process/thickness inputs. The best Random Forest was trained on 7 inputs, so the comparison runner augments the experimental rows with the constant hexane solvent properties already used in the synthetic training dataset:
 
@@ -31,9 +31,23 @@ The current experimental table is the original hexane dataset and only contains 
 For the analytical models:
 
 - `Concentration (g/mL)` is read directly from `agg.data.xlsx`
-- the process constants that are not in the dataset are currently treated as fixed experiment-level constants for the `PDMS + hexane` experiment
-- the current evaporation-rate value is a temporary placeholder and is not yet tied to a cited source
+- the missing process terms are treated as fixed experiment-level constants for the `PDMS + hexane` experiment
+- confirmed lab constants currently used:
+  - `dwell time = 2000 s`
+  - `withdrawal speed = 1.0 mm/s`
+- hexane relative evaporation source: `USDA`, with `Evaporation Rate (BuAc = 1): 9`
+- that relative evaporation value supports that hexane is fast-evaporating, but it does not directly provide the effective model evaporation rate `E` in `m/s`
 - the density used in the Landau-Levich wet-film term is the coating-solution density, currently approximated by hexane for the dilute `PDMS + hexane` bath
+
+## Analytical Models
+
+- `Bonded-Layer Adsorption`: evaluated numerically
+- `Concentration-Dependent Adsorption Time`: evaluated numerically
+- `Landau-Levich Wet/Mobile Layer`: evaluated numerically
+- `Capillarity / Evaporation Regime`: kept symbolic in terms of `E`
+- `Combined Capillarity + Landau-Levich`: kept symbolic in terms of `E`
+
+The two evaporation-dependent models are intentionally left symbolic until an effective evaporation rate is available for the experiment.
 
 ## Validation Caveat
 
@@ -43,17 +57,7 @@ For the analytical models:
 
 - [src/run_comparison.py](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/src/run_comparison.py): Main comparison runner
 - [src/analytical_models.py](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/src/analytical_models.py): Registry for analytical formulas
-- [results](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/results): Output directory for metrics, predictions, and plots
-
-## Implemented Analytical Models
-
-- `Bonded-Layer Adsorption`
-- `Concentration-Dependent Adsorption Time`
-- `Landau-Levich Wet/Mobile Layer`
-- `Capillarity / Evaporation Regime`
-- `Combined Capillarity + Landau-Levich`
-
-These are implemented as executable literature-inspired formulas with fallback assumptions for missing variables such as dwell time, withdrawal speed, coated width, evaporation rate, and density.
+- [results](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/results): Output directory for metrics, predictions, and symbolic-model notes
 
 ## Usage
 
@@ -65,11 +69,12 @@ python "analytical model comparision/src/run_comparison.py"
 
 The script will:
 
-- load the saved best Random Forest model,
-- evaluate it on `agg.data.xlsx`,
-- evaluate any analytical models registered in `src/analytical_models.py`,
-- save side-by-side predictions and metrics under `results/`.
+- load the saved best Random Forest model
+- evaluate it on `agg.data.xlsx`
+- evaluate the analytical models that can be computed numerically from the available constants
+- record the evaporation-dependent analytical models symbolically in terms of `E`
+- save side-by-side predictions and metrics under `results/`
 
-## Next Step For Analytical Formulas
+## Next Step
 
-When you send the papers/formulas, I only need to add them inside `src/analytical_models.py`. The runner is already set up to score them against the same experimental rows and compare them directly to the ML model.
+When you obtain an effective evaporation rate `E`, the two symbolic models can be switched from formula-only reporting to full numeric evaluation.

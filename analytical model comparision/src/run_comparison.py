@@ -15,11 +15,12 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from analytical_models import (
     DEFAULT_DENSITY_KG_M3,
     DEFAULT_DWELL_TIME_S,
-    DEFAULT_EVAPORATION_RATE_M_S,
     DEFAULT_FILM_WIDTH_M,
     DEFAULT_WITHDRAWAL_SPEED_MM_S,
     EXPERIMENT_SOLUTE,
     EXPERIMENT_SOLVENT,
+    HEXANE_RELATIVE_EVAPORATION_BUAC,
+    HEXANE_RELATIVE_EVAPORATION_SOURCE,
     get_analytical_models,
 )
 
@@ -138,7 +139,17 @@ def main() -> None:
     metrics = [metric_bundle(y_true, ml_pred, "Bayesian Optimized RF", "machine_learning")]
 
     analytical_models = get_analytical_models()
+    symbolic_models: list[dict] = []
     for analytical_model in analytical_models:
+        if analytical_model.requires_effective_e:
+            symbolic_models.append(
+                {
+                    "model": analytical_model.name,
+                    "reason": "Requires effective evaporation rate E for numeric evaluation.",
+                    "symbolic_expression": analytical_model.symbolic_expression,
+                }
+            )
+            continue
         analytical_pred = analytical_model.predict(experimental_df)
         predictions_df[analytical_model.name] = analytical_pred
         metrics.append(
@@ -167,14 +178,19 @@ def main() -> None:
             "solute": EXPERIMENT_SOLUTE,
             "solvent": EXPERIMENT_SOLVENT,
         },
+        "hexane_evaporation_reference": {
+            "source": HEXANE_RELATIVE_EVAPORATION_SOURCE,
+            "relative_evaporation_buac_equals_1": HEXANE_RELATIVE_EVAPORATION_BUAC,
+            "note": "Relative evaporation data support that hexane is fast-evaporating, but do not provide the effective model E in m/s.",
+        },
         "fixed_experimental_constants_used_by_analytical_models": {
             "dwell_time_s": DEFAULT_DWELL_TIME_S,
             "withdrawal_speed_mm_s": DEFAULT_WITHDRAWAL_SPEED_MM_S,
             "film_width_m": DEFAULT_FILM_WIDTH_M,
-            "evaporation_rate_m_s": DEFAULT_EVAPORATION_RATE_M_S,
             "density_kg_m3": DEFAULT_DENSITY_KG_M3,
         },
         "analytical_models_registered": [model.name for model in analytical_models],
+        "symbolic_models_requiring_e": symbolic_models,
         "n_rows_evaluated": int(len(experimental_df)),
     }
     with open(run_dir / "comparison_metadata.json", "w", encoding="utf-8") as handle:
@@ -194,8 +210,9 @@ def main() -> None:
         f"- Rows evaluated: {comparison_metadata['n_rows_evaluated']}",
         f"- Analytical models are currently configured for `{EXPERIMENT_SOLUTE}` in `{EXPERIMENT_SOLVENT}`.",
         "- Concentration is read directly from `agg.data.xlsx`.",
-        "- Dwell time, withdrawal speed, film width, evaporation rate, and density are fixed experiment-level constants in the current implementation.",
-        "- The current evaporation-rate value is a temporary placeholder and not yet tied to a cited source.",
+        "- Dwell time, withdrawal speed, film width, and density are fixed experiment-level constants in the current implementation.",
+        f"- Hexane relative evaporation reference: `{HEXANE_RELATIVE_EVAPORATION_SOURCE}`, with `BuAc = 1 -> {HEXANE_RELATIVE_EVAPORATION_BUAC}`.",
+        "- That relative evaporation value does not provide the effective model evaporation rate in m/s.",
         "- The density used in the Landau-Levich term is the coating-solution density, currently approximated by hexane for the dilute PDMS + hexane bath.",
         "",
         "## Models Included",
@@ -204,9 +221,24 @@ def main() -> None:
     ]
     if analytical_models:
         for analytical_model in analytical_models:
-            readme_lines.append(f"- `{analytical_model.name}`")
+            if analytical_model.requires_effective_e:
+                readme_lines.append(f"- `{analytical_model.name}`: symbolic only, requires `E`")
+            else:
+                readme_lines.append(f"- `{analytical_model.name}`")
     else:
         readme_lines.append("- No analytical formulas registered yet.")
+    if symbolic_models:
+        readme_lines.extend(
+            [
+                "",
+                "## Symbolic Models",
+                "",
+            ]
+        )
+        for symbolic_model in symbolic_models:
+            readme_lines.append(
+                f"- `{symbolic_model['model']}`: `{symbolic_model['symbolic_expression']}`"
+            )
     readme_lines.extend(
         [
             "",
