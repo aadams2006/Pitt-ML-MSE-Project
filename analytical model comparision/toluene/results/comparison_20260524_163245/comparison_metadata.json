@@ -1,0 +1,57 @@
+{
+  "created_at": "2026-05-24T16:32:47.065090",
+  "experimental_data_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\toluene\\toluene+pdms.csv",
+  "best_model_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\toluene\\artifacts\\best_estimator.pkl",
+  "best_model_training_summary": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\toluene\\artifacts\\summary_metrics.json",
+  "target_column": "Bonded Thickness (nm)",
+  "feature_order": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "solvent_properties_used_for_ml_only": {
+    "Polarity (XLogP3)": 2.7,
+    "Viscosity (cP)": 0.68,
+    "Boiling Point (K)": 383.75,
+    "Surface Tension (mN/m)": 29.46
+  },
+  "analytical_model_experiment_identity": {
+    "solute": "PDMS",
+    "solvent": "toluene"
+  },
+  "relative_evaporation_reference": {
+    "source": null,
+    "relative_evaporation_buac_equals_1": null,
+    "note": "No solvent-specific relative evaporation reference is currently recorded for toluene. E remains symbolic."
+  },
+  "fixed_experimental_constants_used_by_analytical_models": {
+    "dwell_time_s": 2000.0,
+    "withdrawal_speed_mm_s": 1.0,
+    "film_width_m": 0.065,
+    "density_kg_m3": 867.0
+  },
+  "analytical_models_registered": [
+    "Bonded-Layer Adsorption",
+    "Concentration-Dependent Adsorption Time",
+    "Landau-Levich Wet/Mobile Layer",
+    "Capillarity / Evaporation Regime",
+    "Combined Capillarity + Landau-Levich"
+  ],
+  "symbolic_models_requiring_e": [
+    {
+      "model": "Capillarity / Evaporation Regime",
+      "reason": "Requires effective evaporation rate E for numeric evaluation.",
+      "symbolic_expression": "h_cap = k_i E / (L U)"
+    },
+    {
+      "model": "Combined Capillarity + Landau-Levich",
+      "reason": "Requires effective evaporation rate E for numeric evaluation.",
+      "symbolic_expression": "h_f = k_i E / (L U) + D U^(2/3)"
+    }
+  ],
+  "n_rows_evaluated": 51
+}
