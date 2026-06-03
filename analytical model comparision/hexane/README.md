@@ -33,7 +33,7 @@ For the analytical models:
 - `Concentration (g/mL)` is read directly from `agg.data.xlsx`
 - the missing process terms are treated as fixed experiment-level constants for the `PDMS + hexane` experiment
 - confirmed lab constants currently used:
-  - `dwell time = 2000 s`
+  - `dwell time = 20 s`
   - `withdrawal speed = 1.0 mm/s`
 - hexane relative evaporation source: `USDA`, with `Evaporation Rate (BuAc = 1): 9`
 - that relative evaporation value supports that hexane is fast-evaporating, but it does not directly provide the effective model evaporation rate `E` in `m/s`

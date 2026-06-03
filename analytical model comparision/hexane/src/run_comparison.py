@@ -26,7 +26,7 @@ from analytical_models import (
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = BASE_DIR.parent
+PROJECT_ROOT = BASE_DIR.parent.parent
 ARTIFACTS_DIR = BASE_DIR / "artifacts"
 RESULTS_DIR = BASE_DIR / "results"
 EXPERIMENTAL_DATA_PATH = (

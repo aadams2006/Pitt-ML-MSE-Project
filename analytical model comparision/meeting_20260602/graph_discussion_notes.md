@@ -21,7 +21,7 @@ The graph should be discussed as a comparison between:
 
 ### Bonded-layer adsorption
 
-1. Treat dwell time as the experiment constant `2000 s`
+1. Treat dwell time as the experiment constant `20 s`
 2. Use the exponential bonded-layer growth form
 3. Compute one predicted bonded-thickness value per row
 

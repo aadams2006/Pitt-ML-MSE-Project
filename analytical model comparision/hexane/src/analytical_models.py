@@ -25,7 +25,7 @@ EXPERIMENT_SOLUTE = "PDMS"
 EXPERIMENT_SOLVENT = "hexane"
 HEXANE_RELATIVE_EVAPORATION_BUAC = 9.0
 HEXANE_RELATIVE_EVAPORATION_SOURCE = "USDA"
-DEFAULT_DWELL_TIME_S = 2000.0
+DEFAULT_DWELL_TIME_S = 20.0
 DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
 DEFAULT_FILM_WIDTH_M = 0.065
 # Coating-solution density used in the Landau-Levich wet-film term. For the
@@ -122,7 +122,7 @@ def bonded_layer_adsorption_model(df: pd.DataFrame) -> pd.Series:
     h_B(t) = h_eq * [1 - exp(-t / tau)]
 
     Assumption:
-    - If no dwell-time column exists, a representative 2000 s immersion is used.
+    - If no dwell-time column exists, the confirmed 20 s immersion is used.
     """
     dwell_time_s = _get_dwell_time(df)
     equilibrium_bonded_nm = 0.80
@@ -144,7 +144,7 @@ def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series
 
     Assumptions:
     - The project concentration values are used directly as the concentration term.
-    - If no dwell-time column exists, a representative 2000 s immersion is used.
+    - If no dwell-time column exists, the confirmed 20 s immersion is used.
     """
     concentration = _get_concentration(df)
     dwell_time_s = _get_dwell_time(df)

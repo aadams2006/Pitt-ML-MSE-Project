@@ -19,7 +19,7 @@ RELATIVE_EVAPORATION_REFERENCE = {
     "relative_evaporation_buac_equals_1": None,
     "note": "No solvent-specific relative evaporation reference is currently recorded for ethyl acetate. E remains symbolic.",
 }
-DEFAULT_DWELL_TIME_S = 2000.0
+DEFAULT_DWELL_TIME_S = 20.0
 DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
 DEFAULT_FILM_WIDTH_M = 0.065
 DEFAULT_DENSITY_KG_M3 = 902.0

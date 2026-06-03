@@ -39,7 +39,7 @@
 
 ## Current constants
 
-- Dwell time: `2000 s`
+- Dwell time: `20 s`
 - Withdrawal speed: `1.0 mm/s`
 - Film width: `0.065 m`
 - Density in LL term: coating-solution density, approximated by solvent
