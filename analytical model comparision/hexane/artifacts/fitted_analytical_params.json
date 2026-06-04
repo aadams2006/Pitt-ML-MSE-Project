@@ -1,0 +1,21 @@
+{
+  "bonded_layer_adsorption": {
+    "model": "Bonded-Layer Adsorption",
+    "equilibrium_bonded_nm": 1.2272324912330623,
+    "tau_s": 35.841852033192446,
+    "rmse": 0.09053940615327338,
+    "r2": 0.0
+  },
+  "concentration_dependent_adsorption": {
+    "model": "Concentration-Dependent Adsorption Time",
+    "y0_nm": 0.5128471711223279,
+    "a0_nm": 0.038244869417811744,
+    "k1_eff": 0.01,
+    "k2": 0.008565108739198383,
+    "rmse": 0.09020178215963831,
+    "r2": 0.0074441506359669285
+  },
+  "timestamp": "2026-06-04T11:30:33.722441",
+  "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\models\\feature engineering v1\\data FE-V1\\agg.data.xlsx",
+  "n_samples": 58
+}

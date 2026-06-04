@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import Callable
+import json
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -33,6 +35,19 @@ DEFAULT_FILM_WIDTH_M = 0.065
 # approximation to the bath density, not the density of pure PDMS.
 DEFAULT_DENSITY_KG_M3 = 655.0
 DEFAULT_WET_TO_BONDED_RETENTION = 1.0e-3
+
+
+def _load_fitted_parameters() -> dict:
+    """Load fitted analytical model parameters from JSON file if available."""
+    fitted_params_path = Path(__file__).resolve().parents[1] / "artifacts" / "fitted_analytical_params.json"
+    if fitted_params_path.exists():
+        with open(fitted_params_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+# Load fitted parameters at module initialization
+_FITTED_PARAMS = _load_fitted_parameters()
 
 
 @dataclass(frozen=True)
@@ -125,8 +140,13 @@ def bonded_layer_adsorption_model(df: pd.DataFrame) -> pd.Series:
     - If no dwell-time column exists, the confirmed 20 s immersion is used.
     """
     dwell_time_s = _get_dwell_time(df)
-    equilibrium_bonded_nm = 0.80
-    tau_s = 1000.0
+    # Use fitted parameters if available, otherwise use defaults
+    if "bonded_layer_adsorption" in _FITTED_PARAMS:
+        equilibrium_bonded_nm = _FITTED_PARAMS["bonded_layer_adsorption"]["equilibrium_bonded_nm"]
+        tau_s = _FITTED_PARAMS["bonded_layer_adsorption"]["tau_s"]
+    else:
+        equilibrium_bonded_nm = 0.80
+        tau_s = 1000.0
     prediction = equilibrium_bonded_nm * (1.0 - np.exp(-dwell_time_s / tau_s))
     return prediction.astype(float)
 
@@ -149,10 +169,17 @@ def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series
     concentration = _get_concentration(df)
     dwell_time_s = _get_dwell_time(df)
 
-    y0_nm = 0.40
-    a0_nm = 0.40
-    k1_eff = 4.3e-4
-    k2 = 2.6e-4
+    # Use fitted parameters if available, otherwise use defaults
+    if "concentration_dependent_adsorption" in _FITTED_PARAMS:
+        y0_nm = _FITTED_PARAMS["concentration_dependent_adsorption"]["y0_nm"]
+        a0_nm = _FITTED_PARAMS["concentration_dependent_adsorption"]["a0_nm"]
+        k1_eff = _FITTED_PARAMS["concentration_dependent_adsorption"]["k1_eff"]
+        k2 = _FITTED_PARAMS["concentration_dependent_adsorption"]["k2"]
+    else:
+        y0_nm = 0.40
+        a0_nm = 0.40
+        k1_eff = 4.3e-4
+        k2 = 2.6e-4
 
     tau_s = 1.0 / (k1_eff * concentration + k2)
     prediction = y0_nm + a0_nm * (1.0 - np.exp(-dwell_time_s / tau_s))

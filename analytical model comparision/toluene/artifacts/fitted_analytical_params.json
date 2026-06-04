@@ -1,0 +1,21 @@
+{
+  "bonded_layer_adsorption": {
+    "model": "Bonded-Layer Adsorption",
+    "equilibrium_bonded_nm": 1.497809871979945,
+    "tau_s": 50.569527161605926,
+    "rmse": 0.13632204876942355,
+    "r2": -1.2931886939071546e-07
+  },
+  "concentration_dependent_adsorption": {
+    "model": "Concentration-Dependent Adsorption Time",
+    "y0_nm": 0.4204896669454311,
+    "a0_nm": 0.26717263062682844,
+    "k1_eff": 0.003290071985396364,
+    "k2": 0.0004098114608645087,
+    "rmse": 0.08952591272612274,
+    "r2": 0.5687139986675132
+  },
+  "timestamp": "2026-06-04T11:30:42.299931",
+  "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\toluene\\toluene+pdms.csv",
+  "n_samples": 51
+}

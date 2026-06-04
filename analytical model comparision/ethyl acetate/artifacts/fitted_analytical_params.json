@@ -1,0 +1,21 @@
+{
+  "bonded_layer_adsorption": {
+    "model": "Bonded-Layer Adsorption",
+    "equilibrium_bonded_nm": 1.8905407032243084,
+    "tau_s": 57.64818003015544,
+    "rmse": 0.2626096368607798,
+    "r2": -1.963036799779161e-08
+  },
+  "concentration_dependent_adsorption": {
+    "model": "Concentration-Dependent Adsorption Time",
+    "y0_nm": 0.30437605316693345,
+    "a0_nm": 0.9402776489791324,
+    "k1_eff": 0.01,
+    "k2": 0.0012370244265034443,
+    "rmse": 0.07143031776987456,
+    "r2": 0.9260149699458863
+  },
+  "timestamp": "2026-06-04T11:26:43.104586",
+  "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\ethyl acetate\\ethyl acetate+pdms.csv",
+  "n_samples": 33
+}
