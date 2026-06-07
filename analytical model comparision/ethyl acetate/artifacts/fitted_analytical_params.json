@@ -8,14 +8,16 @@
   },
   "concentration_dependent_adsorption": {
     "model": "Concentration-Dependent Adsorption Time",
-    "y0_nm": 0.30437605316693345,
-    "a0_nm": 0.9402776489791324,
+    "y0_nm": 0.3182766979723033,
+    "a0_nm": 0.9263886624671509,
     "k1_eff": 0.01,
-    "k2": 0.0012370244265034443,
-    "rmse": 0.07143031776987456,
-    "r2": 0.9260149699458863
+    "k2": 0.0004921810272671507,
+    "alpha": 1.0,
+    "rmse": 0.07143031779690852,
+    "r2": 0.9260149698898846
   },
-  "timestamp": "2026-06-04T11:26:43.104586",
+  "timestamp": "2026-06-07T12:30:01.682219",
   "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\ethyl acetate\\ethyl acetate+pdms.csv",
-  "n_samples": 33
+  "n_samples": 33,
+  "note": "Enhanced model with Total Thickness blending"
 }

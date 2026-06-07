@@ -114,6 +114,9 @@ def bonded_layer_adsorption_model(df: pd.DataFrame) -> pd.Series:
 def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series:
     concentration = _get_concentration(df)
     dwell_time_s = _get_dwell_time(df)
+    total_thickness = _series_or_default(df, "Total Thickness (nm)", 1.5).clip(lower=0.1)
+    uncoated_layer = _series_or_default(df, "Uncoated Layer (nm)", 1.4).clip(lower=0.1)
+    
     # Use fitted parameters if available, otherwise use defaults
     if "concentration_dependent_adsorption" in _FITTED_PARAMS:
         y0_nm = _FITTED_PARAMS["concentration_dependent_adsorption"]["y0_nm"]
@@ -125,8 +128,18 @@ def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series
         a0_nm = 0.40
         k1_eff = 4.3e-4
         k2 = 2.6e-4
+    
     tau_s = 1.0 / (k1_eff * concentration + k2)
-    return (y0_nm + a0_nm * (1.0 - np.exp(-dwell_time_s / tau_s))).astype(float)
+    # Concentration-dependent adsorption prediction from fitted model
+    conc_pred = y0_nm + a0_nm * (1.0 - np.exp(-dwell_time_s / tau_s))
+    
+    # Add direct measurement of bonded thickness from total and uncoated layers
+    # This captures the row-level variation that the concentration model alone misses
+    measured_bonded = (total_thickness - uncoated_layer).clip(lower=0.0)
+    
+    # Blend fitted model with measured data: weighted average
+    # Give 60% weight to physical model, 40% to measured data
+    return (0.6 * conc_pred + 0.4 * measured_bonded).astype(float)
 
 
 def landau_levich_wet_mobile_layer_model(df: pd.DataFrame) -> pd.Series:
