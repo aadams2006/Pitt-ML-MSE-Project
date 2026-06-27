@@ -1,23 +1,42 @@
 {
   "bonded_layer_adsorption": {
     "model": "Bonded-Layer Adsorption",
-    "equilibrium_bonded_nm": 1.8905407032243084,
-    "tau_s": 57.64818003015544,
-    "rmse": 0.2626096368607798,
-    "r2": -1.963036799779161e-08
+    "equilibrium_scale_nm": 0.42982101367520775,
+    "tau_s": 0.3461324754530466,
+    "concentration_exponent": 0.3366037950986276,
+    "total_thickness_exponent": 0.0,
+    "uncoated_layer_exponent": 1.6211974586901174,
+    "rmse": 0.06594037129850337,
+    "r2": 0.9369505261479635,
+    "prediction_std": 0.2601962959620577,
+    "target_correlation": 0.9682828092838347
   },
   "concentration_dependent_adsorption": {
     "model": "Concentration-Dependent Adsorption Time",
-    "y0_nm": 0.3182766979723033,
-    "a0_nm": 0.9263886624671509,
-    "k1_eff": 0.01,
-    "k2": 0.0004921810272671507,
-    "alpha": 1.0,
-    "rmse": 0.07143031779690852,
-    "r2": 0.9260149698898846
+    "y0_nm": 0.1411802909024533,
+    "a0_nm": 1.0169320326422946,
+    "k1_eff": 0.006330590316312647,
+    "k2": 0.008295158065343231,
+    "concentration_exponent": 1.0594477809910483,
+    "total_thickness_exponent": 0.0,
+    "uncoated_layer_exponent": 4.0,
+    "rmse": 0.05355280346422439,
+    "r2": 0.9584143865853993,
+    "prediction_std": 0.2571122548473622,
+    "target_correlation": 0.9789864132117236
   },
-  "timestamp": "2026-06-07T12:30:01.682219",
+  "landau_levich_wet_mobile_layer": {
+    "model": "Landau-Levich Wet/Mobile Layer",
+    "retention_scale": 0.0004096640195564143,
+    "concentration_exponent": 0.336802877640123,
+    "total_thickness_exponent": 0.0010965064875527,
+    "uncoated_layer_exponent": 1.6400403123494416,
+    "rmse": 0.0659514974733869,
+    "r2": 0.9369292475703371,
+    "prediction_std": 0.2602368519349458,
+    "target_correlation": 0.9682770594982856
+  },
+  "timestamp": "2026-06-27T14:01:57.318543",
   "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\ethyl acetate\\ethyl acetate+pdms.csv",
-  "n_samples": 33,
-  "note": "Enhanced model with Total Thickness blending"
+  "n_samples": 33
 }

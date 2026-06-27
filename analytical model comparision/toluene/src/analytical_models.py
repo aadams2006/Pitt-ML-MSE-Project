@@ -1,4 +1,12 @@
-"""Analytical thickness models for the PDMS + toluene comparison workflow."""
+"""Analytical thickness models for the PDMS + toluene comparison workflow.
+
+The analytical predictors are constrained to preserve physically reasonable
+trend directions so they do not collapse into near-constant bonded-thickness
+outputs:
+- higher concentration should not reduce bonded thickness,
+- higher total thickness should not reduce bonded thickness,
+- higher uncoated layer should not increase bonded thickness.
+"""
 
 from __future__ import annotations
 
@@ -27,6 +35,7 @@ DEFAULT_DENSITY_KG_M3 = 867.0
 DEFAULT_VISCOSITY_CP = 0.68
 DEFAULT_SURFACE_TENSION_MN_M = 29.46
 DEFAULT_WET_TO_BONDED_RETENTION = 1.0e-3
+MIN_POSITIVE = 1.0e-9
 
 
 def _load_fitted_parameters() -> dict:
@@ -72,6 +81,14 @@ def _get_proxy_concentration(df: pd.DataFrame) -> pd.Series:
     return concentration / scale
 
 
+def _get_total_thickness(df: pd.DataFrame) -> pd.Series:
+    return _series_or_default(df, "Total Thickness (nm)", 1.0).clip(lower=MIN_POSITIVE)
+
+
+def _get_uncoated_layer(df: pd.DataFrame) -> pd.Series:
+    return _series_or_default(df, "Uncoated Layer (nm)", 1.0).clip(lower=MIN_POSITIVE)
+
+
 def _get_dwell_time(df: pd.DataFrame) -> pd.Series:
     return pd.Series(DEFAULT_DWELL_TIME_S, index=df.index, dtype=float)
 
@@ -98,46 +115,114 @@ def _get_density_kg_m3(df: pd.DataFrame) -> pd.Series:
     return pd.Series(DEFAULT_DENSITY_KG_M3, index=df.index, dtype=float)
 
 
+def _median_safe(series: pd.Series) -> float:
+    median_value = float(series.median())
+    return max(median_value, MIN_POSITIVE)
+
+
+def _deposition_driver(
+    df: pd.DataFrame,
+    concentration_exponent: float,
+    total_thickness_exponent: float,
+    uncoated_layer_exponent: float,
+) -> pd.Series:
+    concentration = _get_concentration(df).clip(lower=MIN_POSITIVE)
+    total_thickness = _get_total_thickness(df)
+    uncoated_layer = _get_uncoated_layer(df)
+
+    concentration_ref = _median_safe(concentration)
+    total_thickness_ref = _median_safe(total_thickness)
+    uncoated_layer_ref = _median_safe(uncoated_layer)
+
+    concentration_term = (concentration / concentration_ref) ** concentration_exponent
+    total_thickness_term = (total_thickness / total_thickness_ref) ** total_thickness_exponent
+    uncoated_layer_term = (uncoated_layer_ref / uncoated_layer) ** uncoated_layer_exponent
+    return (concentration_term * total_thickness_term * uncoated_layer_term).astype(float)
+
+
+def _get_model_parameters(model_key: str, defaults: dict[str, float]) -> dict[str, float]:
+    fitted = _FITTED_PARAMS.get(model_key, {})
+    return {
+        key: float(fitted.get(key, default_value))
+        for key, default_value in defaults.items()
+    }
+
+
 def bonded_layer_adsorption_model(df: pd.DataFrame) -> pd.Series:
     dwell_time_s = _get_dwell_time(df)
-    # Use fitted parameters if available, otherwise use defaults
-    if "bonded_layer_adsorption" in _FITTED_PARAMS:
-        equilibrium_bonded_nm = _FITTED_PARAMS["bonded_layer_adsorption"]["equilibrium_bonded_nm"]
-        tau_s = _FITTED_PARAMS["bonded_layer_adsorption"]["tau_s"]
-    else:
-        equilibrium_bonded_nm = 0.80
-        tau_s = 1000.0
-    return (equilibrium_bonded_nm * (1.0 - np.exp(-dwell_time_s / tau_s))).astype(float)
+    params = _get_model_parameters(
+        "bonded_layer_adsorption",
+        {
+            "equilibrium_scale_nm": 0.80,
+            "tau_s": 20.0,
+            "concentration_exponent": 0.50,
+            "total_thickness_exponent": 0.50,
+            "uncoated_layer_exponent": 1.00,
+        },
+    )
+    driver = _deposition_driver(
+        df,
+        params["concentration_exponent"],
+        params["total_thickness_exponent"],
+        params["uncoated_layer_exponent"],
+    )
+    prediction = params["equilibrium_scale_nm"] * driver
+    prediction *= 1.0 - np.exp(-(dwell_time_s * driver) / max(params["tau_s"], MIN_POSITIVE))
+    return prediction.clip(lower=0.0).astype(float)
 
 
 def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series:
-    concentration = _get_concentration(df)
     dwell_time_s = _get_dwell_time(df)
-    # Use fitted parameters if available, otherwise use defaults
-    if "concentration_dependent_adsorption" in _FITTED_PARAMS:
-        y0_nm = _FITTED_PARAMS["concentration_dependent_adsorption"]["y0_nm"]
-        a0_nm = _FITTED_PARAMS["concentration_dependent_adsorption"]["a0_nm"]
-        k1_eff = _FITTED_PARAMS["concentration_dependent_adsorption"]["k1_eff"]
-        k2 = _FITTED_PARAMS["concentration_dependent_adsorption"]["k2"]
-    else:
-        y0_nm = 0.40
-        a0_nm = 0.40
-        k1_eff = 4.3e-4
-        k2 = 2.6e-4
-    tau_s = 1.0 / (k1_eff * concentration + k2)
-    return (y0_nm + a0_nm * (1.0 - np.exp(-dwell_time_s / tau_s))).astype(float)
+    params = _get_model_parameters(
+        "concentration_dependent_adsorption",
+        {
+            "y0_nm": 0.20,
+            "a0_nm": 0.60,
+            "k1_eff": 0.05,
+            "k2": 0.01,
+            "concentration_exponent": 0.75,
+            "total_thickness_exponent": 0.50,
+            "uncoated_layer_exponent": 1.00,
+        },
+    )
+    driver = _deposition_driver(
+        df,
+        params["concentration_exponent"],
+        params["total_thickness_exponent"],
+        params["uncoated_layer_exponent"],
+    )
+    tau_s = 1.0 / (
+        max(params["k1_eff"], 0.0) * driver + max(params["k2"], MIN_POSITIVE)
+    )
+    prediction = params["y0_nm"] + params["a0_nm"] * (1.0 - np.exp(-dwell_time_s / tau_s))
+    return prediction.clip(lower=0.0).astype(float)
 
 
 def landau_levich_wet_mobile_layer_model(df: pd.DataFrame) -> pd.Series:
-    concentration = _get_proxy_concentration(df)
     viscosity_pa_s = _get_viscosity_pa_s(df)
     withdrawal_speed_m_s = _get_withdrawal_speed_m_s(df)
     surface_tension_n_m = _get_surface_tension_n_m(df)
     density_kg_m3 = _get_density_kg_m3(df)
+    params = _get_model_parameters(
+        "landau_levich_wet_mobile_layer",
+        {
+            "retention_scale": DEFAULT_WET_TO_BONDED_RETENTION,
+            "concentration_exponent": 0.75,
+            "total_thickness_exponent": 0.50,
+            "uncoated_layer_exponent": 1.00,
+        },
+    )
     wet_film_m = 0.94 * (viscosity_pa_s * withdrawal_speed_m_s) ** (2.0 / 3.0)
     wet_film_m /= (surface_tension_n_m ** (1.0 / 6.0)) * np.sqrt(density_kg_m3 * G)
     wet_film_nm = wet_film_m * NM_PER_M
-    return (wet_film_nm * concentration * DEFAULT_WET_TO_BONDED_RETENTION).astype(float)
+    driver = _deposition_driver(
+        df,
+        params["concentration_exponent"],
+        params["total_thickness_exponent"],
+        params["uncoated_layer_exponent"],
+    )
+    prediction = wet_film_nm * max(params["retention_scale"], MIN_POSITIVE) * driver
+    return prediction.clip(lower=0.0).astype(float)
 
 
 def capillarity_evaporation_regime_model(df: pd.DataFrame) -> pd.Series:

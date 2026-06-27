@@ -1,21 +1,42 @@
 {
   "bonded_layer_adsorption": {
     "model": "Bonded-Layer Adsorption",
-    "equilibrium_bonded_nm": 1.2272324912330623,
-    "tau_s": 35.841852033192446,
-    "rmse": 0.09053940615327338,
-    "r2": 0.0
+    "equilibrium_scale_nm": 0.9891196521271826,
+    "tau_s": 25.507153411967376,
+    "concentration_exponent": 0.0,
+    "total_thickness_exponent": 0.0,
+    "uncoated_layer_exponent": 2.2641169916811967,
+    "rmse": 0.05181383760847811,
+    "r2": 0.6724962810196374,
+    "prediction_std": 0.07525436932875858,
+    "target_correlation": 0.8201349904155039
   },
   "concentration_dependent_adsorption": {
     "model": "Concentration-Dependent Adsorption Time",
-    "y0_nm": 0.5128471711223279,
-    "a0_nm": 0.038244869417811744,
-    "k1_eff": 0.01,
-    "k2": 0.008565108739198383,
-    "rmse": 0.09020178215963831,
-    "r2": 0.0074441506359669285
+    "y0_nm": 0.0,
+    "a0_nm": 2.0,
+    "k1_eff": 0.015661913432114254,
+    "k2": 0.0,
+    "concentration_exponent": 0.0,
+    "total_thickness_exponent": 0.0,
+    "uncoated_layer_exponent": 4.0,
+    "rmse": 0.052070228798450795,
+    "r2": 0.6692470786900995,
+    "prediction_std": 0.06937350589197423,
+    "target_correlation": 0.8198521326366797
   },
-  "timestamp": "2026-06-04T11:30:33.722441",
+  "landau_levich_wet_mobile_layer": {
+    "model": "Landau-Levich Wet/Mobile Layer",
+    "retention_scale": 0.0004487073921019825,
+    "concentration_exponent": 3.101404484670737e-05,
+    "total_thickness_exponent": 0.0005806714680915919,
+    "uncoated_layer_exponent": 3.758572278413055,
+    "rmse": 0.051806647086350244,
+    "r2": 0.6725871740877243,
+    "prediction_std": 0.07458201807578191,
+    "target_correlation": 0.820122321243721
+  },
+  "timestamp": "2026-06-27T14:01:24.934411",
   "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\models\\feature engineering v1\\data FE-V1\\agg.data.xlsx",
   "n_samples": 58
 }
