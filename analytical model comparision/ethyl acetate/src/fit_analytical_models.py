@@ -18,12 +18,6 @@ TARGET_COLUMN = "Bonded Thickness (nm)"
 
 FITTED_PARAMS_PATH = BASE_DIR / "artifacts" / "fitted_analytical_params.json"
 DEFAULT_DWELL_TIME_S = 20.0
-DEFAULT_DENSITY_KG_M3 = 902.0
-DEFAULT_VISCOSITY_CP = 0.423
-DEFAULT_SURFACE_TENSION_MN_M = 24.0
-DEFAULT_WITHDRAWAL_SPEED_MM_S = 1.0
-G = 9.81
-NM_PER_M = 1e9
 MIN_POSITIVE = 1.0e-9
 
 
@@ -77,17 +71,6 @@ def _deposition_driver(
     return (concentration_term * total_thickness_term * uncoated_layer_term).astype(float)
 
 
-def _wet_film_nm(df: pd.DataFrame) -> pd.Series:
-    viscosity_pa_s = pd.Series(DEFAULT_VISCOSITY_CP * 1.0e-3, index=df.index, dtype=float)
-    withdrawal_speed_m_s = pd.Series(DEFAULT_WITHDRAWAL_SPEED_MM_S / 1000.0, index=df.index, dtype=float)
-    surface_tension_n_m = pd.Series(DEFAULT_SURFACE_TENSION_MN_M * 1.0e-3, index=df.index, dtype=float)
-    density_kg_m3 = pd.Series(DEFAULT_DENSITY_KG_M3, index=df.index, dtype=float)
-
-    wet_film_m = 0.94 * (viscosity_pa_s * withdrawal_speed_m_s) ** (2.0 / 3.0)
-    wet_film_m /= (surface_tension_n_m ** (1.0 / 6.0)) * np.sqrt(density_kg_m3 * G)
-    return wet_film_m * NM_PER_M
-
-
 def bonded_layer_adsorption_model_parameterized(
     df: pd.DataFrame,
     equilibrium_scale_nm: float,
@@ -129,24 +112,6 @@ def concentration_dependent_adsorption_model_parameterized(
     )
     tau_s = 1.0 / (max(k1_eff, 0.0) * driver + max(k2, MIN_POSITIVE))
     prediction = y0_nm + a0_nm * (1.0 - np.exp(-dwell_time_s / tau_s))
-    return prediction.clip(lower=0.0).astype(float)
-
-
-def landau_levich_wet_mobile_layer_model_parameterized(
-    df: pd.DataFrame,
-    retention_scale: float,
-    concentration_exponent: float,
-    total_thickness_exponent: float,
-    uncoated_layer_exponent: float,
-) -> pd.Series:
-    """Landau-Levich wet-film retention proxy with fitted trend-aware parameters."""
-    driver = _deposition_driver(
-        df,
-        concentration_exponent,
-        total_thickness_exponent,
-        uncoated_layer_exponent,
-    )
-    prediction = _wet_film_nm(df) * max(retention_scale, MIN_POSITIVE) * driver
     return prediction.clip(lower=0.0).astype(float)
 
 
@@ -256,51 +221,6 @@ def fit_concentration_dependent_adsorption(y_true: np.ndarray, df: pd.DataFrame)
     }
 
 
-def fit_landau_levich_wet_mobile_layer(y_true: np.ndarray, df: pd.DataFrame) -> dict:
-    """Fit the bonded-retention proxy for the Landau-Levich model."""
-    def objective(params):
-        retention_scale, concentration_exponent, total_thickness_exponent, uncoated_layer_exponent = params
-        if retention_scale <= 0:
-            return 1e10
-        y_pred = landau_levich_wet_mobile_layer_model_parameterized(
-            df,
-            retention_scale,
-            concentration_exponent,
-            total_thickness_exponent,
-            uncoated_layer_exponent,
-        ).values
-        return mean_squared_error(y_true, y_pred)
-
-    bounds = [
-        (1.0e-6, 1.0e-2),
-        (0.0, 3.0),
-        (0.0, 3.0),
-        (0.0, 4.0),
-    ]
-    result = differential_evolution(objective, bounds, seed=42, maxiter=120, polish=True)
-
-    retention_scale, concentration_exponent, total_thickness_exponent, uncoated_layer_exponent = result.x
-    y_pred = landau_levich_wet_mobile_layer_model_parameterized(
-        df,
-        retention_scale,
-        concentration_exponent,
-        total_thickness_exponent,
-        uncoated_layer_exponent,
-    ).values
-
-    return {
-        "model": "Landau-Levich Wet/Mobile Layer",
-        "retention_scale": float(retention_scale),
-        "concentration_exponent": float(concentration_exponent),
-        "total_thickness_exponent": float(total_thickness_exponent),
-        "uncoated_layer_exponent": float(uncoated_layer_exponent),
-        "rmse": float(np.sqrt(mean_squared_error(y_true, y_pred))),
-        "r2": float(r2_score(y_true, y_pred)),
-        "prediction_std": float(np.std(y_pred)),
-        "target_correlation": float(np.corrcoef(y_true, y_pred)[0, 1]),
-    }
-
-
 def main() -> None:
     df = load_experimental_data()
     y_true = df[TARGET_COLUMN].values
@@ -349,21 +269,7 @@ def main() -> None:
     fitted_params["concentration_dependent_adsorption"] = params2
     print()
 
-    print("3. Fitting Landau-Levich Wet/Mobile Layer model...")
-    params3 = fit_landau_levich_wet_mobile_layer(y_true, df)
-    print(
-        "   Parameters: "
-        f"retention_scale={params3['retention_scale']:.6f}, "
-        f"conc_exp={params3['concentration_exponent']:.4f}, "
-        f"total_exp={params3['total_thickness_exponent']:.4f}, "
-        f"uncoated_exp={params3['uncoated_layer_exponent']:.4f}"
-    )
-    print(
-        f"   R2={params3['r2']:.4f}, RMSE={params3['rmse']:.4f}, "
-        f"Corr={params3['target_correlation']:.4f}, PredStd={params3['prediction_std']:.4f}"
-    )
-    fitted_params["landau_levich_wet_mobile_layer"] = params3
-    print()
+    # Landau--Levich is evaluated separately against the mobile-layer target.
     
     # Save fitted parameters
     fitted_params["timestamp"] = datetime.now().isoformat()

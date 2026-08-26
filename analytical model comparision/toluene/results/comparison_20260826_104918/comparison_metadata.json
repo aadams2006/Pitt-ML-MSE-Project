@@ -1,0 +1,81 @@
+{
+  "created_at": "2026-08-26T10:49:26.409439",
+  "experimental_data_path": "/workspace/scratch/ee3524fcd8af/pitt-ml-mse/analytical model comparision/toluene/toluene+pdms.csv",
+  "best_model_path": "/workspace/scratch/ee3524fcd8af/pitt-ml-mse/analytical model comparision/toluene/artifacts/best_estimator.pkl",
+  "best_model_training_summary": "/workspace/scratch/ee3524fcd8af/pitt-ml-mse/analytical model comparision/toluene/artifacts/summary_metrics.json",
+  "target_column": "Bonded Thickness (nm)",
+  "bonded_comparison_excludes_landau_levich": true,
+  "feature_order": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "mobile_layer_comparison": {
+    "target_column": "Mobile Layer (nm)",
+    "target_audit": {
+      "definition": "Mobile Layer (nm) = Total Thickness (nm) - Bonded Thickness (nm)",
+      "negative_rows_clipped_to_zero": 1,
+      "minimum_before_clipping_nm": -0.010000000000000009
+    },
+    "feature_order": [
+      "Polarity (XLogP3)",
+      "Viscosity (cP)",
+      "Boiling Point (K)",
+      "Surface Tension (mN/m)",
+      "Concentration (g/mL)",
+      "Uncoated Layer (nm)",
+      "Total Thickness (nm)"
+    ],
+    "optimization_summary": "/workspace/scratch/ee3524fcd8af/pitt-ml-mse/Holdout Validation/results/rf_bayesian_optimization_mobile_layer_20260826_104905/summary_metrics.json",
+    "training_data_audit": {
+      "input_rows": 3000,
+      "rows_with_missing_values": 0,
+      "negative_mobile_rows_excluded": 113,
+      "training_rows": 2887,
+      "target_definition": "Mobile Layer (nm) = Total Thickness (nm) - Bonded Thickness (nm)",
+      "invalid_row_policy": "Exclude rows with derived mobile thickness < 0; source data remain unchanged."
+    },
+    "models": [
+      "Bayesian Optimized RF (Mobile Layer)",
+      "Landau-Levich Mobile Layer"
+    ]
+  },
+  "solvent_properties_used_for_ml_only": {
+    "Polarity (XLogP3)": 2.7,
+    "Viscosity (cP)": 0.68,
+    "Boiling Point (K)": 383.75,
+    "Surface Tension (mN/m)": 29.46
+  },
+  "analytical_model_experiment_identity": {
+    "solute": "PDMS",
+    "solvent": "toluene"
+  },
+  "relative_evaporation_reference": {
+    "source": null,
+    "relative_evaporation_buac_equals_1": null,
+    "note": "No solvent-specific relative evaporation reference is currently recorded for toluene. E remains symbolic."
+  },
+  "fixed_experimental_constants_used_by_analytical_models": {
+    "dwell_time_s": 20.0,
+    "withdrawal_speed_mm_s": 1.0,
+    "film_width_m": 0.065,
+    "density_kg_m3": 867.0
+  },
+  "analytical_models_registered": [
+    "Bonded-Layer Adsorption",
+    "Concentration-Dependent Adsorption Time",
+    "Capillarity / Evaporation Regime"
+  ],
+  "symbolic_models_requiring_e": [
+    {
+      "model": "Capillarity / Evaporation Regime",
+      "reason": "Requires effective evaporation rate E for numeric evaluation.",
+      "symbolic_expression": "h_cap = k_i E / (L U)"
+    }
+  ],
+  "n_rows_evaluated": 51
+}

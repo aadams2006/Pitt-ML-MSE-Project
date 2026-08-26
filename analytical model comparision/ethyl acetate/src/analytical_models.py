@@ -35,7 +35,8 @@ DEFAULT_FILM_WIDTH_M = 0.065
 DEFAULT_DENSITY_KG_M3 = 902.0
 DEFAULT_VISCOSITY_CP = 0.423
 DEFAULT_SURFACE_TENSION_MN_M = 24.0
-DEFAULT_WET_TO_BONDED_RETENTION = 1.0e-3
+PDMS_DENSITY_G_ML = 0.965
+G_L_TO_G_ML = 1.0e-3
 MIN_POSITIVE = 1.0e-9
 
 
@@ -200,29 +201,28 @@ def concentration_dependent_adsorption_time_model(df: pd.DataFrame) -> pd.Series
 
 
 def landau_levich_wet_mobile_layer_model(df: pd.DataFrame) -> pd.Series:
+    """Predict the mobile PDMS layer from Landau--Levich wet-film entrainment.
+
+    Landau--Levich predicts the entrained liquid-solution film. To place that
+    prediction in the same post-evaporation thickness space as the measured
+    mobile PDMS layer, the wet-film thickness is multiplied by the PDMS volume
+    fraction. Source workbooks label concentration in g/L even though the
+    derived CSV retains the legacy ``Concentration (g/mL)`` header.
+
+    No bonded-thickness retention factor or bonded-target fit is used.
+    """
     viscosity_pa_s = _get_viscosity_pa_s(df)
     withdrawal_speed_m_s = _get_withdrawal_speed_m_s(df)
     surface_tension_n_m = _get_surface_tension_n_m(df)
     density_kg_m3 = _get_density_kg_m3(df)
-    params = _get_model_parameters(
-        "landau_levich_wet_mobile_layer",
-        {
-            "retention_scale": DEFAULT_WET_TO_BONDED_RETENTION,
-            "concentration_exponent": 0.75,
-            "total_thickness_exponent": 0.50,
-            "uncoated_layer_exponent": 1.00,
-        },
-    )
     wet_film_m = 0.94 * (viscosity_pa_s * withdrawal_speed_m_s) ** (2.0 / 3.0)
     wet_film_m /= (surface_tension_n_m ** (1.0 / 6.0)) * np.sqrt(density_kg_m3 * G)
     wet_film_nm = wet_film_m * NM_PER_M
-    driver = _deposition_driver(
-        df,
-        params["concentration_exponent"],
-        params["total_thickness_exponent"],
-        params["uncoated_layer_exponent"],
+    concentration_g_ml = _get_concentration(df) * G_L_TO_G_ML
+    pdms_volume_fraction = concentration_g_ml / (
+        concentration_g_ml + PDMS_DENSITY_G_ML
     )
-    prediction = wet_film_nm * max(params["retention_scale"], MIN_POSITIVE) * driver
+    prediction = wet_film_nm * pdms_volume_fraction
     return prediction.clip(lower=0.0).astype(float)
 
 
@@ -234,7 +234,8 @@ def combined_capillarity_landau_levich_model(df: pd.DataFrame) -> pd.Series:
     raise RuntimeError("This model requires an effective evaporation rate E and is intentionally left symbolic.")
 
 
-def get_analytical_models() -> list[AnalyticalModel]:
+def get_bonded_layer_models() -> list[AnalyticalModel]:
+    """Return models eligible for the bonded-thickness comparison."""
     return [
         AnalyticalModel(
             name="Bonded-Layer Adsorption",
@@ -243,13 +244,8 @@ def get_analytical_models() -> list[AnalyticalModel]:
         ),
         AnalyticalModel(
             name="Concentration-Dependent Adsorption Time",
-            description="Pseudo-first-order adsorption model with concentration-dependent time constant.",
+            description="Semi-empirical adsorption model with a concentration-dependent time constant.",
             predictor=concentration_dependent_adsorption_time_model,
-        ),
-        AnalyticalModel(
-            name="Landau-Levich Wet/Mobile Layer",
-            description="Classical wet-film entrainment converted to a bonded-thickness proxy.",
-            predictor=landau_levich_wet_mobile_layer_model,
         ),
         AnalyticalModel(
             name="Capillarity / Evaporation Regime",
@@ -258,11 +254,23 @@ def get_analytical_models() -> list[AnalyticalModel]:
             requires_effective_e=True,
             symbolic_expression="h_cap = k_i E / (L U)",
         ),
-        AnalyticalModel(
-            name="Combined Capillarity + Landau-Levich",
-            description="Superposed capillarity and draining model, kept symbolic in terms of E.",
-            predictor=combined_capillarity_landau_levich_model,
-            requires_effective_e=True,
-            symbolic_expression="h_f = k_i E / (L U) + D U^(2/3)",
-        ),
     ]
+
+
+def get_mobile_layer_models() -> list[AnalyticalModel]:
+    """Return models eligible for the mobile/wet-layer comparison."""
+    return [
+        AnalyticalModel(
+            name="Landau-Levich Mobile Layer",
+            description=(
+                "Landau--Levich wet-film entrainment converted to dry mobile PDMS "
+                "thickness by the solution solids volume fraction."
+            ),
+            predictor=landau_levich_wet_mobile_layer_model,
+        )
+    ]
+
+
+def get_analytical_models() -> list[AnalyticalModel]:
+    """Backward-compatible alias for the bonded-layer model registry."""
+    return get_bonded_layer_models()

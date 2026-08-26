@@ -2,6 +2,8 @@
 
 This repository is organized as a machine-learning workspace for thin-film processing prediction. It provides a consistent structure for experimenting with multiple model families while sharing the aggregated dataset.
 
+The current analytical-comparison workflow keeps the physical targets separate: adsorption-motivated models are evaluated against bonded thickness, while Landau--Levich and a separately Bayesian-optimized random forest are evaluated against the mobile layer (`total - bonded`). See `analytical model comparision/` and `Holdout Validation/src/optimize_rf_mobile_layer_bayesian.py` for the reproducible workflows and committed results.
+
 ## Repository layout
 
 - `data/`: Dataset files and data documentation.

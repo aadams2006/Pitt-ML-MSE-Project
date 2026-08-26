@@ -104,3 +104,31 @@ After refitting and rerunning the comparisons:
 
 In short, the models are no longer generalizing around one bonded-thickness
 regime. They now follow the proper directional trend behavior across the data.
+
+
+Target-Separation Correction (2026-08-26)
+=========================================
+The Landau-Levich bonded-retention proxy described above is historical and has
+now been removed. Landau-Levich predicts an entrained wet/mobile film, not a
+bonded layer, so fitting its retention scale to bonded thickness mixed two
+different physical targets.
+
+The current implementation:
+
+1. Excludes Landau-Levich from every bonded-thickness registry, metric file, and
+   plot.
+2. Retains the adsorption-motivated models for bonded-thickness comparison.
+3. Defines mobile thickness as Total Thickness minus Bonded Thickness.
+4. Converts the Landau-Levich wet-solution thickness to a dry mobile-PDMS
+   estimate using the solution's approximate PDMS volume fraction.
+5. Compares that estimate with a separately Bayesian-optimized mobile-layer
+   Random Forest.
+6. Leaves evaporation-dependent capillary models symbolic until an effective
+   evaporation rate is measured.
+
+The source workbooks label concentration in g/L, while the derived project
+tables retain a legacy g/mL header. The new Landau-Levich conversion treats the
+numeric concentration values as g/L and records that assumption in run metadata.
+
+See analytical model comparision/PI_NEXT_STEPS_IMPLEMENTATION_20260826.md for
+the exact training audit, results, commands, and limitations.

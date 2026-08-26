@@ -1,0 +1,77 @@
+{
+  "dataset": "models/feature engineering v1/data FE-V1/synthetic_data_improved.csv",
+  "data_audit": {
+    "input_rows": 3000,
+    "rows_with_missing_values": 0,
+    "negative_mobile_rows_excluded": 113,
+    "training_rows": 2887,
+    "target_definition": "Mobile Layer (nm) = Total Thickness (nm) - Bonded Thickness (nm)",
+    "invalid_row_policy": "Exclude rows with derived mobile thickness < 0; source data remain unchanged."
+  },
+  "n_features": 7,
+  "features": [
+    "Polarity (XLogP3)",
+    "Viscosity (cP)",
+    "Boiling Point (K)",
+    "Surface Tension (mN/m)",
+    "Concentration (g/mL)",
+    "Uncoated Layer (nm)",
+    "Total Thickness (nm)"
+  ],
+  "target": "Mobile Layer (nm)",
+  "target_source_columns": [
+    "Total Thickness (nm)",
+    "Bonded Thickness (nm)"
+  ],
+  "validation_method": "StratifiedKFold on mobile-target quantile bins",
+  "n_splits": 5,
+  "strata_bins_used": 10,
+  "optimizer": "BayesSearchCV",
+  "n_iter": 32,
+  "scoring": "r2",
+  "baseline_params": {
+    "n_estimators": 200,
+    "max_depth": 20,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2,
+    "max_features": "sqrt",
+    "bootstrap": true,
+    "random_state": 42,
+    "n_jobs": 1
+  },
+  "best_params": {
+    "bootstrap": true,
+    "max_depth": 27,
+    "max_features": null,
+    "min_samples_leaf": 1,
+    "min_samples_split": 2,
+    "n_estimators": 450,
+    "random_state": 42,
+    "n_jobs": 1
+  },
+  "best_cv_r2": 0.999566825579801,
+  "baseline_oof_metrics": {
+    "label": "Baseline RF",
+    "R2": 0.9993500609186924,
+    "RMSE": 0.04617086473676151,
+    "MAE": 0.026887539806478237,
+    "MSE": 0.002131748750540328
+  },
+  "optimized_oof_metrics": {
+    "label": "Bayesian-Optimized RF",
+    "R2": 0.9995974096633758,
+    "RMSE": 0.03633819537548348,
+    "MAE": 0.02001262672334954,
+    "MSE": 0.0013204644431468089
+  },
+  "full_fit_metrics": {
+    "label": "Bayesian-Optimized RF Full-Fit",
+    "R2": 0.9999478766154085,
+    "RMSE": 0.013075189345392986,
+    "MAE": 0.007035059308059359,
+    "MSE": 0.00017096057641787828
+  },
+  "training_date": "2026-08-26T10:49:05.243019",
+  "serialized_estimator_committed": false,
+  "reconstruction_note": "Comparison runners rebuild and fit the estimator from best_params and the documented cleaned training rows, avoiding another large binary artifact."
+}
