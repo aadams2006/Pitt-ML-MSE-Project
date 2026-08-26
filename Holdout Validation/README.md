@@ -62,6 +62,16 @@ Holdout Validation/
 
 ## Usage
 
+### Bayesian Optimization for the Mobile Layer
+
+The mobile-layer target is derived as `Total Thickness (nm) - Bonded Thickness (nm)`. The target-specific runner excludes negative synthetic differences without modifying the source CSV, performs a 32-iteration Bayesian search over five target-stratified folds, and writes a complete audit plus out-of-fold predictions:
+
+```bash
+python "Holdout Validation/src/optimize_rf_mobile_layer_bayesian.py"
+```
+
+The committed 2026-08-26 run used 2887 of 3000 rows, excluded 113 negative mobile-layer rows, and achieved optimized out-of-fold `R2 = 0.999597` with `RMSE = 0.036338 nm`.
+
 ### Quick Start - Run Optimized Models
 ```bash
 python src/compare_models.py

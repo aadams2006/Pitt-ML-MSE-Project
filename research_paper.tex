@@ -46,7 +46,7 @@ Dip coating is a widely used thin-film manufacturing route in biomedical devices
 
 This study develops a complete machine-learning framework for predicting bonded thickness in dip-coated poly(dimethylsiloxane) (PDMS) films processed with hexane, toluene, and ethyl acetate solvent systems. The investigation began with a small experimental hexane dataset, where direct model training produced trivial results due to sample scarcity. Synthetic-data augmentation was therefore introduced in two stages: an initial \textit{conditional tabular generative adversarial network} (CTGAN) synthesis stage, and a second, more reliable bootstrap-plus-correlated-noise stage based on Cholesky decomposition of the empirical correlation structure. The first synthetic campaign generated a 1000-sample hexane dataset retaining the original experimental variables. The study then expanded the descriptor space by adding polarity (XLogP3), viscosity, boiling point, and surface tension from PubChem and repeated the synthetic workflow across hexane, toluene, and ethyl acetate, yielding an aggregated 3000-sample dataset.
 
-Five regression families were examined: linear regression, $k$-nearest neighbors, backpropagation neural networks, random forest regression, and gradient boosting regression. On a 1000-sample random-split benchmark, the optimized random forest achieved the strongest single-model performance with $R^2 = 0.8082$. A more stringent sequential holdout study on the aggregated 3000-sample dataset then exposed severe train--validation distribution shift and drove all baseline models to negative $R^2$ values; with the already expanded seven-variable descriptor set and subsequent model-specific optimization, the holdout random forest recovered to $R^2 = 0.3284$. To remove sequential split artifacts, stratified 5-fold cross-validation with target-quantile bins was applied to the full dataset. Under this protocol, the optimized random forest achieved an out-of-fold $R^2 = 0.9716$, a stacked random forest plus gradient boosting ensemble reached $R^2 = 0.9722$, and final Bayesian hyperparameter optimization raised the random forest to $R^2 = 0.9734$, outperforming all other tested models.
+Five regression families were examined: linear regression, $k$-nearest neighbors, backpropagation neural networks, random forest regression, and gradient boosting regression. On a 1000-sample random-split benchmark, the optimized random forest achieved the strongest single-model performance with $R^2 = 0.8082$. A more stringent sequential holdout study on the aggregated 3000-sample dataset then exposed severe train--validation distribution shift and drove all baseline models to negative $R^2$ values; with the already expanded seven-variable descriptor set and subsequent model-specific optimization, the holdout random forest recovered to $R^2 = 0.3284$. To remove sequential split artifacts, stratified 5-fold cross-validation with target-quantile bins was applied to the full dataset. Under this protocol, the optimized random forest achieved an out-of-fold $R^2 = 0.9716$, a stacked random forest plus gradient boosting ensemble reached $R^2 = 0.9722$, and final Bayesian hyperparameter optimization raised the random forest to $R^2 = 0.9734$, outperforming all other tested models. A target-separated follow-up then trained a second Bayesian-optimized random forest on mobile thickness, defined as total minus bonded thickness. It achieved out-of-fold $R^2 = 0.9996$ on 2887 physically valid synthetic rows and was compared directly with Landau--Levich predictions on each solvent's experimental table. Landau--Levich described the hexane mobile layer well ($R^2 = 0.9905$) but did not generalize to toluene or ethyl acetate under the current fixed-property implementation.
 
 The results show that the dominant challenges in this coating-prediction problem were not merely algorithmic, but methodological: small-data scarcity, feature incompleteness, validation design, and synthetic-data realism all materially shaped the conclusions. The final Bayesian-optimized random forest established the highest predictive ceiling in the study, while residual and feature-importance analyses identified concrete next steps in physicochemical interaction engineering and constraint-aware synthetic-data generation.
 \end{abstract}
@@ -65,7 +65,7 @@ h \approx 0.94 \, \ell_c \, \mathrm{Ca}^{2/3},
 \end{equation}
 where $\ell_c = \sqrt{\gamma/(\rho g)}$ is the capillary length and $\mathrm{Ca} = \mu U/\gamma$ is the capillary number \cite{landau1942,rio2017}. This relation is foundational because it formalizes the balance between viscous entrainment and capillary restoration.
 
-However, that law does not solve the present research problem. First, it predicts a liquid-film thickness, whereas the quantity of interest here is bonded thickness after downstream evolution. Second, it assumes an idealized flow regime with limited representation of chemistry-specific descriptors. Third, it cannot by itself absorb mixed solvent-property inputs such as polarity, boiling point, or viscosity descriptors derived from external chemical databases. Fourth, in real materials workflows the experimental data volume is often far too limited to calibrate rich mechanistic closures. For that reason, Landau--Levich predictions were used here as physical context only and were not computed as a numerical comparison target, because the response variable is bonded rather than wet-film thickness.
+However, that law does not solve the bonded-thickness problem. It predicts an entrained liquid film under a restricted hydrodynamic regime, whereas bonded thickness is created by interfacial attachment and subsequent film evolution. It also omits chemistry-specific descriptors and evaporation conditions that can change the liquid-to-solid conversion. The present work therefore enforces a strict target boundary: Landau--Levich is not scored against bonded thickness, but it is evaluated numerically against the derived mobile layer. Bonded thickness is compared only with adsorption-motivated analytical models and machine-learning predictions.
 
 For these reasons, classical dip-coating theory should be seen here not as a competing framework but as the physical context that motivates the learning problem. The present investigation is not concerned with replacing coating physics; rather, it develops a data-driven surrogate for a coating outcome that is only partially captured by first-principles scaling.
 
@@ -79,20 +79,55 @@ where $x$ contains process and physicochemical descriptors and $y$ is the bonded
 This study therefore asks whether supervised learning can provide a practical predictive route for PDMS dip-coated films when classical theory is informative but incomplete.
 
 \subsection{Scope of the investigation}
-The investigation proceeds through four linked stages:
+The investigation proceeds through five linked stages:
 \begin{enumerate}
     \item baseline regression on small-data and synthetic-data benchmarks;
     \item diagnosis of failure under sequential holdout validation;
     \item expansion from the initial three-variable synthetic workflow to a seven-variable descriptor set after the first 1000-sample study, followed by reevaluation on the expanded 1000-sample workflow and the aggregated multi-solvent dataset under improved validation and ensemble comparison; and
-    \item final ceiling-performance estimation via Bayesian hyperparameter optimization.
+    \item final ceiling-performance estimation via Bayesian hyperparameter optimization; and
+    \item a target-separated mobile-layer study comparing a second Bayesian-optimized random forest with Landau--Levich predictions, while removing Landau--Levich from bonded-thickness evaluation.
 \end{enumerate}
 
 The manuscript is intentionally detailed because the value of the study lies not only in the final score, but in the methodological pathway by which unreliable early results were converted into a high-performing and interpretable predictive workflow.
 
 \section{Background and Related Work}
 
-\subsection{Dip-coating science}
-Landau and Levich provided the canonical analysis of liquid entrainment by a moving plate \cite{landau1942}. Subsequent reviews have shown that the governing balance remains highly useful for Newtonian, relatively ideal systems, but practical dip coating often departs from the ideal regime through evaporation, Marangoni effects, non-Newtonian rheology, particulate loading, and chemistry-specific interfacial dynamics \cite{rio2017}. These complications are especially relevant when the quantity of interest is a final solid-state thickness rather than an intermediate wet film.
+\subsection{Hydrodynamic entrainment and the Landau--Levich--Derjaguin regime}
+Landau and Levich provided the canonical asymptotic description of liquid entrainment by a moving plate \cite{landau1942}. For a clean Newtonian liquid at small capillary number, matching the dynamic meniscus to the static bath gives
+\begin{equation}
+h_{\mathrm{LLD}} = 0.94\,\ell_c\mathrm{Ca}^{2/3}
+=0.94\frac{(\mu U)^{2/3}}{\gamma^{1/6}(\rho g)^{1/2}},
+\end{equation}
+where $\mu$ is dynamic viscosity, $U$ is withdrawal speed, $\gamma$ is surface tension, $\rho$ is liquid density, and $g$ is gravitational acceleration. Wilson's drag-out analysis clarified the asymptotic structure and the limited range in which the classical approximation is expected to hold \cite{wilson1982}. The law describes the liquid film leaving the meniscus; it is not, by itself, a law for the final polymer mass or the chemically bonded fraction.
+
+This distinction becomes decisive for polymer solutions. After withdrawal, solvent loss changes both thickness and composition. If the entrained solution has polymer volume fraction $\phi_p$, a first-order dry-film estimate is $h_{\mathrm{dry}}\approx\phi_p h_{\mathrm{LLD}}$, assuming complete solvent removal, negligible volume change on mixing, and spatially uniform solids retention. Direct liquid/solid measurements by Zhang, Peng, and Kornev showed that liquid polymer films can follow Landau--Levich--Derjaguin scaling even when the resulting solid-film thickness and morphology do not \cite{zhang2022}. Thus a hydrodynamic match at withdrawal does not guarantee a correct post-evaporation prediction.
+
+Reviews of dip coating further document deviations caused by surfactants, Marangoni stresses, non-Newtonian rheology, substrate chemistry, particles, and evaporation \cite{rio2017}. These effects motivate treating Landau--Levich as a target-specific baseline with explicit assumptions, rather than as a universal coating-thickness equation.
+
+\subsection{Bonded and mobile layers as distinct physical responses}
+The most direct precedent for the present target separation is the dip coating of functional lubricant layers studied by Merzlikine et al. \cite{merzlikine2005}. Their measurements attributed the bonded layer to surface adsorption and found it to depend on dwell time, whereas viscous-flow entrainment created a mobile layer governed primarily by pull-out speed. The total deposited film can therefore be represented conceptually as
+\begin{equation}
+h_T = h_B + h_M,
+\end{equation}
+where $h_B$ is bonded thickness and $h_M$ is mobile thickness. A model derived for $h_M$ should not be fitted or scored as though it predicts $h_B$.
+
+Adsorption kinetics supply a more appropriate analytical starting point for the bonded component. A reversible site-limited balance can be written as
+\begin{equation}
+\frac{d h_B}{dt}=k_a C\left(h_{B,\infty}-h_B\right)-k_d h_B,
+\end{equation}
+which yields a saturating exponential response under fixed conditions. Merzlikine et al. described their bonded-layer observations with reversible adsorption kinetics \cite{merzlikine2005}. The two bonded-layer equations used in this project retain this saturation behavior, but their concentration and measured-film-state terms are fitted, monotonic extensions. They are therefore semi-empirical adsorption-motivated comparators, not first-principles identification of $k_a$, $k_d$, or an equilibrium site density.
+
+\subsection{Evaporation, capillary feeding, and mixed deposition regimes}
+At sufficiently low withdrawal speed, evaporation near the meniscus can draw solution upward by capillary flow. At higher speed, viscous entrainment and gravitational drainage dominate. Faustini et al. used acceleration-mode dip coating to show how evaporation and viscosity shape thickness profiles across these regimes \cite{faustini2014}. A commonly used semi-empirical decomposition expresses the capillary contribution as
+\begin{equation}
+h_{\mathrm{cap}} \propto \frac{E}{L U},
+\end{equation}
+where $E$ is an effective evaporation rate and $L$ is the coating-zone width, while the draining contribution follows the characteristic $U^{2/3}$ scaling. Their sum produces a mixed regime and the familiar thickness minimum between low- and high-speed limits.
+
+The effective evaporation rate is not simply a tabulated pure-solvent volatility. Bindini et al. demonstrated that solvent partial-pressure gradients and apparatus geometry can alter evaporation and create large thickness variations \cite{bindini2017}. Fan and Waltman likewise observed capillary, drainage, and crossover regimes in dip-coated polymer lubricant films, with solvent compatibility and solute concentration affecting which regime appeared \cite{fan2018}. Because the present datasets do not record a local effective $E$, the capillary-only and combined equations are retained symbolically rather than assigned an unsupported numerical value.
+
+\subsection{Implications for analytical benchmarking}
+The literature establishes three non-interchangeable modeling levels: wet-solution entrainment, mobile polymer remaining after solvent loss, and surface-bonded polymer. This project maps them explicitly. Landau--Levich is converted from wet-solution thickness to a dry mobile-PDMS estimate and compared only with $h_M$. Adsorption-motivated models are compared only with $h_B$. Evaporation-dependent capillary models remain symbolic until the missing process data are measured. This target discipline avoids obtaining an apparently quantitative result by fitting a hydrodynamic mobile-film law to an unrelated bonded response.
 
 \subsection{Machine learning in materials informatics}
 Machine learning has become an increasingly important instrument in materials science because it can exploit high-dimensional descriptor spaces and uncover nonlinear process--structure or process--property relationships that are difficult to formulate analytically \cite{schmidt2019,kailkhura2019}. In thin-film and coating settings, the appeal is obvious: descriptors may include concentrations, thermal properties, rheological measures, surface energetics, and experimentally measured state variables, all of which may interact nonlinearly.
@@ -357,7 +392,11 @@ where each new learner is fitted to reduce prior residuals \cite{friedman2001}. 
 \section{Methodology}
 
 \subsection{Prediction target}
-The prediction target throughout the investigation was bonded thickness (nm). This choice is significant because bonded thickness is the experimentally relevant outcome for many PDMS film applications and is not fully determined by the wet-film thickness predicted by classical withdrawal theory.
+The primary prediction target was bonded thickness (nm). This choice is significant because bonded thickness is the experimentally relevant outcome for many PDMS film applications and is not fully determined by the wet-film thickness predicted by classical withdrawal theory. The analytical follow-up introduced a second, separately evaluated target,
+\begin{equation}
+h_M = \max\left(0,h_T-h_B\right),
+\end{equation}
+where $h_M$, $h_T$, and $h_B$ denote mobile, total, and bonded thickness, respectively. The zero bound is used only for one experimental toluene row whose rounded measurements produce a $-0.01$ nm difference. Landau--Levich does not appear in any bonded-thickness metric table.
 
 \subsection{Evaluation metrics}
 Performance was reported using mean squared error (MSE), root mean squared error (RMSE), mean absolute error (MAE), and coefficient of determination ($R^2$):
@@ -402,6 +441,20 @@ The strongest single model family was random forest regression. It therefore ent
 \end{itemize}
 
 The Bayesian search ran for 32 iterations over the same stratified 5-fold splits used in the full-dataset validation stage.
+
+\subsection{Phase VI: mobile-layer optimization and analytical comparison}
+The mobile-layer random forest used the same seven predictors as the final bonded model: polarity, viscosity, boiling point, surface tension, concentration, uncoated-layer thickness, and total thickness. Bonded thickness was used only to construct the response and was not supplied as an input feature. Deriving $h_M=h_T-h_B$ exposed 113 synthetic rows with negative mobile thickness. Those physically invalid rows were excluded from this target-specific fit, leaving 2887 rows; the tracked source dataset was not altered. Bayesian optimization then repeated the 32-iteration search and target-quantile-stratified 5-fold validation with random seed 42.
+
+For the analytical baseline, the source workbooks identify concentration in g/L even though derived project tables retain the legacy header \texttt{Concentration (g/mL)}. Concentration was therefore converted as $c_{\mathrm{g/mL}}=10^{-3}c_{\mathrm{g/L}}$, and the PDMS volume fraction was approximated by
+\begin{equation}
+\phi_{\mathrm{PDMS}}=\frac{c_{\mathrm{g/mL}}}{c_{\mathrm{g/mL}}+\rho_{\mathrm{PDMS}}},
+\qquad \rho_{\mathrm{PDMS}}=0.965\ \mathrm{g/mL}.
+\end{equation}
+The predicted dry mobile thickness was then
+\begin{equation}
+\hat{h}_{M,\mathrm{LLD}}=\phi_{\mathrm{PDMS}}h_{\mathrm{LLD}}.
+\end{equation}
+This calculation used the documented solvent viscosity, surface tension, and density with a fixed withdrawal speed of 1.0 mm/s. No retention coefficient or bonded-thickness parameter was fitted. The optimized random forest and this uncalibrated analytical baseline were then evaluated separately on the hexane ($n=58$), toluene ($n=51$), and ethyl acetate ($n=33$) experimental tables.
 
 \section{Results}
 
@@ -679,6 +732,31 @@ Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 30
 
 \expfigure{paper_figures/fig30_bayesian_optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
 
+\subsection{Mobile-layer random forest and Landau--Levich comparison}
+The mobile-target search selected a 450-tree bootstrapped random forest with unrestricted feature sampling, maximum depth 27, minimum leaf size 1, and minimum split size 2. Across the 2887 valid synthetic rows, the baseline random forest achieved out-of-fold $R^2=0.999350$ and RMSE $=0.046171$ nm. Bayesian optimization improved these values to $R^2=0.999597$, RMSE $=0.036338$ nm, and MAE $=0.020013$ nm. Because total thickness is both an input and a component of the derived response, this high score partly reflects a strong algebraic state-variable relationship and should not be interpreted as purely mechanistic prediction.
+
+Table~\ref{tab:mobile-comparison} reports the target-separated experimental-data comparisons. The mobile random forest reproduced all three tables closely. Landau--Levich was also strong for hexane but substantially overpredicted the other two systems, reaching 69.86 nm for toluene when the measured mobile range was 0--0.47 nm and 10.75 nm for ethyl acetate when the measured range was 0.26--3.18 nm.
+
+\begin{table}[H]
+\centering
+\caption{Experimental mobile-layer comparison. Landau--Levich is not included in bonded-thickness evaluation.}
+\label{tab:mobile-comparison}
+\begin{tabular}{llrrr}
+\toprule
+Solvent & Model & $R^2$ & RMSE (nm) & MAE (nm) \\
+\midrule
+Hexane & Bayesian-optimized RF & 0.999986 & 0.010386 & 0.006432 \\
+Hexane & Landau--Levich mobile layer & 0.990529 & 0.267725 & 0.211779 \\
+Toluene & Bayesian-optimized RF & 0.930008 & 0.026170 & 0.011328 \\
+Toluene & Landau--Levich mobile layer & $-95254.722098$ & 30.529349 & 15.309791 \\
+Ethyl acetate & Bayesian-optimized RF & 0.999790 & 0.009323 & 0.006729 \\
+Ethyl acetate & Landau--Levich mobile layer & $-18.186017$ & 2.821235 & 1.654359 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The solvent dependence is informative rather than a reason to recalibrate the equation against each response. Hexane appears compatible with the assumed entrainment-plus-solids-conversion picture over the measured concentration range. The toluene and ethyl acetate failures indicate that fixed withdrawal conditions, pure-solvent property approximations, and concentration-only drying conversion are insufficient for those systems. The extreme toluene $R^2$ is amplified by its narrow observed target variance, but its 30.53 nm RMSE independently confirms a large scale error. Missing effective evaporation, solution-property variation with concentration, interfacial adsorption, drainage, and solidification morphology are plausible contributors consistent with the analytical literature.
+
 \section{Detailed Analysis}
 
 \subsection{The central methodological lesson}
@@ -704,15 +782,22 @@ These signals support future interaction engineering between polarity, viscosity
 \subsection{Interpretation of final feature importance}
 The final optimized random forest placed the greatest weight on concentration, total thickness, and uncoated layer, with polarity serving as the strongest secondary solvent descriptor. This ranking is physically plausible. Concentration governs solids loading, total thickness and uncoated layer summarize film-state evolution, and the solvent descriptors modulate the chemistry and transport environment rather than dominating it directly.
 
+\subsection{What the analytical comparison adds}
+The analytical exercise changes the interpretation of model quality. It shows that a physically appropriate law can perform extremely well in one solvent and still fail under another set of transport and drying conditions. It also shows why target identity matters: a Landau--Levich curve can be a defensible mobile-layer baseline without being a bonded-layer model. The random forest offers empirical interpolation across the variables represented in the synthetic corpus, while the analytical equations expose which unmeasured mechanisms---especially withdrawal speed, local evaporation, concentration-dependent solution properties, and adsorption kinetics---should be added to future experiments.
+
 \subsection{Limitations}
-The principal limitation of the study is that the final learning corpus is still predominantly synthetic, even though it originates from real dip-coating experiments. That choice was methodologically necessary because the original experimental coverage was too sparse to support reliable nonlinear model comparison, but it also means that the final performance estimates remain partly contingent on the fidelity of the synthetic generator. In addition, the bootstrap-plus-correlated-noise procedure can permit small excursions into nonphysical regions of the descriptor space, and the solvent-property descriptors were imported from PubChem rather than measured directly under experiment-specific laboratory conditions.
+The principal limitation of the study is that the final learning corpus is still predominantly synthetic, even though it originates from real dip-coating experiments. That choice was methodologically necessary because the original experimental coverage was too sparse to support reliable nonlinear model comparison, but it also means that the final performance estimates remain partly contingent on the fidelity of the synthetic generator. The solvent-specific experimental tables contributed to the synthetic data-generation workflow, so their comparison scores measure alignment with the source experiments rather than fully independent external generalization.
+
+The mobile-target audit also revealed a concrete physical-consistency problem: 113 of 3000 synthetic rows had $h_T-h_B<0$. Excluding them was preferable to silently clipping training targets, but their presence demonstrates that the generator needs an explicit $h_T\ge h_B$ constraint. Further, total thickness is included as a predictor while also appearing in the definition of mobile thickness. This is useful when total thickness is available as a measured process-state variable, but it creates algebraic coupling and limits claims about pre-process forecasting. The raw workbooks label concentration in g/L, whereas derived tables retain a legacy g/mL header; the analytical conversion follows the source workbooks, but this schema mismatch should be corrected in a future data release.
+
+The Landau--Levich comparison is intentionally uncalibrated but correspondingly approximate. Withdrawal speed is fixed at 1.0 mm/s, solvent properties are treated as constants rather than concentration-dependent solution properties, PDMS volume conversion assumes additive volumes and complete solvent removal, and no local effective evaporation rate is available. These assumptions are particularly consequential for the poor toluene and ethyl acetate results. The capillary-only comparator remains symbolic until effective evaporation and coating-zone measurements are collected; the mixed capillary/entrainment equation is retained as literature background rather than as a bonded comparator.
 
 The chemical scope of the investigation was also intentionally narrow. Only a small set of solvents was examined, and only one solute, PDMS, was held constant throughout the study. As a result, the present model should be interpreted as a high-quality predictive surrogate within a constrained chemistry space rather than as a universal dip-coating predictor. Future work should therefore expand both solvent diversity and solute diversity, and should pair that broader chemistry space with new fully experimental validation campaigns before any deployment-oriented claims are made.
 
 \section{Conclusion}
 This investigation developed a complete machine-learning framework for bonded-thickness prediction in PDMS dip coating across hexane, toluene, and ethyl acetate solvent systems. The work began from a sparse hexane experimental dataset, progressed through two synthetic-data-generation stages, expanded the descriptor space using solvent properties, and culminated in a full-dataset validation and optimization program.
 
-The main conclusions are as follows. First, dip-coating outcomes of practical interest cannot be captured adequately by classical thickness scaling alone when the prediction target is final bonded thickness in a multivariable polymer-solvent system. Second, the most serious early limitation was not model complexity but sample scarcity and validation mismatch. Third, tree-based models, especially random forests, were the most robust learners across all stages of the investigation. Fourth, while RF+GB ensembles produced incremental gains, Bayesian optimization of the random forest ultimately provided the strongest predictive ceiling. The final tuned random forest reached out-of-fold $R^2 = 0.9734$, outperforming all other tested models.
+The main conclusions are as follows. First, dip-coating outcomes of practical interest cannot be captured adequately by classical thickness scaling alone when the prediction target is final bonded thickness in a multivariable polymer-solvent system. Second, the most serious early limitation was not model complexity but sample scarcity and validation mismatch. Third, tree-based models, especially random forests, were the most robust learners across all stages of the investigation. Fourth, while RF+GB ensembles produced incremental gains, Bayesian optimization of the random forest ultimately provided the strongest bonded-thickness predictive ceiling. The final tuned bonded random forest reached out-of-fold $R^2 = 0.9734$, while the separately optimized mobile-layer model reached $R^2 = 0.9996$ on physically valid synthetic rows. Fifth, Landau--Levich must remain target-specific: it described hexane mobile thickness well but failed for toluene and ethyl acetate and was therefore neither fitted nor scored against bonded thickness.
 
 The broader implication is methodological. For coating informatics in small-data regimes, the critical path is: start from physically meaningful descriptors, diagnose validation failure honestly, augment data cautiously, compare model families systematically, and only then invest in global hyperparameter optimization. That workflow transformed a sparse and initially unstable dip-coating dataset into a high-performing predictive surrogate with a clear path for future refinement.
 
@@ -728,6 +813,42 @@ L. Landau and B. Levich,
 E. Rio and F. Boulogne,
 ``Withdrawing a solid from a bath: How much liquid is coated?''
 \textit{Advances in Colloid and Interface Science}, vol. 247, pp. 100--114, 2017.
+
+\bibitem{wilson1982}
+S. D. R. Wilson,
+``The drag-out problem in film coating theory,''
+\textit{Journal of Engineering Mathematics}, vol. 16, pp. 209--221, 1982.
+\href{https://doi.org/10.1007/BF00042717}{doi:10.1007/BF00042717}.
+
+\bibitem{merzlikine2005}
+A. G. Merzlikine, L. Li, P. M. Jones, and Y.-T. Hsia,
+``Lubricant layer formation during the dip-coating process: Influence of adsorption and viscous flow mechanisms,''
+\textit{Tribology Letters}, vol. 18, pp. 279--286, 2005.
+\href{https://doi.org/10.1007/s11249-004-2753-8}{doi:10.1007/s11249-004-2753-8}.
+
+\bibitem{faustini2014}
+M. Faustini, D. R. Ceratti, B. Louis, M. Boudot, P.-A. Albouy, C. Boissi\`ere, and D. Grosso,
+``Engineering functionality gradients by dip coating process in acceleration mode,''
+\textit{ACS Applied Materials \& Interfaces}, vol. 6, no. 19, pp. 17102--17110, 2014.
+\href{https://doi.org/10.1021/am504770x}{doi:10.1021/am504770x}.
+
+\bibitem{bindini2017}
+E. Bindini, G. Naudin, M. Faustini, D. Grosso, and C. Boissi\`ere,
+``The critical role of the atmosphere in dip-coating process,''
+\textit{The Journal of Physical Chemistry C}, vol. 121, no. 27, pp. 14572--14580, 2017.
+\href{https://doi.org/10.1021/acs.jpcc.7b02530}{doi:10.1021/acs.jpcc.7b02530}.
+
+\bibitem{fan2018}
+A. Fan and R. J. Waltman,
+``Dip-coating perfluoropolyether lubricants on rigid magnetic disks,''
+\textit{Chemical Data Collections}, vols. 17--18, pp. 451--458, 2018.
+\href{https://doi.org/10.1016/j.cdc.2018.11.007}{doi:10.1016/j.cdc.2018.11.007}.
+
+\bibitem{zhang2022}
+Z. Zhang, F. Peng, and K. G. Kornev,
+``The thickness and structure of dip-coated polymer films in the liquid and solid states,''
+\textit{Micromachines}, vol. 13, no. 7, article 982, 2022.
+\href{https://doi.org/10.3390/mi13070982}{doi:10.3390/mi13070982}.
 
 \bibitem{schmidt2019}
 J. Schmidt, M. R. G. Marques, S. Botti, and M. A. L. Marques,

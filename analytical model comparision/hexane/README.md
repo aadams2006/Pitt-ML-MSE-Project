@@ -2,12 +2,11 @@
 
 This folder is the comparison workspace for the best machine-learning model from the project and the analytical coating models derived from the reference papers.
 
-## Current ML Baseline
+## Current ML Baselines
 
-- Best model: Bayesian-optimized Random Forest
-- Source artifact: [artifacts/best_estimator.pkl](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/artifacts/best_estimator.pkl)
-- Source metrics: [artifacts/summary_metrics.json](/c:/Users/alexg/Downloads/Pitt-ML-MSE-Project/analytical%20model%20comparision/artifacts/summary_metrics.json)
-- Best out-of-fold performance on the 3000-sample synthetic training dataset: `R2 = 0.973424`
+- Bonded target: Bayesian-optimized Random Forest, with `R2 = 0.973424` out of fold on the 3000-row synthetic dataset.
+- Mobile target: Bayesian-optimized Random Forest, with `R2 = 0.999597` out of fold on 2887 physically valid synthetic rows.
+- The mobile estimator is reconstructed from the committed best parameters and cleaned training-row policy rather than stored as another large pickle.
 
 ## Evaluation Dataset
 
@@ -30,7 +29,8 @@ The current experimental table is the original hexane dataset and only contains 
 
 For the analytical models:
 
-- `Concentration (g/mL)` is read directly from `agg.data.xlsx`
+- The source workbooks identify concentration as g/L; derived tables retain the legacy `Concentration (g/mL)` header.
+- Bonded adsorption comparators use the derived table scale directly. The Landau--Levich dry-mobile conversion explicitly converts the source g/L scale to g/mL.
 - the missing process terms are treated as fixed experiment-level constants for the `PDMS + hexane` experiment
 - confirmed lab constants currently used:
   - `dwell time = 20 s`
@@ -39,13 +39,12 @@ For the analytical models:
 - that relative evaporation value supports that hexane is fast-evaporating, but it does not directly provide the effective model evaporation rate `E` in `m/s`
 - the density used in the Landau-Levich wet-film term is the coating-solution density, currently approximated by hexane for the dilute `PDMS + hexane` bath
 
-## Analytical Models
+## Target-Separated Analytical Models
 
-- `Bonded-Layer Adsorption`: evaluated numerically
-- `Concentration-Dependent Adsorption Time`: evaluated numerically
-- `Landau-Levich Wet/Mobile Layer`: evaluated numerically
-- `Capillarity / Evaporation Regime`: kept symbolic in terms of `E`
-- `Combined Capillarity + Landau-Levich`: kept symbolic in terms of `E`
+- Bonded thickness: `Bonded-Layer Adsorption` and `Concentration-Dependent Adsorption Time` are evaluated numerically.
+- Mobile thickness: `Landau-Levich Mobile Layer` is evaluated against `Total Thickness - Bonded Thickness` and compared with the optimized mobile RF.
+- `Landau-Levich Mobile Layer` is intentionally absent from bonded-thickness metrics.
+- `Capillarity / Evaporation Regime` remains symbolic in terms of `E`; the mixed-regime equation is literature background only and is not registered as a bonded comparator.
 
 The two evaporation-dependent models are intentionally left symbolic until an effective evaporation rate is available for the experiment.
 
@@ -64,16 +63,18 @@ The two evaporation-dependent models are intentionally left symbolic until an ef
 Run:
 
 ```bash
-python "analytical model comparision/src/run_comparison.py"
+python "Holdout Validation/src/optimize_rf_mobile_layer_bayesian.py"
+python "analytical model comparision/hexane/src/run_comparison.py"
 ```
 
 The script will:
 
 - load the saved best Random Forest model
 - evaluate it on `agg.data.xlsx`
-- evaluate the analytical models that can be computed numerically from the available constants
+- evaluate the bonded ML and adsorption-model comparison without Landau--Levich
+- reconstruct the optimized mobile RF and compare it with Landau--Levich on the derived mobile target
 - record the evaporation-dependent analytical models symbolically in terms of `E`
-- save side-by-side predictions and metrics under `results/`
+- save separate bonded and mobile predictions, metrics, and plots under `results/`
 
 ## Next Step
 

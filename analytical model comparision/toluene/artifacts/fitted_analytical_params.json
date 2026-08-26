@@ -1,42 +1,31 @@
 {
   "bonded_layer_adsorption": {
     "model": "Bonded-Layer Adsorption",
-    "equilibrium_scale_nm": 1.9473443177359753,
-    "tau_s": 67.82984301919761,
-    "concentration_exponent": 0.013920264364659244,
-    "total_thickness_exponent": 0.4583882039157123,
+    "equilibrium_scale_nm": 1.9473443283752359,
+    "tau_s": 67.82984301575078,
+    "concentration_exponent": 0.013920263039695294,
+    "total_thickness_exponent": 0.45838821927862694,
     "uncoated_layer_exponent": 0.0,
-    "rmse": 0.09174474851362606,
-    "r2": 0.5470708457339652,
-    "prediction_std": 0.10501133441496713,
-    "target_correlation": 0.7402878228880613
+    "rmse": 0.09174474850466935,
+    "r2": 0.547070845822401,
+    "prediction_std": 0.10501133270512489,
+    "target_correlation": 0.7402878224441608
   },
   "concentration_dependent_adsorption": {
     "model": "Concentration-Dependent Adsorption Time",
-    "y0_nm": 0.15885981501440946,
-    "a0_nm": 0.5219233167100377,
-    "k1_eff": 1.2143200912381682e-05,
-    "k2": 0.03539525267951527,
-    "concentration_exponent": 1.7349096517337108,
-    "total_thickness_exponent": 2.5788316374990097,
-    "uncoated_layer_exponent": 0.017047032243899442,
-    "rmse": 0.08752727295566075,
-    "r2": 0.5877557161660746,
-    "prediction_std": 0.10622830494509156,
-    "target_correlation": 0.7667751629759331
+    "y0_nm": 0.15885981501480087,
+    "a0_nm": 0.5219233167103432,
+    "k1_eff": 1.2143200911766662e-05,
+    "k2": 0.035395252680411715,
+    "concentration_exponent": 1.7349096517336984,
+    "total_thickness_exponent": 2.5788316374941296,
+    "uncoated_layer_exponent": 0.01704703224391312,
+    "rmse": 0.08752727295566115,
+    "r2": 0.5877557161660709,
+    "prediction_std": 0.10622830494302479,
+    "target_correlation": 0.7667751629758842
   },
-  "landau_levich_wet_mobile_layer": {
-    "model": "Landau-Levich Wet/Mobile Layer",
-    "retention_scale": 0.00035196507082262894,
-    "concentration_exponent": 0.024172201038533448,
-    "total_thickness_exponent": 0.9119373768628383,
-    "uncoated_layer_exponent": 0.00703076495618432,
-    "rmse": 0.0916613726980783,
-    "r2": 0.5478936978087949,
-    "prediction_std": 0.1065905990748699,
-    "target_correlation": 0.7413610906673478
-  },
-  "timestamp": "2026-06-27T14:01:51.489033",
-  "experimental_data": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\analytical model comparision\\toluene\\toluene+pdms.csv",
+  "timestamp": "2026-08-26T11:03:13.496230",
+  "experimental_data": "/workspace/scratch/ee3524fcd8af/pitt-ml-mse/analytical model comparision/toluene/toluene+pdms.csv",
   "n_samples": 51
 }
