@@ -767,6 +767,8 @@ Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 30
 \subsection{Mobile-layer random forest and Landau--Levich comparison}
 The mobile-target search selected a 450-tree bootstrapped random forest with unrestricted feature sampling, maximum depth 27, minimum leaf size 1, and minimum split size 2. Across the 2887 valid synthetic rows, the baseline random forest achieved out-of-fold $R^2=0.999350$ and RMSE $=0.046171$ nm. Bayesian optimization improved these values to $R^2=0.999597$, RMSE $=0.036338$ nm, and MAE $=0.020013$ nm. Because total thickness is both an input and a component of the derived response, this high score partly reflects a strong algebraic state-variable relationship and should not be interpreted as purely mechanistic prediction.
 
+\expfigure[0.94]{paper_figures/fig31_mobile_layer_bayesian_optimization_summary.png}{Bayesian optimization summary for the mobile-layer random forest. The left panel shows the 32 candidate scores and best-so-far trajectory; the right panel shows the relationship between cross-validated $R^2$ and mean fit time.}
+
 Table~\ref{tab:mobile-comparison} reports the target-separated experimental-data comparisons. The mobile random forest reproduced all three tables closely. Landau--Levich was also strong for hexane but substantially overpredicted the other two systems, reaching 69.86 nm for toluene when the measured mobile range was 0--0.47 nm and 10.75 nm for ethyl acetate when the measured range was 0.26--3.18 nm.
 
 \begin{table}[H]
@@ -786,6 +788,30 @@ Ethyl acetate & Landau--Levich mobile layer & $-18.186017$ & 2.821235 & 1.654359
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.48\linewidth}
+\centering
+\includegraphics[width=\linewidth]{paper_figures/fig32_hexane_mobile_layer_comparison.png}
+\caption{Hexane}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\linewidth}
+\centering
+\includegraphics[width=\linewidth]{paper_figures/fig33_toluene_mobile_layer_comparison.png}
+\caption{Toluene}
+\end{subfigure}
+
+\vspace{0.5em}
+\begin{subfigure}[t]{0.48\linewidth}
+\centering
+\includegraphics[width=\linewidth]{paper_figures/fig34_ethyl_acetate_mobile_layer_comparison.png}
+\caption{Ethyl acetate}
+\end{subfigure}
+\caption{Solvent-specific mobile-layer parity comparisons for the Bayesian-optimized random forest and the concentration-adjusted Landau--Levich estimate. Hexane follows the ideal line closely for both models, whereas the analytical estimate exhibits large scale errors for toluene and ethyl acetate.}
+\label{fig:mobile-solvent-comparisons}
+\end{figure}
 
 The solvent dependence is informative rather than a reason to recalibrate the equation against each response. Hexane appears compatible with the assumed entrainment-plus-solids-conversion picture over the measured concentration range. The toluene and ethyl acetate failures indicate that fixed withdrawal conditions, pure-solvent property approximations, and concentration-only drying conversion are insufficient for those systems. The extreme toluene $R^2$ is amplified by its narrow observed target variance, but its 30.53 nm RMSE independently confirms a large scale error. Missing effective evaporation, solution-property variation with concentration, interfacial adsorption, drainage, and solidification morphology are plausible contributors consistent with the analytical literature.
 
