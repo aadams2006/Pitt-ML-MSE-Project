@@ -1,0 +1,18 @@
+test_conformal_small_samples (test_analysis.ValidationTests.test_conformal_small_samples) ... ok
+test_generator_preserves_constraints_and_parentage (test_analysis.ValidationTests.test_generator_preserves_constraints_and_parentage) ... ok
+test_no_response_features (test_analysis.ValidationTests.test_no_response_features) ... ok
+test_physical_failures_not_clipped (test_analysis.ValidationTests.test_physical_failures_not_clipped) ... ok
+test_saved_scores_and_calibration_isolation (test_analysis.ValidationTests.test_saved_scores_and_calibration_isolation) ... ok
+test_split_isolation_and_ood_direction (test_analysis.ValidationTests.test_split_isolation_and_ood_direction) ... ok
+test_units_and_lineage (test_analysis.ValidationTests.test_units_and_lineage) ... ok
+test_agreement_with_all_legacy_analytical_implementations (test_solvent_analysis.SolventTests.test_agreement_with_all_legacy_analytical_implementations) ... ok
+test_condition_weighting_and_saturation_recovery (test_solvent_analysis.SolventTests.test_condition_weighting_and_saturation_recovery) ... ok
+test_inverse_diagnostics (test_solvent_analysis.SolventTests.test_inverse_diagnostics) ... ok
+test_reused_predictions_and_identical_test_rows (test_solvent_analysis.SolventTests.test_reused_predictions_and_identical_test_rows) ... ok
+test_saved_fit_isolation (test_solvent_analysis.SolventTests.test_saved_fit_isolation) ... ok
+test_scaling_and_zero_boundary (test_solvent_analysis.SolventTests.test_scaling_and_zero_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.069s
+
+OK

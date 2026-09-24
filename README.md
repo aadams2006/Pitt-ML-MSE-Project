@@ -4,6 +4,12 @@ This repository is organized as a machine-learning workspace for thin-film proce
 
 ## Current experimental validation
 
+The [Next Steps follow-up](NEXT_STEPS_SUMMARY.txt) adds the solvent-specific
+analytical investigation and exploratory mobile comparators on the existing splits.
+See [methods](near_term/SOLVENT_METHODS.md) and
+[results](near_term/solvent_results/FINDINGS.md). Previously completed model runs
+are reused; the follow-up manuscript is in `near_term/solvent_results/research_paper.pdf`.
+
 Start with [near_term/README.md](near_term/README.md) and
 [NEAR_TERM_SUMMARY.txt](NEAR_TERM_SUMMARY.txt). The near-term workflow audits source
 units and physical constraints, evaluates experimental records with grouped CV,

@@ -17,3 +17,17 @@ The computation is reproducible and complete for available data. The entire
 slide's experimental success criteria are not yet satisfied: a computer analysis
 cannot substitute for an unprovided laboratory campaign or establish provenance
 that the historical source tables do not record.
+
+## Follow-up slide: Next Steps
+
+| Priority | Prior completion | Follow-up disposition |
+|---|---|---|
+| Refine mobile-layer prediction beyond the optimized RF | Thickness-free RF/Ridge, transform tests, uncertainty and shifted validation completed | Reused existing predictions; added fixed/scaled LLD, local mean and exploratory saturation tests |
+| Investigate solvent-specific analytical behavior | Limitations had been identified, but not quantified mechanistically | Completed amplitude/shape diagnosis, condition ratios, algebraic parameter inversions and a hypothetical parameter sweep; actual mechanism remains unidentifiable without measurements |
+| Revisit prior model performance while separating targets | Bonded and mobile forecast evaluations completed separately | Preserved prior fits and added solvent-resolved mobile comparison on identical test rows; no bonded target used for fitting mobile analytical curves |
+| Continue paper revision | First robustness revision completed | Added reproducible solvent section, tables, figure, conclusion and follow-up summary |
+
+See `SOLVENT_METHODS.md`, `solvent_results/`, and `../NEXT_STEPS_SUMMARY.txt`.
+The PINN transition depicted on the slide is future context. No PINN project was
+started. New physical experiments and independent external validation are still
+required to establish mechanisms or deployment readiness.

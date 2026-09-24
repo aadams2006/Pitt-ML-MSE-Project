@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "python": "3.12.14",
+  "numpy": "2.3.3",
+  "pandas": "2.2.3",
+  "source_hashes": {
+    "near_term/solvent_analysis.py": "09384504e01acee253b400f86fa6721cfb97601b3fa8b48c704683e0343898a0",
+    "near_term/run_analysis.py": "76abc78620ad00c4c2fd13e68c36f5acebea96445a80c76b6f82f3def173ed59",
+    "near_term/results/canonical_records.csv": "d5c26c1377b5fa921a32bdb6ebc1ad13954454c976a3e7caba09dfa0c259e486",
+    "near_term/results/predictions.csv": "5abae43f98a15a8a9c9edc41e5641f7cbf04dc4aa646f73aa8eb874bf2dd94bd"
+  },
+  "metric_rows_recomputed": 288,
+  "prediction_rows_checked": 6048,
+  "bound_hits": [
+    {
+      "cohort": "primary",
+      "protocol": "grouped_cv",
+      "fold": "2",
+      "solvent": "hexane",
+      "model": "saturating_mobile"
+    },
+    {
+      "cohort": "including_summaries_sensitivity",
+      "protocol": "grouped_cv",
+      "fold": "2",
+      "solvent": "hexane",
+      "model": "saturating_mobile"
+    }
+  ],
+  "verification_script_sha256": "f95774691472084193734b0559f010a78c40e7a92c81e12ef275d87efa1cf84d"
+}

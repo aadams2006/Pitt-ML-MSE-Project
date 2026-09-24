@@ -799,6 +799,8 @@ The solvent dependence is informative rather than a reason to recalibrate the eq
 
 \input{near_term/results/manuscript_update.tex}
 
+\input{near_term/solvent_results/manuscript_update.tex}
+
 \section{Detailed Analysis}
 
 \subsection{The central methodological lesson}
@@ -841,6 +843,8 @@ The chemical scope is narrow: three solvents and one solute, PDMS. Solvent descr
 This investigation developed a complete machine-learning framework for bonded-thickness prediction in PDMS dip coating across hexane, toluene, and ethyl acetate solvent systems. The work began from a sparse hexane experimental dataset, progressed through two synthetic-data-generation stages, expanded the descriptor space using solvent properties, and culminated in full-dataset validation, Bayesian optimization, and a target-separated mobile-layer analytical comparison.
 
 The experimental-only follow-up changes the central performance conclusion. A fixed RF without measured-thickness inputs achieves grouped-CV $R^2=0.568$ for bonded and $0.879$ for mobile thickness, but pooled solvent-transfer scores are negative and high-concentration uncertainty coverage fails. Feature transforms do not yield consistent gains. The historical synthetic scores ($0.9734$ bonded and $0.9996$ mobile) remain development diagnostics with different features and validation dependencies; they are not directly comparable evidence of external forecasting. Landau--Levich remains a mobile-layer comparator and is not fitted or scored against bonded thickness.
+
+The solvent-specific follow-up further shows that constant property corrections cannot reproduce the complete observed concentration response. Training-only calibration reduces some grouped errors, but fails under concentration and solvent shifts; toluene's simple local mean also outperforms the tested saturation curve. These findings support restraint in model complexity and do not establish a particular physical mechanism.
 
 The immediate priority is independent experimental evidence and complete sample/batch provenance. The repository now provides audited units, physical exclusions, leakage-controlled experimental splits, prediction intervals, full reproducible results and a prospective test protocol. New independent experiments and scientific review remain outstanding, so neither deployment readiness nor a finalized externally validated manuscript is claimed.
 
