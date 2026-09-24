@@ -1,0 +1,50 @@
+PITT ML-MSE NEAR-TERM WORK SUMMARY
+
+Scope: September 9, 2026 near-term-work slide.
+Computational work is complete on available repository data. New laboratory
+experiments and a true external test set remain unavailable and are not claimed.
+
+DATA
+Audited 142 original-table rows; primary analysis uses 126 rows in 36 solvent/concentration groups.
+Corrected concentration schema to g/L; explicit g/mL conversion divides by 1000.
+Quarantined one hT < hB record; excluded 15 potentially overlapping toluene summaries.
+Saved source-row provenance, hashes, workbook inventory and exclusion reasons.
+The broader physical audit flags 192 of 3000 legacy synthetic rows.
+A training-only constrained bootstrap audit generated 300 rows with zero invalid targets.
+
+VALIDATION AND MODELING
+Evaluated mean, Ridge and fixed random-forest models on identical experimental-only splits.
+No measured thickness is a feature. Tested raw features and log-concentration interactions.
+Ran grouped five-fold CV, three leave-one-solvent-out tests, low/high concentration OOD tests,
+group split-conformal intervals and a sensitivity analysis including the historical summaries.
+Saved all predictions, partitions, fold scores, aggregate scores, interval coverage and plots.
+
+Fixed raw-feature random forest results (point scores use all outer training rows):
+Grouped CV, bonded_nm: R2=0.5678; row RMSE=0.1060 nm; group-weighted RMSE=0.1063 nm; interval row coverage=89.7%.
+Grouped CV, mobile_nm: R2=0.8790; row RMSE=0.7047 nm; group-weighted RMSE=0.9448 nm; interval row coverage=87.3%.
+Unseen solvent, bonded_nm: R2=-0.6054; row RMSE=0.2043 nm; group-weighted RMSE=0.2103 nm; interval row coverage=84.9%.
+Unseen solvent, mobile_nm: R2=-0.4555; row RMSE=2.4446 nm; group-weighted RMSE=2.9277 nm; interval row coverage=71.4%.
+High concentration, bonded_nm: R2=0.2951; row RMSE=0.1536 nm; group-weighted RMSE=0.1545 nm; interval row coverage=77.8%.
+High concentration, mobile_nm: R2=0.1575; row RMSE=3.2430 nm; group-weighted RMSE=4.1572 nm; interval row coverage=14.8%.
+Low concentration, bonded_nm: R2=-0.4741; row RMSE=0.1451 nm; group-weighted RMSE=0.1265 nm; interval row coverage=76.9%.
+Low concentration, mobile_nm: R2=0.0515; row RMSE=0.1728 nm; group-weighted RMSE=0.1518 nm; interval row coverage=100.0%.
+
+INTERPRETATION
+Unseen-solvent forecasting is not established. Both pooled RF R2 values are negative.
+Concentration transforms do not improve RF grouped-CV errors; modest low-concentration
+improvements do not generalize across protocols. No universal accuracy gain is claimed.
+High-concentration mobile coverage collapses to 14.8% at the nominal 80% level.
+Intervals belong to a separate proper-training estimator, not the full-training point model.
+Condition groups are proxy groups, not verified independent batches. Bootstrap ranges are descriptive.
+Historical synthetic scores are development diagnostics, not independent deployment validation.
+
+PAPER AND REPRODUCIBILITY
+Updated manuscript abstract, interpretation and conclusion; added generated methods/results supplement
+and two figures. All historical outputs and raw observations are preserved.
+Added pinned analysis requirements, invariant/leakage tests, reproducible runners,
+an empty external-experiment intake template, and a prospective measurement/test protocol.
+
+REMAINING LABORATORY WORK
+Collect and attest independent new batches, recover missing sample/batch pairing, resolve
+the invalid measurement, and evaluate a frozen model once on the sealed external set.
+The manuscript remains a research draft pending that evidence and scientific review.

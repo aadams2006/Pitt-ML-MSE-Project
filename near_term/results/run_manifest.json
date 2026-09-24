@@ -1,0 +1,48 @@
+{
+  "seed": 42,
+  "python": "3.12.14",
+  "numpy": "2.3.3",
+  "pandas": "2.2.3",
+  "sklearn": "1.7.2",
+  "sources": [
+    {
+      "path": "models/feature engineering v1/data FE-V1/agg.data.xlsx",
+      "sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+      "rows": 58
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/toluene+pdms.csv",
+      "sha256": "38fdc73bdbe424b88926afb67a5b850d3cf024ecfba8101f09934e7fdba9a113",
+      "rows": 51
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/ethyl acetate+pdms.csv",
+      "sha256": "3917cb1c386fac2d90d13204a73d0c40cdb483550457d37ce6c424e7d6bf6096",
+      "rows": 33
+    }
+  ],
+  "source_commit": "87c4a5db060b556e98c3fb3c1019d28ed3d6ef30",
+  "runner_sha256": "76abc78620ad00c4c2fd13e68c36f5acebea96445a80c76b6f82f3def173ed59",
+  "features": [
+    "concentration_g_l",
+    "polarity",
+    "viscosity_cp",
+    "boiling_point_k",
+    "surface_tension_mn_m"
+  ],
+  "model_parameters": {
+    "mean": "DummyRegressor()",
+    "ridge_raw": "Pipeline(steps=[('standardscaler', StandardScaler()),\n                ('ridge', Ridge(alpha=10))])",
+    "ridge_log_interactions": "Pipeline(steps=[('standardscaler', StandardScaler()),\n                ('ridge', Ridge(alpha=10))])",
+    "rf_raw": "RandomForestRegressor(min_samples_leaf=2, n_estimators=200, n_jobs=1,\n                      random_state=42)",
+    "rf_log_interactions": "RandomForestRegressor(min_samples_leaf=2, n_estimators=200, n_jobs=1,\n                      random_state=42)"
+  },
+  "interval_nominal_coverage": 0.8,
+  "calibration_group_fraction": 0.35,
+  "external_test_used": false,
+  "synthetic_used_in_validation": false,
+  "cohorts": [
+    "primary",
+    "including_summaries_sensitivity"
+  ]
+}

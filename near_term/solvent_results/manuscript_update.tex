@@ -1,0 +1,63 @@
+\section{Solvent-specific mobile-layer investigation}
+
+\label{sec:solvent_followup}
+
+The prior follow-up already evaluated forecasting without measured thickness, earlier model families and robustness. The remaining near-term question is why the fixed-property mobile approximation diverges for toluene and ethyl acetate. This section reuses the audited records and previous outer splits; it does not repeat the completed RF/Ridge training or infer a physical cause from prediction error alone.
+
+\subsection{Amplitude versus concentration dependence}
+
+For fixed properties the comparator is proportional to $c/(c+965)$ for concentration $c$ in g/L. Its local log--log slope is $965/(965+c)$, between 0.951 and 1 on these data. Constant speed, viscosity, tension or density changes affect amplitude only. Equal-condition descriptive fits to the primary cohort give the following observed slopes and ratios. These summaries describe existing observations, not independent or causal tests.
+
+\begin{table}[H]\centering\small\caption{Condition-mean mobile-layer diagnostics. Observed log--log slope is descriptive.}\begin{tabular}{lrrr}\toprule Solvent & Conditions & Observed slope & Observed/fixed ratio range \\\midrule
+
+ethyl acetate & 9 & 0.301 & 0.2536--4.153 \\
+
+hexane & 16 & 0.784 & 0.9614--2.957 \\
+
+toluene & 11 & -0.014 & 0.002392--37.2 \\
+
+\bottomrule\end{tabular}\end{table}
+
+Toluene is nearly flat across the observed concentration range, and ethyl acetate increases more slowly than the fixed approximation. A single solvent-specific amplitude cannot reproduce the complete concentration dependence. For a residual ratio $r$, equivalent one-factor changes are $r^{3/2}$ in speed or viscosity, $r^{-6}$ in tension, or $r^{-2}$ in density. These are algebraic inversions, not identified physical properties. An illustrative 81-combination sweep varies each factor by 0.5, 1 or 2 and spans 0.25--4 times the base prediction. This is a hypothetical range, not measured uncertainty. Replacing $c/(c+965)$ by the dilute convention $c/965$ changes the prediction by at most 5.18\%, insufficient to remove the largest discrepancy.
+
+\subsection{Training-only calibration and alternative shape}
+
+Four comparators are evaluated: fixed LLD, the mean of training condition means, a nonnegative least-squares scalar times LLD, and $Ac/(K+c)$ with positive parameters. The last is a phenomenological mobile curve, not an adsorption model for bonded material. Fits weight conditions equally and use only the training portion of the same solvent when available. In solvent holdout tests they use pooled other-solvent training conditions. Saturation fits use seven training-derived starts and bounds $A\in[10^{-6},10^4]$ nm and $K\in[10^{-6},10^5]$ g/L; one hexane fold in each cohort hits a bound. Parameters must not be assigned mechanistic meaning.
+
+All models use identical outer-test rows. The prior RF predictions are reused, but that model is pooled and row-trained, so these comparisons do not isolate algorithm from weighting or solvent-specific fitting. The new candidates were motivated by previously inspected results and remain exploratory. No per-solvent winning hybrid is selected. Prior RF prediction intervals do not transfer to these comparators.
+
+\begin{table}[H]\centering\small\caption{Primary grouped-CV mobile group-weighted RMSE (nm). Each condition receives equal evaluation weight.}\begin{tabular}{lrrr}\toprule Model & Hexane & Toluene & Ethyl acetate \\\midrule
+
+Fixed LLD & 0.297 & 27.365 & 3.114 \\
+
+Local mean & 3.746 & 0.085 & 0.781 \\
+
+Scaled LLD & 0.282 & 0.189 & 0.589 \\
+
+Saturating mobile & 0.294 & 0.089 & 0.728 \\
+
+Prior pooled RF & 1.339 & 0.257 & 0.548 \\
+
+\bottomrule\end{tabular}\end{table}
+
+Toluene's local mean outperforms the saturation curve in primary grouped validation. Including the historical summaries reverses this small ranking (0.1084 nm for saturation versus 0.1158 nm for the local mean), so the comparison does not establish a stable model preference. The pooled grouped error reduction from scalar calibration does not establish robustness. High-concentration and unseen-solvent tests expose large failures, as shown below. Summary-inclusion results are retained separately and do not establish independent replication.
+
+\begin{table}[H]\centering\small\caption{Pooled mobile group-weighted RMSE (nm) under the same stress tests.}\begin{tabular}{lrrr}\toprule Model & Grouped CV & High concentration & Unseen solvent \\\midrule
+
+Fixed LLD & 15.208 & 30.402 & 15.208 \\
+
+Local mean & 2.528 & 5.140 & 3.004 \\
+
+Scaled LLD & 0.364 & 33.129 & 12.025 \\
+
+Saturating mobile & 0.416 & 2.741 & 5.329 \\
+
+Prior pooled RF & 0.945 & 4.157 & 2.928 \\
+
+\bottomrule\end{tabular}\end{table}
+
+\expfigure[1.0]{near_term/solvent_results/solvent_diagnostics.png}{Condition-level solvent diagnostics. Dashed curves are descriptive full-data fits, not held-out predictions. The shaded ratio band is a hypothetical parameter sweep, not a confidence interval.}
+
+\subsection{Mechanistic interpretation and unresolved measurements}
+
+The evidence supports a solvent-dependent mismatch of amplitude and concentration response. It does not distinguish evaporation, drainage, wash retention, solution-property changes, or protocol and measurement differences. Prior lubricant studies motivate separating bonded adsorption and mobile flow contributions \cite{merzlikine2005}, and polymer dip-coating studies motivate checking liquid-to-solid conversion \cite{zhang2022}; neither directly identifies the mechanism in this PDMS dataset. Controlled within-batch speed sweeps, measured solution viscosity/tension/density, matched wet/dried/washed thicknesses, and complete dwell/drying histories are needed. New independent experiments and scientific review remain necessary before finalizing deployment claims or the manuscript.
