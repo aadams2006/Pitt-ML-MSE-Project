@@ -2,6 +2,21 @@
 
 This repository is organized as a machine-learning workspace for thin-film processing prediction. It provides a consistent structure for experimenting with multiple model families while sharing the aggregated dataset.
 
+## Current experimental validation
+
+Start with [near_term/README.md](near_term/README.md) and
+[NEAR_TERM_SUMMARY.txt](NEAR_TERM_SUMMARY.txt). The near-term workflow audits source
+units and physical constraints, evaluates experimental records with grouped CV,
+leave-one-solvent-out and concentration OOD splits, and forecasts bonded/mobile
+thickness without any measured-thickness inputs. It saves reproducible predictions,
+uncertainty diagnostics, figures, a manuscript supplement and tests.
+
+The earlier synthetic-data scores below and in historical result directories are
+development diagnostics. They do not establish independent external performance.
+The new tests show substantial solvent-transfer and extrapolation failures.
+Independent new experiments are still required; the prospective protocol and empty
+intake schema are in `near_term/`. Raw workbooks and historical artifacts are preserved.
+
 The current analytical-comparison workflow keeps the physical targets separate: adsorption-motivated models are evaluated against bonded thickness, while Landau--Levich and a separately Bayesian-optimized random forest are evaluated against the mobile layer (`total - bonded`). See `analytical model comparision/` and `Holdout Validation/src/optimize_rf_mobile_layer_bayesian.py` for the reproducible workflows and committed results.
 
 ## Repository layout

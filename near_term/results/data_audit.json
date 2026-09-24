@@ -1,0 +1,14 @@
+{
+  "input_rows": 142,
+  "primary_rows": 126,
+  "physically_invalid_rows": 1,
+  "summary_rows_excluded": 15,
+  "legacy_synthetic_rows": 3000,
+  "legacy_synthetic_invalid": 192,
+  "legacy_synthetic_negative_mobile": 113,
+  "legacy_synthetic_negative_concentration": 182,
+  "legacy_synthetic_negative_thickness": 6,
+  "external_test_status": "unavailable: no independently collected new experiments supplied",
+  "constrained_synthetic_rows": 300,
+  "constrained_synthetic_invalid": 0
+}

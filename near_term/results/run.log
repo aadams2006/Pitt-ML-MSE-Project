@@ -1,0 +1,34 @@
+primary grouped_cv 1 complete
+primary grouped_cv 2 complete
+primary grouped_cv 3 complete
+primary grouped_cv 4 complete
+primary grouped_cv 5 complete
+primary leave_one_solvent_out ethyl_acetate complete
+primary leave_one_solvent_out hexane complete
+primary leave_one_solvent_out toluene complete
+primary ood_low_concentration low complete
+primary ood_high_concentration high complete
+including_summaries_sensitivity grouped_cv 1 complete
+including_summaries_sensitivity grouped_cv 2 complete
+including_summaries_sensitivity grouped_cv 3 complete
+including_summaries_sensitivity grouped_cv 4 complete
+including_summaries_sensitivity grouped_cv 5 complete
+including_summaries_sensitivity leave_one_solvent_out ethyl_acetate complete
+including_summaries_sensitivity leave_one_solvent_out hexane complete
+including_summaries_sensitivity leave_one_solvent_out toluene complete
+including_summaries_sensitivity ood_low_concentration low complete
+including_summaries_sensitivity ood_high_concentration high complete
+{
+  "input_rows": 142,
+  "primary_rows": 126,
+  "physically_invalid_rows": 1,
+  "summary_rows_excluded": 15,
+  "legacy_synthetic_rows": 3000,
+  "legacy_synthetic_invalid": 192,
+  "legacy_synthetic_negative_mobile": 113,
+  "legacy_synthetic_negative_concentration": 182,
+  "legacy_synthetic_negative_thickness": 6,
+  "external_test_status": "unavailable: no independently collected new experiments supplied",
+  "constrained_synthetic_rows": 300,
+  "constrained_synthetic_invalid": 0
+}

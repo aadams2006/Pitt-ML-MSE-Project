@@ -1,0 +1,1497 @@
+[
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "6.12.2025",
+    "rows": 28,
+    "columns": 21,
+    "unit_evidence": [
+      {
+        "cell": "G4",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "K4",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "O4",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "S4",
+        "text": "0.5 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Si 6.18.2025",
+    "rows": 85,
+    "columns": 30,
+    "unit_evidence": [
+      {
+        "cell": "G4",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "K4",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "O4",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "S4",
+        "text": "0.5g/L"
+      },
+      {
+        "cell": "W4",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "G17",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "K17",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "O17",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "S17",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "W17",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "C72",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "G72",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "K72",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "O72",
+        "text": "0.5g/L"
+      },
+      {
+        "cell": "S72",
+        "text": "0.7 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Repeat 6.19",
+    "rows": 101,
+    "columns": 28,
+    "unit_evidence": [
+      {
+        "cell": "G6",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "K6",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "O6",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "S6",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "W6",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "AA6",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "G63",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "K63",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "O63",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "S63",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "W63",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "AA63",
+        "text": "0.9 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New Sol. 6.20 ",
+    "rows": 34,
+    "columns": 34,
+    "unit_evidence": [
+      {
+        "cell": "B6",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F6",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J6",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N6",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R6",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V6",
+        "text": " 2 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New Sol. 6.20 (1)",
+    "rows": 36,
+    "columns": 32,
+    "unit_evidence": [
+      {
+        "cell": "B6",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F6",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J6",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N6",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R6",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V6",
+        "text": " 2 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New Sol. 6.20 (2)",
+    "rows": 31,
+    "columns": 33,
+    "unit_evidence": [
+      {
+        "cell": "B5",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F5",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J5",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N5",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R5",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V5",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "D21",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "F21",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "G21",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "H21",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "I21",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "J21",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "K21",
+        "text": "2 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New set wafers. 6.21",
+    "rows": 76,
+    "columns": 27,
+    "unit_evidence": [
+      {
+        "cell": "A5",
+        "text": "I observed that the higher concentrations 1.5,2, and 7 g/L have thicker bonded thickness so it is means during Toluene washing less mobile layer removed. "
+      },
+      {
+        "cell": "B9",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F9",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J9",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N9",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R9",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V9",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "Z9",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "B21",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F21",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J21",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N21",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R21",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V21",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "Z21",
+        "text": " 7 g/L"
+      },
+      {
+        "cell": "B41",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F41",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J41",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N41",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R41",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V41",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "Z41",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "B58",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F58",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J58",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N58",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R58",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V58",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "Z58",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "E72",
+        "text": "Concentrations (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New set 07.01",
+    "rows": 67,
+    "columns": 31,
+    "unit_evidence": [
+      {
+        "cell": "B19",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F19",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J19",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N19",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R19",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V19",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "Z19",
+        "text": "7 g/L"
+      },
+      {
+        "cell": "B32",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F32",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J32",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N32",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R32",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V32",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "Z32",
+        "text": "7 g/L"
+      },
+      {
+        "cell": "B47",
+        "text": "0.35 g/L"
+      },
+      {
+        "cell": "F47",
+        "text": "0.5 g/L"
+      },
+      {
+        "cell": "J47",
+        "text": "0.7 g/L"
+      },
+      {
+        "cell": "N47",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "R47",
+        "text": "1.5 g/L"
+      },
+      {
+        "cell": "V47",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "Z47",
+        "text": "7 g/L"
+      },
+      {
+        "cell": "C64",
+        "text": "Concentrations (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "New Set Wafer 7.30.2025",
+    "rows": 30,
+    "columns": 38,
+    "unit_evidence": [
+      {
+        "cell": "B2",
+        "text": "Start with new set of Si wafers and 2 new solutions 10 g/L and 20g/L"
+      },
+      {
+        "cell": "G4",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "L4",
+        "text": " 7 g/L"
+      },
+      {
+        "cell": "Q4",
+        "text": " 10 g/L"
+      },
+      {
+        "cell": "V4",
+        "text": " 20 g/L"
+      },
+      {
+        "cell": "AA4",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "AF4",
+        "text": " 40 g/L"
+      },
+      {
+        "cell": "AK4",
+        "text": " 50 g/L"
+      },
+      {
+        "cell": "G17",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "L17",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "Q17",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "V17",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "AA17",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AF17",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AK17",
+        "text": "50  g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "8.5.2025 washed",
+    "rows": 67,
+    "columns": 38,
+    "unit_evidence": [
+      {
+        "cell": "F1",
+        "text": "Start with new set of Si wafers and new solutions 30 g/L and 40g/L"
+      },
+      {
+        "cell": "F15",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "K15",
+        "text": " 7 g/L"
+      },
+      {
+        "cell": "P15",
+        "text": " 10 g/L"
+      },
+      {
+        "cell": "U15",
+        "text": " 20 g/L"
+      },
+      {
+        "cell": "Z15",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "AE15",
+        "text": " 40 g/L"
+      },
+      {
+        "cell": "AJ15",
+        "text": " 50 g/L"
+      },
+      {
+        "cell": "F28",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K28",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P28",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U28",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z28",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE28",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ28",
+        "text": "50  g/L"
+      },
+      {
+        "cell": "F42",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K42",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P42",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U42",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z42",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE42",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ42",
+        "text": "50  g/L"
+      },
+      {
+        "cell": "F56",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K56",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P56",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U56",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z56",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE56",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ56",
+        "text": "50  g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "8.5.2025 unwashed",
+    "rows": 76,
+    "columns": 38,
+    "unit_evidence": [
+      {
+        "cell": "F1",
+        "text": "Start with new set of Si wafers and new solutions 30 g/L and 40g/L"
+      },
+      {
+        "cell": "F18",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "K18",
+        "text": " 7 g/L"
+      },
+      {
+        "cell": "P18",
+        "text": " 10 g/L"
+      },
+      {
+        "cell": "U18",
+        "text": " 20 g/L"
+      },
+      {
+        "cell": "Z18",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "AE18",
+        "text": " 40 g/L"
+      },
+      {
+        "cell": "AJ18",
+        "text": " 50 g/L"
+      },
+      {
+        "cell": "F31",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K31",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P31",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U31",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z31",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE31",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ31",
+        "text": "50  g/L"
+      },
+      {
+        "cell": "F44",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K44",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P44",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U44",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z44",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE44",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ44",
+        "text": "50  g/L"
+      },
+      {
+        "cell": "F57",
+        "text": "2  g/L"
+      },
+      {
+        "cell": "K57",
+        "text": "7  g/L"
+      },
+      {
+        "cell": "P57",
+        "text": "10  g/L"
+      },
+      {
+        "cell": "U57",
+        "text": "20  g/L"
+      },
+      {
+        "cell": "Z57",
+        "text": "30  g/L"
+      },
+      {
+        "cell": "AE57",
+        "text": "40  g/L"
+      },
+      {
+        "cell": "AJ57",
+        "text": "50  g/L"
+      },
+      {
+        "cell": "O72",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Vertrel",
+    "rows": 67,
+    "columns": 45,
+    "unit_evidence": [
+      {
+        "cell": "E6",
+        "text": "Uncoated  0.025 g/L"
+      },
+      {
+        "cell": "I6",
+        "text": "Uncoated  0.05 g/L"
+      },
+      {
+        "cell": "M6",
+        "text": "Uncoated  0.1 g/L"
+      },
+      {
+        "cell": "Q6",
+        "text": "Uncoated  0.25 g/L"
+      },
+      {
+        "cell": "V16",
+        "text": "Consentration (g/L)"
+      },
+      {
+        "cell": "E20",
+        "text": "coated 0.025  g/L"
+      },
+      {
+        "cell": "I20",
+        "text": "coated  0.05 g/L"
+      },
+      {
+        "cell": "M20",
+        "text": "coated 0.1 g/L"
+      },
+      {
+        "cell": "Q20",
+        "text": "coated  0.25  g/L"
+      },
+      {
+        "cell": "E33",
+        "text": "coated 0.025  g/L"
+      },
+      {
+        "cell": "I33",
+        "text": "coated  0.05 g/L"
+      },
+      {
+        "cell": "M33",
+        "text": "coated 0.1 g/L"
+      },
+      {
+        "cell": "Q33",
+        "text": "coated  0.25  g/L"
+      },
+      {
+        "cell": "E45",
+        "text": "coated 0.025  g/L"
+      },
+      {
+        "cell": "I45",
+        "text": "coated  0.05 g/L"
+      },
+      {
+        "cell": "M45",
+        "text": "coated 0.1 g/L"
+      },
+      {
+        "cell": "Q45",
+        "text": "coated  0.25  g/L"
+      },
+      {
+        "cell": "E57",
+        "text": "coated 0.025  g/L"
+      },
+      {
+        "cell": "I57",
+        "text": "coated  0.05 g/L"
+      },
+      {
+        "cell": "M57",
+        "text": "coated 0.1 g/L"
+      },
+      {
+        "cell": "Q57",
+        "text": "coated  0.25  g/L"
+      },
+      {
+        "cell": "V58",
+        "text": "Consentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "8.26.25Fresh Sol.",
+    "rows": 62,
+    "columns": 22,
+    "unit_evidence": [
+      {
+        "cell": "O10",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "B18",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "F18",
+        "text": "10 g/L"
+      },
+      {
+        "cell": "K18",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "F33",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "J33",
+        "text": "10 g/L"
+      },
+      {
+        "cell": "O33",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "F49",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "J49",
+        "text": "7  g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Sonication &heat",
+    "rows": 69,
+    "columns": 22,
+    "unit_evidence": [
+      {
+        "cell": "B18",
+        "text": " 2 g/L"
+      },
+      {
+        "cell": "E18",
+        "text": " 7 g/L"
+      },
+      {
+        "cell": "H18",
+        "text": " 10 g/L"
+      },
+      {
+        "cell": "K18",
+        "text": " 20 g/L"
+      },
+      {
+        "cell": "N18",
+        "text": " 30 g/L"
+      },
+      {
+        "cell": "Q18",
+        "text": " 40 g/L"
+      },
+      {
+        "cell": "T18",
+        "text": " 50 g/L"
+      },
+      {
+        "cell": "G34",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "lower concentration10-17",
+    "rows": 63,
+    "columns": 20,
+    "unit_evidence": [
+      {
+        "cell": "C17",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "G17",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "K17",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "O17",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "S17",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "C39",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "G39",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "K39",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "O39",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "S39",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "C52",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "G52",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "K52",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "O52",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "S52",
+        "text": "0.25 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "lower concentration 10-21",
+    "rows": 81,
+    "columns": 28,
+    "unit_evidence": [
+      {
+        "cell": "T1",
+        "text": "0.01g/L prepared 10/21/2025"
+      },
+      {
+        "cell": "B17",
+        "text": "0.010 g/L"
+      },
+      {
+        "cell": "F17",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "J17",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "N17",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "Q17",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "V17",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "B32",
+        "text": "0.010 g/L"
+      },
+      {
+        "cell": "F32",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "J32",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "N32",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "Q32",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "V32",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "A51",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "lower concentration 10-23",
+    "rows": 55,
+    "columns": 28,
+    "unit_evidence": [
+      {
+        "cell": "T1",
+        "text": "0.01g/L prepared 10/21/2025"
+      },
+      {
+        "cell": "B17",
+        "text": "0.010 g/L"
+      },
+      {
+        "cell": "F17",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "J17",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "N17",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "Q17",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "V17",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "A37",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "All 10-31-2025",
+    "rows": 56,
+    "columns": 35,
+    "unit_evidence": [
+      {
+        "cell": "B17",
+        "text": "0.0025 g/L"
+      },
+      {
+        "cell": "F17",
+        "text": "0.005 g/L"
+      },
+      {
+        "cell": "J17",
+        "text": "0.9 g/L"
+      },
+      {
+        "cell": "N17",
+        "text": "2 g/L"
+      },
+      {
+        "cell": "Q17",
+        "text": "7 g/L"
+      },
+      {
+        "cell": "V17",
+        "text": "20 g/L"
+      },
+      {
+        "cell": "Y17",
+        "text": "30 g/L"
+      },
+      {
+        "cell": "AC17",
+        "text": "40 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "11-04",
+    "rows": 60,
+    "columns": 64,
+    "unit_evidence": [
+      {
+        "cell": "B17",
+        "text": "0.0025 g/L"
+      },
+      {
+        "cell": "F17",
+        "text": "0.005 g/L"
+      },
+      {
+        "cell": "J17",
+        "text": "0.01 g/L"
+      },
+      {
+        "cell": "N17",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "Q17",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "V17",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "Y17",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "A32",
+        "text": "0.0025 g/L"
+      },
+      {
+        "cell": "F32",
+        "text": "0.005 g/L"
+      },
+      {
+        "cell": "J32",
+        "text": "0.01 g/L"
+      },
+      {
+        "cell": "N32",
+        "text": "0.015 g/L"
+      },
+      {
+        "cell": "Q32",
+        "text": "0.025 g/L"
+      },
+      {
+        "cell": "V32",
+        "text": "0.05 g/L"
+      },
+      {
+        "cell": "Y32",
+        "text": "0.1 g/L"
+      },
+      {
+        "cell": "AC32",
+        "text": "0.25 g/L"
+      },
+      {
+        "cell": "AG32",
+        "text": "10 g/L"
+      },
+      {
+        "cell": "AK32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "AS32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "AW32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "BA32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "BE32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "BI32",
+        "text": "40 g/L"
+      },
+      {
+        "cell": "A51",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Sheet1",
+    "rows": 54,
+    "columns": 20,
+    "unit_evidence": [
+      {
+        "cell": "C32",
+        "text": "40 g/L"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "PDMS with Toluene 2.xlsx",
+    "sheet": "Sheet2",
+    "rows": 19,
+    "columns": 5,
+    "unit_evidence": [
+      {
+        "cell": "B4",
+        "text": " (g/L)"
+      }
+    ],
+    "sha256": "f71ffb3e36842627387d03c83fa751ea318ddd88cbedde222ba9787bd1aaabd9",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "Ethyl Acetate+PDMS.xlsx",
+    "sheet": "11-10-2025",
+    "rows": 41,
+    "columns": 15,
+    "unit_evidence": [
+      {
+        "cell": "B36",
+        "text": "Concentration(g/L)"
+      }
+    ],
+    "sha256": "2c4b376733628f6ff70c17151cfd7227db8628025b7fe01f55193a594dc364ea",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "Ethyl Acetate+PDMS.xlsx",
+    "sheet": "Sheet2",
+    "rows": 53,
+    "columns": 26,
+    "unit_evidence": [
+      {
+        "cell": "E34",
+        "text": "Concentration(g/L)"
+      },
+      {
+        "cell": "E45",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "2c4b376733628f6ff70c17151cfd7227db8628025b7fe01f55193a594dc364ea",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "11-(7,13)-2025",
+    "rows": 55,
+    "columns": 31,
+    "unit_evidence": [
+      {
+        "cell": "C35",
+        "text": "Concentration(g/L)"
+      },
+      {
+        "cell": "C47",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "Graphs",
+    "rows": 122,
+    "columns": 6,
+    "unit_evidence": [
+      {
+        "cell": "A1",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "A37",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "A56",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "A81",
+        "text": "Concentration (g/L)"
+      },
+      {
+        "cell": "A107",
+        "text": "Concentration (g/L)"
+      }
+    ],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "11-17-2025",
+    "rows": 40,
+    "columns": 16,
+    "unit_evidence": [],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "11-19-2025",
+    "rows": 34,
+    "columns": 16,
+    "unit_evidence": [],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "12-03-2025",
+    "rows": 34,
+    "columns": 16,
+    "unit_evidence": [],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  },
+  {
+    "path": "models/feature engineering v1/data FE-V1/Hexane+PDMS-new.xlsx",
+    "sheet": "12-04-2025",
+    "rows": 47,
+    "columns": 31,
+    "unit_evidence": [
+      {
+        "cell": "C35",
+        "text": "Concentration(g/L)"
+      }
+    ],
+    "sha256": "39ad5d3d8adf178de07076609c4aed45f94fe0e8f48f93c69af2d21502bc3098",
+    "external_status": "not_independent_existing_repository_source"
+  }
+]

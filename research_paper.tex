@@ -57,14 +57,15 @@ experimental variables. Five regression families were benchmarked: linear regres
 $k$-nearest neighbors, backpropagation neural networks, random forest,
 and gradient boosting. A sequential holdout study revealed severe
 distribution shift, driving all baseline models to negative $R^2$;
-stratified 5-fold cross-validation eliminated split artifacts and
-recovered strong generalization. A Bayesian-optimized random forest
-achieved the best out-of-fold performance ($R^2 = 0.9734$),
-outperforming all tested alternatives including a stacked ensemble.
+stratified 5-fold cross-validation recovered high scores within the
+synthetic corpus. A Bayesian-optimized random forest achieved a
+cross-validated search score of $R^2 = 0.9734$. Because augmentation and
+model selection were not isolated from all validation dependencies,
+this is a development result rather than independent generalization evidence.
 A target-separated follow-up trained a second Bayesian-optimized random
 forest on mobile thickness, defined as total minus bonded thickness. It
-achieved out-of-fold $R^2 = 0.9996$ on 2887 physically valid synthetic
-rows. On the solvent-specific experimental tables, a concentration-adjusted
+achieved out-of-fold $R^2 = 0.9996$ on 2887 synthetic rows with nonnegative
+mobile thickness. On the solvent-specific experimental tables, a concentration-adjusted
 Landau--Levich estimate described the hexane mobile layer well
 ($R^2 = 0.9905$) but failed for toluene and ethyl acetate under the current
 fixed-property assumptions. Landau--Levich was excluded from all
@@ -74,6 +75,13 @@ rather than algorithmic: data scarcity, feature incompleteness, and
 validation design each materially shaped model conclusions. Feature-
 importance and residual analyses identify concrete directions for
 improved physicochemical descriptors and synthetic-data generation.
+An experimental-only follow-up audits 142 source records and retains 126
+individual readings for primary validation. Without measured-thickness
+features, a fixed random forest achieves grouped-CV $R^2=0.568$ for bonded
+and $0.879$ for mobile thickness, but both pooled leave-one-solvent-out
+scores are negative. High-concentration mobile-layer interval coverage
+falls to 14.8\% at a nominal 80\% level. Independent new experiments remain
+necessary before deployment claims or manuscript finalization.
 \end{abstract}
 
 \section{Introduction}
@@ -103,7 +111,7 @@ where $x$ contains process and physicochemical descriptors and $y$ is the bonded
 
 This study therefore asks whether supervised learning can provide a practical predictive route for PDMS dip-coated films when classical theory is informative but incomplete.
 
-The remainder of this study is structured around five interconnected phases designed to address these data limitations. First, baseline regressions on small-data and synthetic-data benchmarks are established, followed by diagnosis of model failure and distribution shift under sequential holdout validation. To resolve these challenges, the initial three-variable framework is expanded to a seven-variable physicochemical descriptor set, which is then reevaluated on an aggregated multi-solvent dataset using stratified cross-validation and ensemble techniques. Bayesian hyperparameter optimization is next used to estimate ceiling performance. Finally, a target-separated follow-up compares a second Bayesian-optimized random forest with Landau--Levich predictions for the mobile layer while removing Landau--Levich from bonded-thickness evaluation. This systematic approach establishes how sparse early data can be robustly transformed into a high-performing and interpretable predictive workflow for complex polymer coatings.
+The study first documents historical small-data and synthetic benchmarks, sequential holdout failures, descriptor expansion, ensemble comparison and Bayesian model selection. It then separates bonded and mobile targets for analytical comparison. The final experimental-only robustness study audits physical constraints and units, removes all measured-thickness predictors, and evaluates grouped, solvent-transfer and concentration-shift performance. Historical benchmark scores and the new forecasting results answer different questions and are interpreted separately.
 
 
 \section{Background and Related Work}
@@ -159,7 +167,7 @@ gradient boosting regression (GBR) is a stagewise additive tree ensemble that le
 by residual correction \cite{friedman2001}.
 
 \subsection{Bayesian optimization}
-Hyperparameter optimization was ultimately required to determine ceiling performance. Bayesian optimization treats model validation performance as a black-box objective and adaptively samples promising regions of the hyperparameter space rather than evaluating a fixed exhaustive grid \cite{snoek2012}. This is particularly attractive when each evaluation is itself a cross-validation study.
+Bayesian optimization was used for historical model selection. It treats model validation performance as a black-box objective and adaptively samples promising regions of the hyperparameter space rather than evaluating a fixed exhaustive grid \cite{snoek2012}. A search score alone does not establish a predictive ceiling or unbiased generalization performance; that requires evaluation independent of model selection and data generation.
 
 \section{Materials, Data, and Descriptor Construction}
 
@@ -462,7 +470,7 @@ random-forest weight over the grid $\{0.0, 0.1, \ldots, 1.0\}$.
 In addition, a stacked ensemble was trained using ridge regression as a meta-learner over out-of-fold predictions from random forest and gradient boosting.
 
 \subsection{Phase V: Bayesian optimization}
-The strongest single model family was random forest regression. It therefore entered the final ceiling-performance stage, where \texttt{BayesSearchCV} optimized:
+The strongest single model family in the historical benchmark was random forest regression. It therefore entered a model-selection stage, where \texttt{BayesSearchCV} optimized:
 \begin{itemize}
     \item \texttt{n\_estimators} from 100 to 450,
     \item \texttt{max\_depth} from 8 to 30,
@@ -744,7 +752,7 @@ The Bayesian-optimized random forest achieved the strongest result across all mo
 
 \expfigure{paper_figures/fig29_ensemble_comparison_summary.png}{Ensemble-comparison summary figure for random forest, gradient boosting, and RF+GB combinations under stratified 5-fold validation.}
 
-\subsection{Bayesian-optimized ceiling performance}
+\subsection{Historical Bayesian model-selection performance}
 Bayesian optimization of random forest regression yielded the following best parameters:
 \begin{itemize}
     \item \texttt{bootstrap = True}
@@ -760,7 +768,7 @@ The tuned random forest achieved:
 R^2_{\mathrm{OOF}} = 0.973424, \qquad \mathrm{RMSE}_{\mathrm{OOF}} = 0.029855, \qquad \mathrm{MAE}_{\mathrm{OOF}} = 0.018591.
 \end{equation}
 
-Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. The gap between in-sample ($0.9965$) and out-of-fold ($0.9734$) performance reflects moderate overfitting to the full training distribution; the OOF estimate is the appropriate generalization measure and is the figure reported as the headline result. This surpassed the stacked ensemble and established the Bayesian-optimized random forest as the final best model.
+Its best cross-validated search score was $R^2 = 0.973392$. When refit on all 3000 samples, the optimized model achieved in-sample $R^2 = 0.996519$. The search folds also informed hyperparameter selection, and the synthetic corpus was derived from the source experiments before splitting. These scores therefore describe model development within that corpus and are not an unbiased external generalization estimate. The selected model surpassed the stacked ensemble under the historical protocol; the experimental-only follow-up in Section~\ref{sec:robustness} evaluates a different, more demanding forecasting task.
 
 \expfigure{paper_figures/fig30_bayesian_optimization_summary.png}{Bayesian optimization summary for the final full-dataset random-forest search. The trace shows progressive improvement in cross-validated $R^2$ over the search iterations.}
 
@@ -789,13 +797,15 @@ Ethyl acetate & Landau--Levich mobile layer & $-18.186017$ & 2.821235 & 1.654359
 
 The solvent dependence is informative rather than a reason to recalibrate the equation against each response. Hexane appears compatible with the assumed entrainment-plus-solids-conversion picture over the measured concentration range. The toluene and ethyl acetate failures indicate that fixed withdrawal conditions, pure-solvent property approximations, and concentration-only drying conversion are insufficient for those systems. The extreme toluene $R^2$ is amplified by its narrow observed target variance, but its 30.53 nm RMSE independently confirms a large scale error. Missing effective evaporation, solution-property variation with concentration, interfacial adsorption, drainage, and solidification morphology are plausible contributors consistent with the analytical literature.
 
+\input{near_term/results/manuscript_update.tex}
+
 \section{Detailed Analysis}
 
 \subsection{The central methodological lesson}
-The most important lesson from the study is that validation design controls interpretation. The low holdout $R^2$ did not imply an intrinsically weak predictor; rather, it revealed that the original sequential split measured extrapolation into a shifted regime. Once the evaluation design was changed to target-stratified full-dataset cross-validation, the predictive structure of the aggregated dataset became clear.
+Validation design controls interpretation. Changing a sequential split to target-stratified cross-validation changes the question being answered; it does not resolve a deployment distribution shift. The experimental-only grouped and OOD tests show that high synthetic interpolation scores coexist with poor transfer to unseen solvents and concentration extremes. These failures are scientific results that constrain the model's scope.
 
 \subsection{Why the original hexane-only workflow was insufficient}
-The original hexane-only experimental table was too small for robust nonlinear regression. The CTGAN stage provided a useful proof of concept but was not sufficiently reliable because the source table was sparse. The bootstrap-plus-Cholesky stage improved stability by explicitly preserving empirical correlation structure. This was methodologically stronger because it grounded synthetic variation in the original dataset's covariance geometry.
+The original hexane-only experimental table was sparse. CTGAN and bootstrap-plus-Cholesky augmentation explored ways to reproduce that table's structure, but correlation preservation does not create independent experimental information. Augmentation fitted before splitting can transmit source information across nominal folds. The new validation therefore uses experimental records only, and the constrained generator is limited to a training-only feasibility audit.
 
 \subsection{Why tree models dominated}
 Tree ensembles dominated because they handle heterogeneous descriptors, nonlinear interactions, and monotonic nonlinearities without requiring carefully chosen transformations. They are also comparatively robust to mixed scales and irregular distributions. These advantages became key once the descriptor space expanded from three process/thickness variables to seven mixed process-and-chemistry features.
@@ -819,22 +829,21 @@ The final optimized random forest placed the greatest weight on concentration, t
 The analytical exercise changes the interpretation of model quality. It shows that a physically appropriate law can perform extremely well in one solvent and still fail under another set of transport and drying conditions. It also shows why target identity matters: a Landau--Levich curve can be a defensible mobile-layer baseline without being a bonded-layer model. The random forest offers empirical interpolation across the variables represented in the synthetic corpus, while the analytical equations expose which unmeasured mechanisms---especially withdrawal speed, local evaporation, concentration-dependent solution properties, and adsorption kinetics---should be added to future experiments.
 
 \subsection{Limitations}
-The principal limitation of the study is that the final dataset is still predominantly synthetic, even though it originates from real dip-coating experiments. That choice was methodologically necessary because the original experimental coverage was too sparse to support reliable nonlinear model comparison, but it also means that the final performance estimates remain partly contingent on the fidelity of the synthetic generator. The solvent-specific experimental tables contributed to the synthetic data-generation workflow, so their comparison scores measure alignment with the source experiments rather than fully independent external generalization.
+The historical benchmark is predominantly synthetic and its scores depend on the generator and split design. The experimental-only follow-up avoids synthetic augmentation in evaluation but remains small and incompletely documented at the batch level. The solvent-specific tables contributed to the historical generator, so their earlier comparison scores measure alignment with source experiments rather than independent external generalization. Neither augmentation nor a different split substitutes for new measurements.
 
-The mobile-target audit also revealed a concrete physical-consistency problem: 113 of 3000 synthetic rows had $h_T-h_B<0$. Excluding them was preferable to silently clipping training targets, but their presence demonstrates that the generator needs an explicit $h_T\ge h_B$ constraint. Further, total thickness is included as a predictor while also appearing in the definition of mobile thickness. This is useful when total thickness is available as a measured process-state variable, but it creates algebraic coupling and limits claims about pre-process forecasting. The raw workbooks label concentration in g/L, whereas derived tables retain a legacy g/mL header; the analytical conversion follows the source workbooks, but this schema mismatch should be corrected in a future data release.
+The historical mobile-target audit found 113 of 3000 synthetic rows with $h_T-h_B<0$. The follow-up's broader physical audit flags 192 rows, including invalid concentrations, and provides a constrained training-only generator. Historical mobile models use total thickness as both a predictor and a term in the response definition; they concern measured-state estimation rather than pre-process forecasting. The new models exclude all measured-thickness features. The canonical data release corrects the legacy g/mL label to g/L and supplies an explicit conversion, while keeping original files unchanged for provenance.
 
 The Landau--Levich comparison is intentionally uncalibrated but correspondingly approximate. Withdrawal speed is fixed at 1.0 mm/s, solvent properties are treated as constants rather than concentration-dependent solution properties, PDMS volume conversion assumes additive volumes and complete solvent removal, and no local effective evaporation rate is available. These assumptions are particularly consequential for the poor toluene and ethyl acetate results. The capillary-only comparator remains symbolic until effective evaporation and coating-zone measurements are collected; the mixed capillary/entrainment equation is retained as literature background rather than as a bonded comparator.
 
-The chemical scope of the investigation was also intentionally narrow. Only a small set of solvents was examined, and only one solute, PDMS, was held constant throughout the study. Solvent descriptors were imported from PubChem rather than measured under experiment-specific laboratory conditions. The present model should therefore be interpreted as a high-quality predictive surrogate within a constrained chemistry space rather than as a universal dip-coating predictor. Future work should expand solvent and solute diversity and use newly measured experiments for fully independent external validation before deployment claims are made.
+The chemical scope is narrow: three solvents and one solute, PDMS. Solvent descriptors are historical approximations rather than experiment-specific solution measurements. The leave-one-solvent-out failures preclude a claim of reliable chemistry transfer. Batch lineage is incomplete, and a true external dataset remains unavailable. Newly measured independent batches and broader solvent coverage are required before deployment claims are made.
 
 \section{Conclusion}
 This investigation developed a complete machine-learning framework for bonded-thickness prediction in PDMS dip coating across hexane, toluene, and ethyl acetate solvent systems. The work began from a sparse hexane experimental dataset, progressed through two synthetic-data-generation stages, expanded the descriptor space using solvent properties, and culminated in full-dataset validation, Bayesian optimization, and a target-separated mobile-layer analytical comparison.
 
-The main conclusions are as follows. First, dip-coating outcomes of practical interest cannot be captured adequately by classical thickness scaling alone when the prediction target is final bonded thickness in a multivariable polymer-solvent system. Second, the most serious early limitation was not model complexity but sample scarcity and validation mismatch. Third, tree-based models, especially random forests, were the most robust learners across all stages of the investigation. Fourth, while RF+GB ensembles produced incremental gains, Bayesian optimization of the random forest ultimately provided the strongest bonded-thickness predictive ceiling. The final tuned bonded random forest reached out-of-fold $R^2 = 0.9734$, while the separately optimized mobile-layer model reached $R^2 = 0.9996$ on physically valid synthetic rows. Fifth, Landau--Levich must remain target-specific: it described hexane mobile thickness well but failed for toluene and ethyl acetate and was therefore neither fitted nor scored against bonded thickness.
+The experimental-only follow-up changes the central performance conclusion. A fixed RF without measured-thickness inputs achieves grouped-CV $R^2=0.568$ for bonded and $0.879$ for mobile thickness, but pooled solvent-transfer scores are negative and high-concentration uncertainty coverage fails. Feature transforms do not yield consistent gains. The historical synthetic scores ($0.9734$ bonded and $0.9996$ mobile) remain development diagnostics with different features and validation dependencies; they are not directly comparable evidence of external forecasting. Landau--Levich remains a mobile-layer comparator and is not fitted or scored against bonded thickness.
 
-The broader implication is methodological. For coating informatics in small-data regimes, the critical path is: start from physically meaningful descriptors, diagnose validation failure honestly, augment data cautiously, compare model families systematically, and only then invest in global hyperparameter optimization. That workflow transformed a sparse and initially unstable dip-coating dataset into a high-performing predictive surrogate with a clear path for future refinement.
+The immediate priority is independent experimental evidence and complete sample/batch provenance. The repository now provides audited units, physical exclusions, leakage-controlled experimental splits, prediction intervals, full reproducible results and a prospective test protocol. New independent experiments and scientific review remain outstanding, so neither deployment readiness nor a finalized externally validated manuscript is claimed.
 
-\section*{References}
 \begin{thebibliography}{99}
 
 \bibitem{landau1942}
