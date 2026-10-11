@@ -1,0 +1,22 @@
+feature,context,n,spearman_training,negative_partial_fraction,note
+Polarity (XLogP3),pooled,1959,0.10401682436290323,0.5298621745788668,Training-only association; not justification for causal sign enforcement.
+Polarity (XLogP3),viscosity=0.377,528,,0.5511363636363636,Training-only association; not justification for causal sign enforcement.
+Polarity (XLogP3),viscosity=0.423,669,,0.44245142002989535,Training-only association; not justification for causal sign enforcement.
+Polarity (XLogP3),viscosity=0.68,762,,0.5918635170603674,Training-only association; not justification for causal sign enforcement.
+Viscosity (cP),pooled,1959,-0.13269823479926648,0.004594180704441042,Training-only association; not justification for causal sign enforcement.
+Boiling Point (K),pooled,1959,-0.1446117703615866,0.7590607452782032,Training-only association; not justification for causal sign enforcement.
+Boiling Point (K),viscosity=0.377,528,,1.0,Training-only association; not justification for causal sign enforcement.
+Boiling Point (K),viscosity=0.423,669,,0.6771300448430493,Training-only association; not justification for causal sign enforcement.
+Boiling Point (K),viscosity=0.68,762,,0.6640419947506562,Training-only association; not justification for causal sign enforcement.
+Surface Tension (mN/m),pooled,1959,-0.13269823479926648,0.6237876467585503,Training-only association; not justification for causal sign enforcement.
+Surface Tension (mN/m),viscosity=0.377,528,,0.6647727272727273,Training-only association; not justification for causal sign enforcement.
+Surface Tension (mN/m),viscosity=0.423,669,,0.5844544095665172,Training-only association; not justification for causal sign enforcement.
+Surface Tension (mN/m),viscosity=0.68,762,,0.6299212598425197,Training-only association; not justification for causal sign enforcement.
+Concentration (g/mL),pooled,1959,0.5808698177967013,0.409903011740684,Training-only association; not justification for causal sign enforcement.
+Concentration (g/mL),viscosity=0.377,528,0.10004075429208459,0.8238636363636364,Training-only association; not justification for causal sign enforcement.
+Concentration (g/mL),viscosity=0.423,669,0.8437770761037439,0.2062780269058296,Training-only association; not justification for causal sign enforcement.
+Concentration (g/mL),viscosity=0.68,762,0.4853117800437144,0.30183727034120733,Training-only association; not justification for causal sign enforcement.
+Uncoated Layer (nm),pooled,1959,0.030135225164933502,0.7687595712098009,Training-only association; not justification for causal sign enforcement.
+Uncoated Layer (nm),viscosity=0.377,528,-0.7587040996665031,0.9393939393939394,Training-only association; not justification for causal sign enforcement.
+Uncoated Layer (nm),viscosity=0.423,669,0.5362122887651033,0.6995515695067265,Training-only association; not justification for causal sign enforcement.
+Uncoated Layer (nm),viscosity=0.68,762,-0.18381219888218508,0.7112860892388452,Training-only association; not justification for causal sign enforcement.

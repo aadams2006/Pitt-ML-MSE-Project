@@ -1,0 +1,23 @@
+{
+  "features": ["Concentration (g/mL)", "Uncoated Layer (nm)", "Total Thickness (nm)", "Withdrawal Velocity (mm/s)", "Viscosity (cP)", "Surface Tension (mN/m)"],
+  "target": "Bonded Thickness (nm)",
+  "total_column": "Total Thickness (nm)",
+  "log_features": ["Concentration (g/mL)"],
+  "group_column": "Experiment ID",
+  "hidden": [16, 16],
+  "epochs": 1500,
+  "patience": 150,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "smooth_weight": 0.001,
+  "monotonic_weight": 0.0,
+  "monotonic": {},
+  "velocity_column": "Withdrawal Velocity (mm/s)",
+  "velocity_smooth_weight": 0.001,
+  "hydrodynamic_weight": 0.001,
+  "lld_max_capillary_number": 0.01,
+  "regularizer_rows": 256,
+  "seed": 42,
+  "test_size": 0.2,
+  "validation_size": 0.2
+}

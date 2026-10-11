@@ -1,0 +1,3 @@
+feature,context,n,spearman_training,negative_partial_fraction,note
+Concentration (g/mL),pooled,28,0.14197037362516926,0.75,Training-only association; not justification for causal sign enforcement.
+Uncoated Layer (nm),pooled,28,-0.7728903591252728,0.9285714285714286,Training-only association; not justification for causal sign enforcement.

@@ -2,6 +2,8 @@
 
 Date: 2026-10-11. Choices below are starting hypotheses, not optimized conclusions.
 
+This document preserves the v0.1 measured-data rationale. Version 0.2 adds the separate seven-input synthetic benchmark, prospective run tracking and two gated physics terms; see `SYNTHETIC_BENCHMARK.md`, `PHYSICS_CONSTRAINTS.md`, and `CHANGELOG.md` for current choices. Historical statements about unavailable inputs apply to the measured workbook, not the new synthetic configuration.
+
 ## Scientific scope
 
 Predict measured bonded thickness conditional on concentration, uncoated layer, and measured total thickness. This is useful for inference from measured film state. Because total thickness is a post-coating measurement, the model is **not** a recipe-only process predictor or a causal inverse-design tool. Confirm the timing/meaning of the uncoated-layer measurement before deployment. No target-derived mobile-layer feature (`total - bonded`) is included: that would leak the target.

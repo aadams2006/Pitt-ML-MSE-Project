@@ -38,4 +38,4 @@ Keep this configuration as a transparent baseline. Evaluate candidate saturation
 
 Five unit tests passed: algebraic bounds and zero-total boundary; independent grouped/extrapolation assignments; training-only scaling and restoration; curvature backpropagation plus raw-unit finite-difference sensitivities; short training and checkpoint equivalence. The command-line inference path was also run on all 58 workbook rows, with finite predictions satisfying the bounds. This validates the implementation, not the scientific adequacy of the learned model.
 
-Generated histories, predictions, checkpoints, sensitivities, and manifests remain under the ignored local `results/` folder. Source and this report are reviewable separately from generated artifacts.
+The original histories, predictions, checkpoints, sensitivities, and manifests are now preserved in tracked `runs/legacy_initial_grouped/` and `runs/legacy_initial_extrapolation/`, with archived v0.1 source. The run register marks their execution timestamps as unknown; file modification dates are approximate archival evidence. New runs are recorded prospectively under version 0.2.0.

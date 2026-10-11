@@ -12,6 +12,10 @@
   "smooth_weight": 0.001,
   "monotonic_weight": 0.0,
   "monotonic": {},
+  "velocity_column": "Withdrawal Velocity (mm/s)",
+  "velocity_smooth_weight": 0.0,
+  "hydrodynamic_weight": 0.0,
+  "regularizer_rows": 256,
   "seed": 42,
   "test_size": 0.2,
   "validation_size": 0.2

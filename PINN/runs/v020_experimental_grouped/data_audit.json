@@ -1,0 +1,12 @@
+{
+  "input_rows": 58,
+  "retained_rows": 58,
+  "excluded_rows": 0,
+  "policy": "error",
+  "reason_counts": {
+    "nonpositive_total": 0,
+    "nonpositive_log:Concentration (g/mL)": 0,
+    "bonded_outside_bounds": 0
+  },
+  "excluded_source_rows": []
+}

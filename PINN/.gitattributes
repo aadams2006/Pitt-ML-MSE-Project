@@ -1,0 +1,2 @@
+# Preserve exact experiment artifact/source bytes so recorded SHA256s survive clones.
+* -text
