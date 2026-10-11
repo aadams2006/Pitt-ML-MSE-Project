@@ -1,0 +1,4 @@
+      solvent  groups  concentration_min_g_l  concentration_max_g_l  descriptive_loglog_slope  descriptive_spearman  ratio_min  ratio_max   ratio_span  minimum_lld_loglog_slope  max_volume_conversion_difference_percent
+ethyl_acetate       9                 0.1000                   10.0                  0.300733              0.833333   0.253564   4.152694    16.377276                  0.989744                                  1.036269
+       hexane      16                 0.0200                   10.0                  0.784161              1.000000   0.961371   2.957155     3.075975                  0.989744                                  1.036269
+      toluene      11                 0.0025                   50.0                 -0.013551              0.072727   0.002392  37.196329 15552.893311                  0.950739                                  5.181347

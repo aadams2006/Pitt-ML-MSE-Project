@@ -1,0 +1,13 @@
+solvent,model,purpose,scale,mean_mobile_nm,amplitude_nm,half_concentration_g_l,bound_hit,training_condition_mse
+ethyl_acetate,fixed_lld,descriptive_full_data_fit_only,1.0,,,,,
+ethyl_acetate,local_mean,descriptive_full_data_fit_only,,1.1085185185185185,,,,
+ethyl_acetate,scaled_lld,descriptive_full_data_fit_only,0.27651289309172883,,,,,
+ethyl_acetate,saturating_mobile,descriptive_full_data_fit_only,,,2.765141262756885,2.4633336006534177,False,0.19077915203746926
+hexane,fixed_lld,descriptive_full_data_fit_only,1.0,,,,,
+hexane,local_mean,descriptive_full_data_fit_only,,2.7581249999999997,,,,
+hexane,scaled_lld,descriptive_full_data_fit_only,1.0378321748982555,,,,,
+hexane,saturating_mobile,descriptive_full_data_fit_only,,,603.4797897193838,464.956583632869,False,0.06037030661247625
+toluene,fixed_lld,descriptive_full_data_fit_only,1.0,,,,,
+toluene,local_mean,descriptive_full_data_fit_only,,0.18636363636363634,,,,
+toluene,scaled_lld,descriptive_full_data_fit_only,0.002561753029835652,,,,,
+toluene,saturating_mobile,descriptive_full_data_fit_only,,,0.20118641789935016,0.001236572103722283,False,0.004778525344773215

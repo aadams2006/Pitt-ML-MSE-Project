@@ -1,0 +1,12 @@
+test_conformal_small_samples (test_analysis.ValidationTests.test_conformal_small_samples) ... ok
+test_generator_preserves_constraints_and_parentage (test_analysis.ValidationTests.test_generator_preserves_constraints_and_parentage) ... ok
+test_no_response_features (test_analysis.ValidationTests.test_no_response_features) ... ok
+test_physical_failures_not_clipped (test_analysis.ValidationTests.test_physical_failures_not_clipped) ... ok
+test_saved_scores_and_calibration_isolation (test_analysis.ValidationTests.test_saved_scores_and_calibration_isolation) ... ok
+test_split_isolation_and_ood_direction (test_analysis.ValidationTests.test_split_isolation_and_ood_direction) ... ok
+test_units_and_lineage (test_analysis.ValidationTests.test_units_and_lineage) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.738s
+
+OK

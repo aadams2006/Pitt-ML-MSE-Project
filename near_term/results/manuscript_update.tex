@@ -1,0 +1,83 @@
+\section{Experimental-only robustness follow-up}
+
+\label{sec:robustness}
+
+This analysis supersedes deployment interpretations of the preceding historical synthetic benchmarks; it does not replace their archived numerical results. All new scores use existing experimental records only. No independent new laboratory campaign has been supplied.
+
+\subsection{Audited data and leakage controls}
+
+The source tables contain 142 records. One toluene record has $h_T=0.85$ nm and $h_B=0.86$ nm and is quarantined without clipping. The first 15 toluene rows reproduce workbook summary values and may overlap individual readings; excluding them gives 126 primary records across 36 solvent--concentration conditions. A sensitivity analysis retains all 141 physically valid records. The original concentration numbers are in g/L, as documented by the workbook unit labels; the canonical schema names them accordingly and provides $c_{\mathrm{g/mL}}=c_{\mathrm{g/L}}/1000$. Raw files are preserved, and source rows, unit-evidence cells and file hashes are archived.
+
+The broader physical audit finds 192 of 3000 historical synthetic rows violating finite, nonnegative concentration/thickness or $h_T\ge h_B$ requirements. This is a broader criterion than the previously reported 113 negative mobile differences. A replacement training-only bootstrap perturbs nonnegative bonded and mobile components and reconstructs total as their sum. Its 300-row audit contains no invalid records and retains parent IDs. These synthetic rows are excluded from every validation experiment.
+
+\subsection{Methods}
+
+Bonded and mobile thickness are separate responses. Features are concentration and the four historical solvent descriptors. No measured thickness, including uncoated thickness, is used. Fixed models are the training mean, standardized Ridge regression ($\alpha=10$), and a 200-tree random forest with minimum leaf size two. Raw features are compared with $\log(1+c/(1\,\mathrm{g/L}))$ and its interactions with solvent descriptors. Models are untuned; nonnegative projection is applied to predictions. Scaling is fitted only within training partitions.
+
+Five-fold grouped cross-validation keeps each solvent--concentration condition intact. Leave-one-solvent-out tests train on two solvents and test on the third. Explicit low/high concentration tests reserve the lowest/highest $\lceil0.2K_s\rceil$ distinct concentrations in each solvent, where $K_s$ is its number of represented conditions. These thresholds use features only. Batch and wafer IDs are unavailable, so condition groups are proxies and cannot rule out dependence across conditions prepared in the same batch. Grouped CV can include edge conditions and is not exclusively an interpolation experiment.
+
+Point estimates use all outer-training rows. Separate interval estimators reserve 35\% of outer-training groups for calibration and fit on the remainder. Each calibration score is the group's maximum absolute residual. The nominal 80\% split-conformal radius is order statistic $\lceil(G+1)0.8\rceil$ of the $G$ group scores; an unavailable finite statistic produces an infinite radius. Interval centers therefore differ from full-training point predictions. Coverage relies on exchangeability and is not guaranteed under the deliberate distribution shifts evaluated here.
+
+Group-weighted RMSE first averages squared residuals within each condition, then across conditions. Row-weighted RMSE, MAE and $R^2$ are retained for comparison. Descriptive percentile ranges resample condition errors 2000 times and condition on the fitted folds; they do not measure retraining or solvent-population uncertainty. All fold assignments and individual predictions are committed.
+
+\subsection{Results}
+
+\begin{table}[H]\centering\small
+
+\caption{Fixed raw-feature random forest on experimental records. RMSE is row-weighted; G-RMSE gives equal weight to each condition. Coverage is observed row coverage for separately calibrated nominal 80\% intervals.}
+
+\begin{tabular}{llrrrr}\toprule
+
+Protocol & Target & $R^2$ & RMSE & G-RMSE & Coverage \\\midrule
+
+Grouped CV & Bonded & 0.568 & 0.106 & 0.106 & 89.7\% \\
+
+Grouped CV & Mobile & 0.879 & 0.705 & 0.945 & 87.3\% \\
+
+Unseen solvent & Bonded & -0.605 & 0.204 & 0.210 & 84.9\% \\
+
+Unseen solvent & Mobile & -0.456 & 2.445 & 2.928 & 71.4\% \\
+
+Low concentration & Bonded & -0.474 & 0.145 & 0.126 & 76.9\% \\
+
+Low concentration & Mobile & 0.051 & 0.173 & 0.152 & 100.0\% \\
+
+High concentration & Bonded & 0.295 & 0.154 & 0.155 & 77.8\% \\
+
+High concentration & Mobile & 0.157 & 3.243 & 4.157 & 14.8\% \\
+
+\bottomrule\end{tabular}\end{table}
+
+The RF grouped-CV scores are materially below the historical synthetic benchmark. Both pooled leave-one-solvent-out $R^2$ values are negative. At high concentrations, mobile-layer row coverage falls to 14.8\% and simultaneous condition coverage to 11.1\%, despite the nominal 80\% level. These results do not support reliable extrapolation or an exchangeability-based coverage guarantee in deployment.
+
+\begin{table}[H]\centering\small
+
+\caption{Leave-one-solvent-out raw RF point scores. Small within-solvent target variance can make $R^2$ extreme, so absolute errors must also be considered.}
+
+\begin{tabular}{llrr}\toprule Solvent & Target & $R^2$ & RMSE (nm) \\\midrule
+
+ethyl acetate & bonded & 0.217 & 0.232 \\
+
+ethyl acetate & mobile & 0.248 & 0.559 \\
+
+hexane & bonded & -4.237 & 0.207 \\
+
+hexane & mobile & 0.009 & 2.739 \\
+
+toluene & bonded & -1.000 & 0.168 \\
+
+toluene & mobile & -1592.794 & 2.965 \\
+
+\bottomrule\end{tabular}\end{table}
+
+\expfigure[1.0]{near_term/results/validation_rmse.png}{Experimental-only comparison across deployment scenarios. All fixed candidates, including the training-mean baseline, are shown.}
+
+\expfigure[0.95]{near_term/results/grouped_parity.png}{Grouped out-of-fold raw RF predictions. No measured thickness is a feature.}
+
+The log/interactions RF has grouped-CV group-weighted RMSE of 0.136 nm for bonded and 1.401 nm for mobile thickness, versus 0.106 and 0.945 nm for raw RF. Transformations modestly reduce low-concentration errors but do not yield a consistent improvement across scenarios. They remain exploratory choices, not validated universal gains.
+
+Summary-inclusion sensitivity results and all model-level scores are available in the committed CSVs. This sensitivity changes both condition coverage and fold composition, so its differences cannot be attributed solely to duplicated summary weighting. It is not independent validation.
+
+\subsection{Remaining limitations and external test requirement}
+
+The three solvents, incomplete batch lineage, summary/reading ambiguity, and fixed approximate solvent descriptors limit inference. Solution properties, withdrawal speed, dwell time and protocol variation are not resolved by concentration-only process information. The workbook inventory is historical material and cannot establish an untouched external test set. A prospective protocol and empty intake schema are provided; they require newly collected independent batches, matched measurements and uncertainty, source-cell provenance, and confirmation that neither outcomes nor samples informed prior model or generator development. The final model and scoring plan must be frozen before opening that test set. Consequently the manuscript remains a research draft, and external-validation completion is not claimed.

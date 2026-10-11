@@ -1,0 +1,53 @@
+PITT ML-MSE NEXT STEPS FOLLOW-UP
+
+Completed work was retained: thickness-free mobile forecasting, earlier RF/Ridge
+comparisons, grouped/solvent/OOD validation, uncertainty analysis and first paper revision.
+Those model predictions were reused, not refitted. Bonded and mobile targets remain separate.
+
+NEW WORK
+Investigated the remaining solvent-specific analytical discrepancy using the canonical
+experimental records. Added fixed LLD, a solvent-specific condition-mean baseline,
+training-only scalar calibration, and an exploratory saturation comparator on the same splits.
+Repeated for the existing summary-inclusion sensitivity cohort. Saved predictions,
+fit memberships, parameters, errors, condition diagnostics, a physical-parameter sweep,
+reproducible scripts, tests, a figure and a new manuscript section.
+
+FINDINGS (PRIMARY EXPERIMENTAL COHORT)
+ethyl_acetate: descriptive concentration log-log slope 0.301; measured/fixed-LLD ratio 0.25356 to 4.1527.
+hexane: descriptive concentration log-log slope 0.784; measured/fixed-LLD ratio 0.96137 to 2.9572.
+toluene: descriptive concentration log-log slope -0.014; measured/fixed-LLD ratio 0.0023916 to 37.196.
+The fixed-property model predicts slopes near 1. Toluene is nearly flat and ethyl
+acetate grows more slowly. Constant property or speed changes rescale amplitude
+and cannot reproduce the entire observed concentration dependence.
+The alternative dilute volume-fraction convention changes predictions by at most 5.18%.
+A hypothetical 0.5-2x sweep of each of four physical inputs spans 0.25-4x output.
+Neither calculation establishes measured property uncertainties or the physical cause.
+
+GROUPED-CV GROUP-WEIGHTED RMSE (nm)
+hexane: Fixed LLD=0.2967; Local mean=3.7456; Scaled LLD=0.2815; Saturating mobile=0.2944; Prior pooled RF=1.3394
+toluene: Fixed LLD=27.3647; Local mean=0.0851; Scaled LLD=0.1890; Saturating mobile=0.0886; Prior pooled RF=0.2574
+ethyl_acetate: Fixed LLD=3.1144; Local mean=0.7808; Scaled LLD=0.5887; Saturating mobile=0.7277; Prior pooled RF=0.5479
+
+INTERPRETATION
+Calibration is useful diagnostically, but no universally improved model is established.
+Toluene's local mean beats the saturation comparator; additional complexity is not justified there.
+Including historical summaries reverses this small ranking (saturation 0.1084 vs mean 0.1158 nm),
+so this comparison does not establish a stable model preference.
+Scaled LLD reduces pooled grouped errors but fails high-concentration and unseen-solvent tests.
+The new fits use solvent-specific condition means, unlike the prior pooled row-trained RF.
+The comparators were proposed after earlier results were inspected, so their scores are exploratory.
+Full-data plotted curves are descriptive fits, never substituted for outer-test predictions.
+Physical parameter inversions are algebraic equivalences, not measured mechanisms.
+
+VALIDATION AND PAPER
+All 13 tests pass, including legacy analytical agreement, known-parameter recovery,
+split isolation, physical scaling, and preservation of prior predictions within floating-point precision.
+Independently verified all 288 metric rows against 6048 saved predictions and checked source hashes.
+Updated the paper with quantitative solvent diagnostics, model comparisons and remaining limitations.
+The follow-up manuscript and verification record are in near_term/solvent_results/.
+
+REMAINING EXPERIMENTAL DEPENDENCIES
+New independent experiments, verified batch/sample IDs, measured solution properties and
+matched wet/dried/washed measurements are needed to identify the mechanism and validate deployment.
+The new slide's computational investigation is complete; physical causation and external validation
+are not claimed. The PINN transition shown on the slide was not started.
