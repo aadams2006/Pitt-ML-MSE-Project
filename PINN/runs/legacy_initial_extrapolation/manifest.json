@@ -1,0 +1,46 @@
+{
+  "config": {
+    "features": [
+      "Concentration (g/mL)",
+      "Uncoated Layer (nm)",
+      "Total Thickness (nm)"
+    ],
+    "target": "Bonded Thickness (nm)",
+    "total_column": "Total Thickness (nm)",
+    "log_features": [
+      "Concentration (g/mL)"
+    ],
+    "group_column": "Concentration (g/mL)",
+    "hidden": [
+      16,
+      16
+    ],
+    "epochs": 1500,
+    "patience": 150,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "smooth_weight": 0.001,
+    "monotonic_weight": 0.0,
+    "monotonic": {},
+    "seed": 42,
+    "test_size": 0.2,
+    "validation_size": 0.2
+  },
+  "data_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\data\\agg.data.xlsx",
+  "data_sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+  "split_mode": "extrapolation",
+  "train_fraction": 1.0,
+  "rows": {
+    "train": 36,
+    "validation": 12,
+    "test": 10
+  },
+  "versions": {
+    "python": "3.12.5",
+    "torch": "2.7.1+cpu",
+    "numpy": "2.3.3",
+    "pandas": "2.2.3",
+    "sklearn": "1.7.2"
+  },
+  "note": "Constrained regression, not a PDE solver. Metrics are exploratory, not tuned benchmark claims."
+}

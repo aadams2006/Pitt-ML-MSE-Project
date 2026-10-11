@@ -1,0 +1,183 @@
+{
+  "run_id": "legacy_initial_extrapolation",
+  "status": "completed",
+  "model_version": "0.1.0",
+  "started_at_utc": null,
+  "started_at_new_york": null,
+  "finished_at_utc": null,
+  "artifact_last_modified_at_utc": "2026-10-11T15:29:51.731085+00:00",
+  "timestamp_provenance": "Imported legacy run. Start/end not recorded; filesystem artifact modification is approximate, not an execution timestamp.",
+  "source_sha256": "8c07730a755581bd6d309eb20c61d53ffadf4a2b249a535d4dd301c51fd87e82",
+  "git": {
+    "archived_source_commit": "9714ee5",
+    "note": "Source archived retrospectively; run predates this commit."
+  },
+  "data_kind": "experimental",
+  "data_sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+  "data_snapshot": "../../datasets/experimental_58.csv",
+  "config": {
+    "features": [
+      "Concentration (g/mL)",
+      "Uncoated Layer (nm)",
+      "Total Thickness (nm)"
+    ],
+    "target": "Bonded Thickness (nm)",
+    "total_column": "Total Thickness (nm)",
+    "log_features": [
+      "Concentration (g/mL)"
+    ],
+    "group_column": "Concentration (g/mL)",
+    "hidden": [
+      16,
+      16
+    ],
+    "epochs": 1500,
+    "patience": 150,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "smooth_weight": 0.001,
+    "monotonic_weight": 0.0,
+    "monotonic": {},
+    "seed": 42,
+    "test_size": 0.2,
+    "validation_size": 0.2
+  },
+  "split_mode": "extrapolation",
+  "rows": {
+    "train": 36,
+    "validation": 12,
+    "test": 10
+  },
+  "results": [
+    {
+      "model": "pinn",
+      "MAE_nm": 0.4304931035041808,
+      "RMSE_nm": 0.61677261723239,
+      "R2": -759.8169227353841,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    },
+    {
+      "model": "bounded_nn",
+      "MAE_nm": 0.4278292169570922,
+      "RMSE_nm": 0.6114894484707293,
+      "R2": -746.8386911820729,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    },
+    {
+      "model": "standard_nn",
+      "MAE_nm": 0.091285548210144,
+      "RMSE_nm": 0.1042389507834238,
+      "R2": -20.731517720858093,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    },
+    {
+      "model": "random_forest",
+      "MAE_nm": 0.025138860990861,
+      "RMSE_nm": 0.0293659581188552,
+      "R2": -0.7247189924767197,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    },
+    {
+      "model": "gradient_boosting",
+      "MAE_nm": 0.0236168013468458,
+      "RMSE_nm": 0.0296374078508318,
+      "R2": -0.7567518882330919,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    }
+  ],
+  "models": [
+    {
+      "model": "pinn",
+      "version": "0.1.0",
+      "started_at_utc": null,
+      "finished_at_utc": null,
+      "results": {
+        "model": "pinn",
+        "MAE_nm": 0.4304931035041808,
+        "RMSE_nm": 0.61677261723239,
+        "R2": -759.8169227353841,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    },
+    {
+      "model": "bounded_nn",
+      "version": "0.1.0",
+      "started_at_utc": null,
+      "finished_at_utc": null,
+      "results": {
+        "model": "bounded_nn",
+        "MAE_nm": 0.4278292169570922,
+        "RMSE_nm": 0.6114894484707293,
+        "R2": -746.8386911820729,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    },
+    {
+      "model": "standard_nn",
+      "version": "0.1.0",
+      "started_at_utc": null,
+      "finished_at_utc": null,
+      "results": {
+        "model": "standard_nn",
+        "MAE_nm": 0.091285548210144,
+        "RMSE_nm": 0.1042389507834238,
+        "R2": -20.731517720858093,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    },
+    {
+      "model": "random_forest",
+      "version": "1.7.2",
+      "started_at_utc": null,
+      "finished_at_utc": null,
+      "results": {
+        "model": "random_forest",
+        "MAE_nm": 0.025138860990861,
+        "RMSE_nm": 0.0293659581188552,
+        "R2": -0.7247189924767197,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    },
+    {
+      "model": "gradient_boosting",
+      "version": "1.7.2",
+      "started_at_utc": null,
+      "finished_at_utc": null,
+      "results": {
+        "model": "gradient_boosting",
+        "MAE_nm": 0.0236168013468458,
+        "RMSE_nm": 0.0296374078508318,
+        "R2": -0.7567518882330919,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    }
+  ],
+  "artifacts": {
+    "bounded_nn.pt": "a0f6c71b1cb332f90dcd4bc0dad62c81a35182d13207f3196aa886a89e39e237",
+    "bounded_nn_history.csv": "7507c67657eab6edc03dd8c3965d87565bbc094ab29eb2d8ad9fe19013fc45d8",
+    "manifest.json": "33787eeb941d431af41d820994c668fff7d583bc309cbea2b928f9da0d7926b3",
+    "metrics.csv": "65df92ea4d724f05c67454740ed923871698c0fa1fdc5b5fec000c2a30faa5ad",
+    "pinn.pt": "e041ae248625704c1b5bb1af15509a43d8c2ede3e46f5e979c1cd7d53d97e536",
+    "pinn_history.csv": "f2ad687b498f04aa3b7b156a7f1baec6bdf935ef001f71f0fc17157c56084054",
+    "pinn_sensitivity.csv": "7fa16bf5c3225faac9a38845a8b7df77f678d4d8c9834f81187161f31a9a4b7f",
+    "predictions.csv": "862115ece5bdc1555413c1d0fc4992faff005601dda89208dace88b247409c91",
+    "splits.csv": "4fa8167855c0dcb42d568d27bb249926db836468fe21371fb7af2c52459349cc",
+    "standard_nn.pt": "5d4f75597573bd1ed6bfa8101d23f61a4f6c35131a12b40ada059e20767d4487",
+    "standard_nn_history.csv": "84a5dcdf164ed56947a91fac648ad2862d3f2b0c341fc7c040f4b1a4af408963",
+    "source\\config.json": "b48be297ad1655e59a0323e755b221da0505da07272df8621525f1ce9dec43e3",
+    "source\\core.py": "02dc3ce55051b25ab97b44172cffd60e6d3a38d799fa096e672fa562f42b217c",
+    "source\\predict.py": "26e820faee9b31f77744fe0948a9782a46ac694d07c8f991b0b3470eba811037",
+    "source\\test_pinn.py": "0119314c9dc3887c599145e70b34543228dcb0e031ea6a44cb307c61d49decf3",
+    "source\\train.py": "4a4948c1c698aa2bb98aa2f6502a921ee6a3dac91bbbbd4ce2eb05119419916f"
+  }
+}

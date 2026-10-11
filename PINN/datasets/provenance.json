@@ -1,0 +1,22 @@
+[
+  {
+    "kind": "experimental",
+    "source_path": "data\\agg.data.xlsx",
+    "source_sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+    "snapshot": "experimental_58.csv",
+    "snapshot_sha256": "34aed3568f27475da107c8998173a63dcea139c3f0b0c7f916fe69240f750ce4",
+    "rows": 58,
+    "created_at_utc": "2026-10-11T15:40:43.033311+00:00",
+    "note": "CSV export of measured workbook; numeric values retained."
+  },
+  {
+    "kind": "synthetic",
+    "source_path": "Holdout Validation\\Data\\synthetic_data_improved.csv",
+    "source_sha256": "addb9e1a2979911be7cb0faa7d333c0cbd3c760e8bc33f8daed6f38ba1d710e2",
+    "snapshot": "synthetic_3000.csv",
+    "snapshot_sha256": "addb9e1a2979911be7cb0faa7d333c0cbd3c760e8bc33f8daed6f38ba1d710e2",
+    "rows": 3000,
+    "created_at_utc": "2026-10-11T15:40:43.056545+00:00",
+    "note": "Raw source snapshot; no filtering or target clipping. Synthetic parent-row provenance unavailable."
+  }
+]
