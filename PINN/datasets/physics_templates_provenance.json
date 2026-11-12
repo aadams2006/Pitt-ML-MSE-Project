@@ -1,0 +1,71 @@
+{
+  "created_utc": "2026-11-12T01:08:05.038981+00:00",
+  "datasets": [
+    {
+      "kind": "synthetic",
+      "source": "PINN/datasets/synthetic_3000.csv",
+      "source_sha256": "addb9e1a2979911be7cb0faa7d333c0cbd3c760e8bc33f8daed6f38ba1d710e2",
+      "output": "pinn_synthetic_physics_template.csv",
+      "output_sha256": "aef946f812b99a1ec6d9c1d193bb30021dab9992f60bb4dfcc453394954856bc",
+      "rows": 3000,
+      "source_to_output_columns": {
+        "Polarity (XLogP3)": "Polarity (XLogP3)",
+        " Viscosity (cP)": "Legacy Descriptor Viscosity (cP)",
+        " Boiling Point (K)": "Boiling Point (K)",
+        " Surface Tension (mN/m)": "Legacy Descriptor Surface Tension (mN/m)",
+        " Concentration (g/mL)": "Concentration (g/mL)",
+        "Uncoated Layer (nm)": "Uncoated Layer (nm)",
+        "Total Thickness (nm)": "Total Thickness (nm)",
+        "Bonded Thickness (nm)": "Bonded Thickness (nm)"
+      },
+      "validation": "All source cell strings preserved, row order/count preserved, all intake cells blank."
+    },
+    {
+      "kind": "experimental",
+      "source": "PINN/datasets/20261111T134229Z_measured_followup_measured.csv",
+      "source_sha256": "691278376f4fbbb48edba2cfcf55e587f3ac2fd9440fd039cc9e521122e35527",
+      "output": "pinn_experimental_physics_template.csv",
+      "output_sha256": "6fd753b1d4bb07851082808053405b40e34d72871eff4b0ea6e133ca046cd9cf",
+      "rows": 126,
+      "source_to_output_columns": {
+        "concentration_g_l": "concentration_g_l",
+        "uncoated_nm": "uncoated_nm",
+        "total_nm": "total_nm",
+        "bonded_nm": "bonded_nm",
+        "source_path": "source_path",
+        "source_row": "source_row",
+        "record_id": "record_id",
+        "solvent": "solvent",
+        "record_type": "record_type",
+        "concentration_g_ml": "concentration_g_ml",
+        "mobile_nm": "mobile_nm",
+        "group_id": "group_id",
+        "polarity": "polarity",
+        "viscosity_cp": "viscosity_cp",
+        "boiling_point_k": "boiling_point_k",
+        "surface_tension_mn_m": "surface_tension_mn_m",
+        "physical_valid": "physical_valid",
+        "primary_eligible": "primary_eligible",
+        "exclusion_reason": "exclusion_reason",
+        "solvent_ethyl_acetate": "solvent_ethyl_acetate",
+        "solvent_hexane": "solvent_hexane",
+        "solvent_toluene": "solvent_toluene"
+      },
+      "validation": "All source cell strings preserved, row order/count preserved, all intake cells blank."
+    }
+  ],
+  "blank_fields": {
+    "Withdrawal Velocity (mm/s)": "Measured withdrawal speed; velocity smoothness and LLD. Must vary for velocity smoothness.",
+    "Viscosity (cP)": "Validated solution viscosity at the relevant concentration and temperature; LLD.",
+    "Surface Tension (mN/m)": "Validated solution surface tension at the relevant conditions; LLD.",
+    "Solution Density (kg/m3)": "Validated solution density; LLD.",
+    "Wet-to-Dry Mobile Factor": "Dimensionless independently justified wet-to-dry conversion in (0,1]; LLD. Never derive from target thickness.",
+    "LLD Applicable": "Explicit lab-validated 0/1 regime flag; blank means unknown, not zero.",
+    "Experiment ID": "Actual experimental unit identifier, if recoverable; do not invent synthetic parent IDs.",
+    "measurement_source": "Source/citation or measurement identifier for supplied physics values.",
+    "unit_confirmation": "Record checked units and applicable measurement conditions.",
+    "regime_evidence": "Evidence for geometry, rheology, wetting, evaporation and low-capillary-number applicability."
+  },
+  "existing_sources_modified": false,
+  "training_performed": false
+}
