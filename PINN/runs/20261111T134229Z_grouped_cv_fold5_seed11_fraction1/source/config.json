@@ -1,0 +1,44 @@
+{
+  "features": [
+    "concentration_g_l",
+    "uncoated_nm",
+    "total_nm",
+    "solvent_ethyl_acetate",
+    "solvent_hexane",
+    "solvent_toluene"
+  ],
+  "target": "bonded_nm",
+  "total_column": "total_nm",
+  "log_features": [
+    "concentration_g_l"
+  ],
+  "group_column": "group_id",
+  "hidden": [
+    16,
+    16
+  ],
+  "epochs": 1500,
+  "patience": 150,
+  "learning_rate": 0.001,
+  "weight_decay": 0.0001,
+  "smooth_weight": 0.001,
+  "monotonic_weight": 0.0,
+  "monotonic": {},
+  "velocity_column": "Withdrawal Velocity (mm/s)",
+  "velocity_smooth_weight": 0.0,
+  "hydrodynamic_weight": 0.0,
+  "regularizer_rows": 256,
+  "seed": 11,
+  "test_size": 0.2,
+  "validation_size": 0.2,
+  "smooth_features": [
+    "concentration_g_l",
+    "uncoated_nm",
+    "total_nm"
+  ],
+  "split_seed": 42,
+  "subsample_unit": "group",
+  "subsample_seed": 42,
+  "outer_folds": 5,
+  "outer_fold": 4
+}

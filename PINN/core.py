@@ -31,6 +31,8 @@ def validate_config(cfg):
         raise ValueError('Log features must be inputs.')
     if not set(cfg['monotonic']).issubset(features):
         raise ValueError('Monotonic constraints must reference inputs.')
+    if not cfg.get('smooth_features', features) or not set(cfg.get('smooth_features', features)).issubset(features):
+        raise ValueError('Smooth features must be nonempty input columns.')
     if any(v not in (-1, 1) for v in cfg['monotonic'].values()):
         raise ValueError('Monotonic signs must be +1 or -1.')
     if cfg['epochs'] < 1 or cfg['patience'] < 1:
@@ -157,7 +159,8 @@ def regularizers(model, x, total, prep, output_scale, cfg, return_velocity=False
     for k in range(x.shape[1]):
         second = torch.autograd.grad(grad[:, k].sum(), x, create_graph=True, retain_graph=True)[0][:, k]
         curvature.append(second.square().mean())
-    smooth = torch.stack(curvature).mean()
+    smooth = torch.stack([curvature[cfg['features'].index(c)]
+                          for c in cfg.get('smooth_features', cfg['features'])]).mean()
     velocity = x.new_zeros(())
     if cfg.get('velocity_smooth_weight', 0):
         velocity = curvature[cfg['features'].index(cfg['velocity_column'])]

@@ -1,5 +1,14 @@
 # Change and decision log
 
+## 0.3.0 - 2026-11-11
+
+- Added audited three-solvent measured-data campaign with corrected concentration schema and source-linked exclusions.
+- Added deterministic outer GroupKFold partitions with an independent inner split seed and whole-condition nested subsampling.
+- Restricted optional smoothness regularization to declared continuous inputs; solvent indicators are not differentiated in the smoothness objective.
+- Executed controlled bound/smoothness comparisons and measured-data learning curves; archived configurations, checkpoints, predictions and figures in timestamped locations.
+- Added campaign integrity checks, Markdown research report and concise presentation with speaker scripts.
+- Preserved historical runs and raw data. Additional measured-physics penalties remain gated on matched measurements and applicability evidence.
+
 ## 0.2.0 - 2026-10-11
 
 - Added committed raw synthetic and experimental CSV snapshots with source hashes; the default measured experiment now works from a fresh clone. Separate seven-feature synthetic and concentration-monotonicity configs retain the measured-data baseline.

@@ -1,0 +1,42 @@
+{
+  "parameters": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "criterion": "squared_error",
+    "max_depth": null,
+    "max_features": 1.0,
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 2,
+    "min_weight_fraction_leaf": 0.0,
+    "monotonic_cst": null,
+    "n_estimators": 300,
+    "n_jobs": 1,
+    "oob_score": false,
+    "random_state": 73,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "preprocessing": {
+    "mean": [
+      -0.5467131796405873,
+      1.4858227848101262,
+      1.910886075949367,
+      0.379746835443038,
+      0.31645569620253167,
+      0.3037974683544304
+    ],
+    "scale": [
+      2.4817021902794796,
+      0.08303739579915545,
+      2.2871137025270807,
+      0.48532378513115987,
+      0.4650929891360467,
+      0.45989625631860614
+    ]
+  },
+  "note": "Tree structure for inspection; refit using source/config/splits for inference.",
+  "initial_prediction": null
+}
