@@ -1,0 +1,78 @@
+{
+  "config": {
+    "features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm",
+      "solvent_ethyl_acetate",
+      "solvent_hexane",
+      "solvent_toluene"
+    ],
+    "target": "bonded_nm",
+    "total_column": "total_nm",
+    "log_features": [
+      "concentration_g_l"
+    ],
+    "group_column": "group_id",
+    "hidden": [
+      16,
+      16
+    ],
+    "epochs": 1500,
+    "patience": 150,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "smooth_weight": 0.001,
+    "monotonic_weight": 0.0,
+    "monotonic": {},
+    "velocity_column": "Withdrawal Velocity (mm/s)",
+    "velocity_smooth_weight": 0.0,
+    "hydrodynamic_weight": 0.0,
+    "regularizer_rows": 256,
+    "seed": 42,
+    "test_size": 0.2,
+    "validation_size": 0.2,
+    "smooth_features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm"
+    ],
+    "split_seed": 42,
+    "subsample_unit": "group",
+    "subsample_seed": 42,
+    "outer_folds": 5,
+    "outer_fold": 0
+  },
+  "model_version": "0.3.0",
+  "run_id": "20261111T134229Z_learning_curve_fold1_seed42_fraction0.25",
+  "data_kind": "experimental",
+  "data_audit": {
+    "input_rows": 126,
+    "retained_rows": 126,
+    "excluded_rows": 0,
+    "policy": "error",
+    "reason_counts": {
+      "nonpositive_total": 0,
+      "nonpositive_log:concentration_g_l": 0,
+      "bonded_outside_bounds": 0
+    },
+    "excluded_source_rows": []
+  },
+  "data_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\datasets\\20261111T134229Z_measured_followup_measured.csv",
+  "data_sha256": "691278376f4fbbb48edba2cfcf55e587f3ac2fd9440fd039cc9e521122e35527",
+  "split_mode": "grouped",
+  "train_fraction": 0.25,
+  "rows": {
+    "train": 17,
+    "validation": 24,
+    "test": 27
+  },
+  "versions": {
+    "python": "3.12.5",
+    "torch": "2.7.1+cpu",
+    "numpy": "2.3.3",
+    "pandas": "2.2.3",
+    "sklearn": "1.7.2"
+  },
+  "note": "Constrained regression, not a PDE solver. Metrics are exploratory, not tuned benchmark claims."
+}

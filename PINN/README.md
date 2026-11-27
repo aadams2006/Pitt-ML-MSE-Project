@@ -2,6 +2,16 @@
 
 All PINN-specific implementation, configuration, literature, checks, and generated runs live here. Existing model pipelines and datasets are unchanged.
 
+## Latest measured-data follow-up: November 11, 2026
+
+See [research update and experiment details](campaigns/20261111T134229Z_measured_followup/RESEARCH_UPDATE.md),
+the [prepared-data provenance](campaigns/20261111T134229Z_measured_followup/data_provenance.json),
+and the [seven-slide presentation with speaker notes](presentations/2026-11-11/output/Li_Lab_Research_Update_2026-11-11_Template.pptx).
+The campaign combines 126 audited measurements across three solvents and evaluates five grouped folds,
+three initialization seeds and fixed-test learning curves. Results are conditional on measured total thickness.
+Velocity and hydrodynamic penalties await a validated sample-linked physics table; the keyed intake is
+in the campaign directory. See `run_followup.py`, `summarize_followup.py`, and `verify_followup.py` to reproduce.
+
 This initial model is **physics-constrained tabular regression**, using a hard thickness bound and a smoothness prior. It is not yet a governing-PDE PINN or an identified adsorption mechanism. The proposal and attached slide motivate the experiment; they do not establish an applicable differential equation.
 
 ## Run from the repository root

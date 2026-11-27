@@ -1,0 +1,11 @@
+baseline grouped_cv 1
+baseline grouped_cv 2
+baseline grouped_cv 3
+baseline grouped_cv 4
+baseline grouped_cv 5
+baseline leave_one_solvent_out ethyl_acetate
+baseline leave_one_solvent_out hexane
+baseline leave_one_solvent_out toluene
+baseline ood_low_concentration low
+baseline ood_high_concentration high
+C:\Users\alexg\Downloads\Pitt-ML-MSE-Project\publication_2026\runs\20261127T154337Z_AB_stage02_regenerated

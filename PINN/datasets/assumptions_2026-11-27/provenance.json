@@ -1,0 +1,49 @@
+{
+  "source_commit": "74c8d23c70e7cc6276a8d65a2df7a978633b2822",
+  "date": "2026-11-27",
+  "datasets": [
+    {
+      "kind": "experimental",
+      "source": "pinn_experimental_physics_template.csv",
+      "source_sha256": "6fd753b1d4bb07851082808053405b40e34d72871eff4b0ea6e133ca046cd9cf",
+      "output": "pinn_experimental_physics_assumed.csv",
+      "output_sha256": "21d92d3eaaeababe8c02a7f67cefd0c81ddca2af78f6602762ce12de49499789",
+      "rows": 126,
+      "property_rows_populated": 126,
+      "property_rows_unresolved": 0,
+      "baseline_label_eligible": 126,
+      "preservation_check": "all original non-intake cell strings and row order preserved"
+    },
+    {
+      "kind": "synthetic",
+      "source": "pinn_synthetic_physics_template.csv",
+      "source_sha256": "aef946f812b99a1ec6d9c1d193bb30021dab9992f60bb4dfcc453394954856bc",
+      "output": "pinn_synthetic_physics_assumed.csv",
+      "output_sha256": "cbbb3185faf43f2dbe754e11aee28142d1afa028530e4f75ba1f4c82e6baebf6",
+      "rows": 3000,
+      "property_rows_populated": 2818,
+      "property_rows_unresolved": 182,
+      "baseline_label_eligible": 2808,
+      "preservation_check": "all original non-intake cell strings and row order preserved"
+    }
+  ],
+  "status": "assumption scenarios, not measured properties or validated tolerance intervals",
+  "pdms_analogue": {
+    "rho_kg_m3": 961.8,
+    "surface_tension_mN_m": 20.83,
+    "neat_viscosity_cP": 62.517
+  },
+  "training_performed": false,
+  "hydrodynamic_weight": 0,
+  "velocity_smooth_weight": 0,
+  "checks": [
+    "source preservation",
+    "row counts",
+    "LLD disabled",
+    "zero-concentration solvent limit",
+    "LLD U^(2/3) scaling",
+    "negative concentration rejection",
+    "cSt to cP conversion"
+  ],
+  "script_sha256": "77ce3df1b193aabc45b17c4c4c7d12068a676689fca8ac8c7d69705e569e5a1f"
+}

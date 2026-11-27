@@ -1,0 +1,14 @@
+{
+  "inputs": "concentration_g_l; fixed solvent descriptors OR training-only solvent one-hot categories",
+  "forbidden": [
+    "total_nm",
+    "bonded_nm",
+    "mobile_nm",
+    "uncoated_nm",
+    "physical_valid",
+    "primary_eligible",
+    "assumed physics/target diagnostics"
+  ],
+  "unseen_identity": "all-zero solvent indicators, no new category fitted on test records",
+  "parameters": "Every fitted object uses inner-train or outer-development records only."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "slide": 1,
+    "title": "Physics-Informed Neural Network\nResearch Update",
+    "notes": "SPEAKER SCRIPT\nToday I will summarize the follow-up to the October update. We assembled the audited measurements into a PINN-ready table, repeated comparisons across held-out coating conditions, and tested what happens when we reduce the training data. There are 120 model fits, but no newly collected laboratory experiments. The main question is whether the physical restrictions improve prediction accuracy, rather than simply keeping predictions in an allowed range. I will also identify exactly what is still needed to activate the remaining physics terms.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\RESEARCH_UPDATE.md\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 2,
+    "title": "Data and comparison design",
+    "notes": "SPEAKER SCRIPT\nWe started with 142 source records. Fifteen toluene summary rows may overlap the individual readings, and another toluene row reports bonded thickness above total thickness. Those 16 rows were excluded under the existing audit, leaving 126. We retained source filenames, row numbers and record IDs. The concentration values are in grams per liter. A condition means one solvent and concentration combination. We hold out all readings at a condition together. Five folds rotate conditions through the test role, while three seeds repeat model initialization on exactly the same splits. Batch IDs are still missing, so condition grouping is a practical proxy, not proof of independent experiments.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\data_provenance.json\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 3,
+    "title": "Prediction error on held-out conditions",
+    "notes": "SPEAKER SCRIPT\nThe vertical axis is root mean squared error, expressed in nanometers. Lower is better. We first average squared errors within each condition, so a condition with many repeated readings does not dominate the score. The bound-plus-smoothness model averages 0.1061 nm, compared with 0.1065 nm for the bound-only model. The other bars are an unconstrained neural network and two tree-based reference models. These are new comparisons on the combined three-solvent dataset, so we should not read a change from the older hexane-only score as a controlled improvement. All figures are exploratory results on existing measurements. Seed variation is tabulated in the report; three seeds are not a confidence interval.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\cv_summary.csv\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 4,
+    "title": "Effect of the smoothness constraint",
+    "notes": "SPEAKER SCRIPT\nHere we subtract the bound-only error from the error with added smoothness. A negative value means smoothness helped. Each line is one initialization seed, and each point is a different held-out group of conditions. Smoothness improves 9 of 15 comparisons, with a mean paired change of -0.0003 nanometers. The comparisons reuse data and are not independent experiments. The output bound guarantees nonnegative bonded thickness no greater than measured total; a smoothness penalty only discourages a wavy response. Neither fact guarantees accurate predictions. This is why we keep compliance and error as separate outcomes.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\paired_curvature_effect.csv\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 5,
+    "title": "Measured training-data requirements",
+    "notes": "SPEAKER SCRIPT\nThis experiment removes complete training conditions while leaving validation and test measurements unchanged. The percentages refer to conditions rather than individual repeated readings, with integer rounding. Each point averages the same three initialization seeds. The full-data endpoint reuses the first fold of the main study. A lower error as more data become available supports collecting broader measured coverage, but this is only one fixed test fold and should not be read as a universal sample-size requirement. The full report includes all five models and the variation across seeds. We have not claimed that synthetic augmentation helps; this establishes its measured-only reference.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\learning_curve_metrics.csv\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 6,
+    "title": "Remaining physics inputs",
+    "notes": "SPEAKER SCRIPT\nThe October update says the values needed for the remaining losses are available. I have not changed that statement. In this repository, however, I could not identify a sample-linked table with the required measured speed, solution properties and independently justified wet-to-dry conversion. Older analytical scripts use solvent constants and an assumed withdrawal speed, which cannot silently become measured inputs. I prepared an intake with all 126 record IDs and source rows so those measurements can be matched directly. The hydrodynamic relation would apply to the mobile layer under justified conditions; it is not an adsorption law for bonded thickness. The conversion must not be calculated from the bonded target, because that would reveal the answer to the model.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\physics_measurement_intake.csv\nCampaign: 20261111T134229Z_measured_followup"
+  },
+  {
+    "slide": 7,
+    "title": "Conclusions and next experiment",
+    "notes": "SPEAKER SCRIPT\nThe main deliverable is a reproducible measured-data comparison, including every split, prediction, checkpoint and figure. We can now distinguish the effect of the bound, the effect of smoothness, and the effect of training-data quantity. The immediate next step is to supply the matched physics table and its applicability evidence, then enable velocity and hydrodynamic penalties separately before combining them. We should also obtain batch and specimen identities and reserve new laboratory measurements for a truly independent assessment. These existing-data comparisons do not identify an adsorption mechanism or establish recipe-only forecasting.\n\nSOURCES\nC:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\campaigns\\20261111T134229Z_measured_followup\\RESEARCH_UPDATE.md\nCampaign: 20261111T134229Z_measured_followup"
+  }
+]

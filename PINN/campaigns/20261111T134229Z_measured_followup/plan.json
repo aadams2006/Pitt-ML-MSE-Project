@@ -1,0 +1,198 @@
+{
+  "created_utc": "2026-11-11T13:42:35.845055+00:00",
+  "seeds": [
+    11,
+    42,
+    73
+  ],
+  "config": {
+    "features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm",
+      "solvent_ethyl_acetate",
+      "solvent_hexane",
+      "solvent_toluene"
+    ],
+    "target": "bonded_nm",
+    "total_column": "total_nm",
+    "log_features": [
+      "concentration_g_l"
+    ],
+    "group_column": "group_id",
+    "hidden": [
+      16,
+      16
+    ],
+    "epochs": 1500,
+    "patience": 150,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "smooth_weight": 0.001,
+    "monotonic_weight": 0.0,
+    "monotonic": {},
+    "velocity_column": "Withdrawal Velocity (mm/s)",
+    "velocity_smooth_weight": 0.0,
+    "hydrodynamic_weight": 0.0,
+    "regularizer_rows": 256,
+    "seed": 42,
+    "test_size": 0.2,
+    "validation_size": 0.2,
+    "smooth_features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm"
+    ],
+    "split_seed": 42,
+    "subsample_unit": "group",
+    "subsample_seed": 42,
+    "outer_folds": 5
+  },
+  "experiments": [
+    {
+      "seed": 11,
+      "fold": 0,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 11,
+      "fold": 1,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 11,
+      "fold": 2,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 11,
+      "fold": 3,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 11,
+      "fold": 4,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 11,
+      "fold": 0,
+      "fraction": 0.25,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 11,
+      "fold": 0,
+      "fraction": 0.5,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 11,
+      "fold": 0,
+      "fraction": 0.75,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 42,
+      "fold": 0,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 42,
+      "fold": 1,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 42,
+      "fold": 2,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 42,
+      "fold": 3,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 42,
+      "fold": 4,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 42,
+      "fold": 0,
+      "fraction": 0.25,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 42,
+      "fold": 0,
+      "fraction": 0.5,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 42,
+      "fold": 0,
+      "fraction": 0.75,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 73,
+      "fold": 0,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 73,
+      "fold": 1,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 73,
+      "fold": 2,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 73,
+      "fold": 3,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 73,
+      "fold": 4,
+      "fraction": 1.0,
+      "label": "grouped_cv"
+    },
+    {
+      "seed": 73,
+      "fold": 0,
+      "fraction": 0.25,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 73,
+      "fold": 0,
+      "fraction": 0.5,
+      "label": "learning_curve"
+    },
+    {
+      "seed": 73,
+      "fold": 0,
+      "fraction": 0.75,
+      "label": "learning_curve"
+    }
+  ],
+  "decisions": "Fixed settings before runs; no test-based tuning. Five outer folds; same inner split across initialization seeds. Learning curves use fold 1 only. No synthetic augmentation without vetted parent generation."
+}

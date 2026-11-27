@@ -1,0 +1,250 @@
+{
+  "candidates": [
+    {
+      "id": "rf_descriptors_raw_leaf1_depthNone",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "raw",
+      "leaf": 1,
+      "depth": null,
+      "trees": 100
+    },
+    {
+      "id": "rf_descriptors_raw_leaf2_depth6",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "raw",
+      "leaf": 2,
+      "depth": 6,
+      "trees": 100
+    },
+    {
+      "id": "rf_descriptors_raw_leaf4_depth3",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "raw",
+      "leaf": 4,
+      "depth": 3,
+      "trees": 100
+    },
+    {
+      "id": "gb_descriptors_raw_leaf2_depth2",
+      "family": "gb",
+      "encoding": "descriptors",
+      "transform": "raw",
+      "leaf": 2,
+      "depth": 2,
+      "lr": 0.05,
+      "trees": 100
+    },
+    {
+      "id": "gb_descriptors_raw_leaf4_depth1",
+      "family": "gb",
+      "encoding": "descriptors",
+      "transform": "raw",
+      "leaf": 4,
+      "depth": 1,
+      "lr": 0.03,
+      "trees": 100
+    },
+    {
+      "id": "rf_descriptors_log_leaf1_depthNone",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "log",
+      "leaf": 1,
+      "depth": null,
+      "trees": 100
+    },
+    {
+      "id": "rf_descriptors_log_leaf2_depth6",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "log",
+      "leaf": 2,
+      "depth": 6,
+      "trees": 100
+    },
+    {
+      "id": "rf_descriptors_log_leaf4_depth3",
+      "family": "rf",
+      "encoding": "descriptors",
+      "transform": "log",
+      "leaf": 4,
+      "depth": 3,
+      "trees": 100
+    },
+    {
+      "id": "gb_descriptors_log_leaf2_depth2",
+      "family": "gb",
+      "encoding": "descriptors",
+      "transform": "log",
+      "leaf": 2,
+      "depth": 2,
+      "lr": 0.05,
+      "trees": 100
+    },
+    {
+      "id": "gb_descriptors_log_leaf4_depth1",
+      "family": "gb",
+      "encoding": "descriptors",
+      "transform": "log",
+      "leaf": 4,
+      "depth": 1,
+      "lr": 0.03,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_raw_leaf1_depthNone",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "raw",
+      "leaf": 1,
+      "depth": null,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_raw_leaf2_depth6",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "raw",
+      "leaf": 2,
+      "depth": 6,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_raw_leaf4_depth3",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "raw",
+      "leaf": 4,
+      "depth": 3,
+      "trees": 100
+    },
+    {
+      "id": "gb_identity_raw_leaf2_depth2",
+      "family": "gb",
+      "encoding": "identity",
+      "transform": "raw",
+      "leaf": 2,
+      "depth": 2,
+      "lr": 0.05,
+      "trees": 100
+    },
+    {
+      "id": "gb_identity_raw_leaf4_depth1",
+      "family": "gb",
+      "encoding": "identity",
+      "transform": "raw",
+      "leaf": 4,
+      "depth": 1,
+      "lr": 0.03,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_log_leaf1_depthNone",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "log",
+      "leaf": 1,
+      "depth": null,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_log_leaf2_depth6",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "log",
+      "leaf": 2,
+      "depth": 6,
+      "trees": 100
+    },
+    {
+      "id": "rf_identity_log_leaf4_depth3",
+      "family": "rf",
+      "encoding": "identity",
+      "transform": "log",
+      "leaf": 4,
+      "depth": 3,
+      "trees": 100
+    },
+    {
+      "id": "gb_identity_log_leaf2_depth2",
+      "family": "gb",
+      "encoding": "identity",
+      "transform": "log",
+      "leaf": 2,
+      "depth": 2,
+      "lr": 0.05,
+      "trees": 100
+    },
+    {
+      "id": "gb_identity_log_leaf4_depth1",
+      "family": "gb",
+      "encoding": "identity",
+      "transform": "log",
+      "leaf": 4,
+      "depth": 1,
+      "lr": 0.03,
+      "trees": 100
+    }
+  ],
+  "simple_mobile": [
+    {
+      "id": "linear_local",
+      "family": "linear",
+      "scope": "local"
+    },
+    {
+      "id": "scaled_lld_local",
+      "family": "scaled_lld",
+      "scope": "local"
+    },
+    {
+      "id": "saturating_mobile_local",
+      "family": "saturating_mobile",
+      "scope": "local"
+    },
+    {
+      "id": "scaled_lld_plus_ridge_residual",
+      "family": "hybrid"
+    }
+  ],
+  "search_seed": 42,
+  "final_seeds": [
+    11,
+    42,
+    73
+  ],
+  "targets": [
+    "bonded_nm",
+    "mobile_nm"
+  ],
+  "inner_folds": 3,
+  "selection": "Minimize condition-weighted MSE over pooled inner out-of-fold records. Ties resolve by declared candidate order. No outer test outcomes used.",
+  "protocols": [
+    "grouped_cv",
+    "leave_one_solvent_out",
+    "ood_low_concentration",
+    "ood_high_concentration"
+  ],
+  "finalists": [
+    "tree_selected: per-target inner selection among 12 RF + 8 GB settings",
+    "simple_selected: same inner-selected bonded tree, mobile inner choice among 3 simple curves and 1 fixed hybrid"
+  ],
+  "reporting": "Also report nested RF and GB separately; no per-solvent winner selection.",
+  "unknown_solvent": "Identity columns fitted to training solvent categories only; unseen solvent is all zero. Label identity transfer as unsupported chemistry category, distinct from descriptor transfer.",
+  "hybrid": "Local scaled LLD fit on inner training condition means; training residuals fitted with weighted Ridge alpha 10 on log1p concentration, descriptors, and their interactions; both refit inside every partition.",
+  "physical": "Nonnegative component projection; total sum. No measured thickness inputs or new physics losses. Parameters remain phenomenological.",
+  "fixed_references": [
+    "rf_balanced_pooled",
+    "rf_balanced_local",
+    "ridge_balanced",
+    "linear_local",
+    "scaled_lld_local",
+    "saturating_mobile_local"
+  ],
+  "stop": "One declared search only. No enlargement from outer results. At most two finalist procedures. If gains are small/unstable, prefer the simpler reference.",
+  "thresholds": "At least 5% lower condition RMSE, no undisclosed >10% increase on another target/solvent. Engineering thresholds, not statistical tests.",
+  "recovery": "Stages 1-2 regenerated locally from preserved sources; historical cloud commit unavailable."
+}

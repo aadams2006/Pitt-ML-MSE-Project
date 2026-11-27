@@ -1,0 +1,67 @@
+{
+  "recovery": "Original cloud commit 66c67d5 unavailable; this is an independently regenerated Windows run, not that commit or byte-identical outputs.",
+  "candidates": {
+    "mean_pooled": {
+      "family": "mean"
+    },
+    "mean_local": {
+      "family": "mean",
+      "scope": "local"
+    },
+    "ridge_balanced": {
+      "family": "ridge"
+    },
+    "rf_balanced_pooled": {
+      "family": "rf"
+    },
+    "rf_balanced_local": {
+      "family": "rf",
+      "scope": "local"
+    },
+    "gb_balanced": {
+      "family": "gb"
+    },
+    "linear_pooled": {
+      "family": "linear"
+    },
+    "linear_local": {
+      "family": "linear",
+      "scope": "local"
+    },
+    "fixed_lld": {
+      "family": "fixed_lld"
+    },
+    "scaled_lld_pooled": {
+      "family": "scaled_lld"
+    },
+    "scaled_lld_local": {
+      "family": "scaled_lld",
+      "scope": "local"
+    },
+    "saturating_mobile_pooled": {
+      "family": "saturating_mobile"
+    },
+    "saturating_mobile_local": {
+      "family": "saturating_mobile",
+      "scope": "local"
+    }
+  },
+  "features": [
+    "concentration_g_l",
+    "polarity",
+    "viscosity_cp",
+    "boiling_point_k",
+    "surface_tension_mn_m"
+  ],
+  "seed_A": 42,
+  "seeds_B": [
+    11,
+    42,
+    73
+  ],
+  "weighting": "Inverse condition frequency normalized to mean one; analytical condition means. Historical RF and B use row weighting.",
+  "training": "A full development set; B archived train only, validation for neural checkpoints.",
+  "fallback": "Local requires >=2 conditions; otherwise pooled.",
+  "projection": "A nonnegative components, total from sum; B archived outputs unchanged.",
+  "synthetic": "Excluded"
+}

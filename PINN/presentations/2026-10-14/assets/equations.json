@@ -1,0 +1,16 @@
+{
+  "bound_output": "\\hat{h}_B = h_T\\,\\sigma\\!\\left(f_\\theta(\\mathbf{z})\\right)",
+  "bound_range": "0 \\leq \\hat{h}_B \\leq h_T",
+  "sigmoid": "\\sigma(a)=\\frac{1}{1+e^{-a}}",
+  "total_loss": "\\mathcal{L}=\\mathcal{L}_{\\mathrm{data}}+\\lambda_s\\mathcal{L}_{\\mathrm{smooth}}+\\lambda_m\\mathcal{L}_{\\mathrm{mono}}+\\lambda_v\\mathcal{L}_{\\mathrm{velocity}}+\\lambda_h\\mathcal{L}_{\\mathrm{LLD}}",
+  "normalized_output": "q=\\frac{\\hat{h}_B}{s_y}",
+  "data_loss": "\\mathcal{L}_{\\mathrm{data}}=\\frac{1}{n}\\sum_{i=1}^{n}\\left(\\frac{\\hat{h}_{B,i}-h_{B,i}}{s_y}\\right)^2",
+  "smooth_loss": "\\mathcal{L}_{\\mathrm{smooth}}=\\frac{1}{md}\\sum_{i=1}^{m}\\sum_{j=1}^{d}\\left(\\frac{\\partial^2 q_i}{\\partial z_j^2}\\right)^2",
+  "mono_loss": "\\mathcal{L}_{\\mathrm{mono}}=\\sum_{j\\in J}\\frac{1}{m}\\sum_{i=1}^{m}\\left[\\max\\!\\left(0,-s_j\\frac{\\partial q_i}{\\partial z_j}\\right)\\right]^2",
+  "velocity_loss": "\\mathcal{L}_{\\mathrm{velocity}}=\\frac{1}{m}\\sum_{i=1}^{m}\\left(\\frac{\\partial^2 q_i}{\\partial z_U^2}\\right)^2",
+  "capillary": "\\mathrm{Ca}=\\frac{\\eta U}{\\gamma}",
+  "wet_thickness": "h_{\\mathrm{wet}}=0.9458\\sqrt{\\frac{\\gamma}{\\rho g}}\\,\\mathrm{Ca}^{2/3}",
+  "lld_loss": "\\mathcal{L}_{\\mathrm{LLD}}=\\frac{1}{n_A}\\sum_{i\\in A}\\left(\\frac{h_{T,i}-\\hat{h}_{B,i}-f_{\\mathrm{dry},i}h_{\\mathrm{wet},i}}{s_y}\\right)^2",
+  "pinn_rmse": "\\mathrm{RMSE}_{\\mathrm{PINN}}=0.0557\\ \\mathrm{nm}",
+  "rf_rmse": "\\mathrm{RMSE}_{\\mathrm{RF}}=0.0359\\ \\mathrm{nm}"
+}

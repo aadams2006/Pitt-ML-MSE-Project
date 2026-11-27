@@ -94,7 +94,8 @@ class PhysicsTrackingTests(unittest.TestCase):
             saved = json.loads((out/'run_record.json').read_text())
             self.assertEqual(saved['status'], 'failed')
             self.assertIn('test failure', saved['error'])
-            self.assertEqual(saved['model_version'], '0.2.0')
+            from run_tracking import MODEL_VERSION
+            self.assertEqual(saved['model_version'], MODEL_VERSION)
             self.assertGreaterEqual(saved['duration_seconds'], 0)
 
 

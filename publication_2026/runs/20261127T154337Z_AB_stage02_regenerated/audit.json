@@ -1,0 +1,62 @@
+{
+  "rows": 126,
+  "conditions": 36,
+  "sources": [
+    {
+      "path": "models/feature engineering v1/data FE-V1/agg.data.xlsx",
+      "sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+      "rows": 58
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/toluene+pdms.csv",
+      "sha256": "38fdc73bdbe424b88926afb67a5b850d3cf024ecfba8101f09934e7fdba9a113",
+      "rows": 51
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/ethyl acetate+pdms.csv",
+      "sha256": "3917cb1c386fac2d90d13204a73d0c40cdb483550457d37ce6c424e7d6bf6096",
+      "rows": 33
+    }
+  ],
+  "hash_checks": [
+    {
+      "path": "PINN\\datasets\\assumptions_2026-11-27\\pinn_experimental_physics_assumed.csv",
+      "expected": "21d92d3eaaeababe8c02a7f67cefd0c81ddca2af78f6602762ce12de49499789",
+      "actual": "21d92d3eaaeababe8c02a7f67cefd0c81ddca2af78f6602762ce12de49499789",
+      "match": "exact"
+    },
+    {
+      "path": "PINN\\datasets\\pinn_experimental_physics_template.csv",
+      "expected": "6fd753b1d4bb07851082808053405b40e34d72871eff4b0ea6e133ca046cd9cf",
+      "actual": "6fd753b1d4bb07851082808053405b40e34d72871eff4b0ea6e133ca046cd9cf",
+      "match": "exact"
+    },
+    {
+      "path": "PINN\\datasets\\assumptions_2026-11-27\\pinn_synthetic_physics_assumed.csv",
+      "expected": "cbbb3185faf43f2dbe754e11aee28142d1afa028530e4f75ba1f4c82e6baebf6",
+      "actual": "cbbb3185faf43f2dbe754e11aee28142d1afa028530e4f75ba1f4c82e6baebf6",
+      "match": "exact"
+    },
+    {
+      "path": "PINN\\datasets\\pinn_synthetic_physics_template.csv",
+      "expected": "aef946f812b99a1ec6d9c1d193bb30021dab9992f60bb4dfcc453394954856bc",
+      "actual": "aef946f812b99a1ec6d9c1d193bb30021dab9992f60bb4dfcc453394954856bc",
+      "match": "exact"
+    },
+    {
+      "path": "PINN\\datasets\\assumptions_2026-11-27\\build_estimates.py",
+      "expected": "77ce3df1b193aabc45b17c4c4c7d12068a676689fca8ac8c7d69705e569e5a1f",
+      "actual": "77ce3df1b193aabc45b17c4c4c7d12068a676689fca8ac8c7d69705e569e5a1f",
+      "match": "exact"
+    }
+  ],
+  "excluded": {
+    "summary_may_overlap_individual_readings": 15,
+    "invalid_physical_target": 1
+  },
+  "units": "Concentration g/L despite legacy g/mL headers; thickness nm.",
+  "duplicate_value_rows": 0,
+  "experimental_ids": "Absent; conditions are a proxy, not proof of batch independence.",
+  "physics": "Estimated properties, not measurements; hydrodynamic and velocity weights remain zero.",
+  "synthetic": "Excluded; no verified disjoint parent lineage."
+}

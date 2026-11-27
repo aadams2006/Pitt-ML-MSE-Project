@@ -1,0 +1,298 @@
+{
+  "run_id": "20261111T134229Z_grouped_cv_fold5_seed73_fraction1",
+  "status": "completed",
+  "started_at_utc": "2026-11-11T13:50:53.229600+00:00",
+  "started_at_new_york": "2026-11-11T08:50:53.229600-05:00",
+  "model_version": "0.3.0",
+  "source_sha256": "bdc6cd387a9f7e2c8ec73c628b3db7fd880f225d6ed07b08d46d34c87df119de",
+  "git": {
+    "commit": "69754484e3fac64e6543c1ff81a546a31fb15a5d",
+    "branch": "codex/pinn-physics-and-run-tracking",
+    "worktree_dirty": true
+  },
+  "data_kind": "experimental",
+  "data_path": "C:\\Users\\alexg\\Downloads\\Pitt-ML-MSE-Project\\PINN\\datasets\\20261111T134229Z_measured_followup_measured.csv",
+  "data_sha256": "691278376f4fbbb48edba2cfcf55e587f3ac2fd9440fd039cc9e521122e35527",
+  "config": {
+    "features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm",
+      "solvent_ethyl_acetate",
+      "solvent_hexane",
+      "solvent_toluene"
+    ],
+    "target": "bonded_nm",
+    "total_column": "total_nm",
+    "log_features": [
+      "concentration_g_l"
+    ],
+    "group_column": "group_id",
+    "hidden": [
+      16,
+      16
+    ],
+    "epochs": 1500,
+    "patience": 150,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "smooth_weight": 0.001,
+    "monotonic_weight": 0.0,
+    "monotonic": {},
+    "velocity_column": "Withdrawal Velocity (mm/s)",
+    "velocity_smooth_weight": 0.0,
+    "hydrodynamic_weight": 0.0,
+    "regularizer_rows": 256,
+    "seed": 73,
+    "test_size": 0.2,
+    "validation_size": 0.2,
+    "smooth_features": [
+      "concentration_g_l",
+      "uncoated_nm",
+      "total_nm"
+    ],
+    "split_seed": 42,
+    "subsample_unit": "group",
+    "subsample_seed": 42,
+    "outer_folds": 5,
+    "outer_fold": 4
+  },
+  "split_mode": "grouped",
+  "train_fraction": 1.0,
+  "invalid_policy": "error",
+  "timestamp_provenance": "Runtime wall clock; explicit UTC and America/New_York offsets.",
+  "models": [
+    {
+      "model": "pinn",
+      "version": "0.3.0",
+      "started_at_utc": "2026-11-11T13:50:53.258255+00:00",
+      "bounded": true,
+      "regularized": true,
+      "hidden": [
+        16,
+        16
+      ],
+      "finished_at_utc": "2026-11-11T13:51:12.782129+00:00",
+      "epochs_run": 1112,
+      "selected_epoch": 962,
+      "results": {
+        "model": "pinn",
+        "MAE_nm": 0.0897123008966446,
+        "RMSE_nm": 0.10753071982923156,
+        "R2": -0.0007670639401045065,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0,
+        "epochs": 1112
+      }
+    },
+    {
+      "model": "bounded_nn",
+      "version": "0.3.0",
+      "started_at_utc": "2026-11-11T13:51:12.827946+00:00",
+      "bounded": true,
+      "regularized": false,
+      "hidden": [
+        16,
+        16
+      ],
+      "finished_at_utc": "2026-11-11T13:51:17.717226+00:00",
+      "epochs_run": 1136,
+      "selected_epoch": 986,
+      "results": {
+        "model": "bounded_nn",
+        "MAE_nm": 0.0890383337934812,
+        "RMSE_nm": 0.10877721941412632,
+        "R2": -0.0241033906264565,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0,
+        "epochs": 1136
+      }
+    },
+    {
+      "model": "standard_nn",
+      "version": "0.3.0",
+      "started_at_utc": "2026-11-11T13:51:17.740261+00:00",
+      "bounded": false,
+      "regularized": false,
+      "hidden": [
+        16,
+        16
+      ],
+      "finished_at_utc": "2026-11-11T13:51:22.264312+00:00",
+      "epochs_run": 986,
+      "selected_epoch": 836,
+      "results": {
+        "model": "standard_nn",
+        "MAE_nm": 0.06698813959956168,
+        "RMSE_nm": 0.09538454338875364,
+        "R2": 0.21254833080358393,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0,
+        "epochs": 986
+      }
+    },
+    {
+      "model": "random_forest",
+      "version": "1.7.2",
+      "started_at_utc": "2026-11-11T13:51:22.290183+00:00",
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "criterion": "squared_error",
+        "max_depth": null,
+        "max_features": 1.0,
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 2,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 73,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "finished_at_utc": "2026-11-11T13:51:22.912291+00:00",
+      "results": {
+        "model": "random_forest",
+        "MAE_nm": 0.0849093975468974,
+        "RMSE_nm": 0.1096884399030222,
+        "R2": -0.04133296519281915,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    },
+    {
+      "model": "gradient_boosting",
+      "version": "1.7.2",
+      "started_at_utc": "2026-11-11T13:51:23.128415+00:00",
+      "parameters": {
+        "alpha": 0.9,
+        "ccp_alpha": 0.0,
+        "criterion": "friedman_mse",
+        "init": null,
+        "learning_rate": 0.05,
+        "loss": "squared_error",
+        "max_depth": 2,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "n_estimators": 100,
+        "n_iter_no_change": null,
+        "random_state": 73,
+        "subsample": 1.0,
+        "tol": 0.0001,
+        "validation_fraction": 0.1,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "finished_at_utc": "2026-11-11T13:51:23.222210+00:00",
+      "results": {
+        "model": "gradient_boosting",
+        "MAE_nm": 0.0856447634892094,
+        "RMSE_nm": 0.10372190379754302,
+        "R2": 0.06887313540370876,
+        "violation_fraction": 0.0,
+        "max_violation_nm": 0.0
+      }
+    }
+  ],
+  "results": [
+    {
+      "model": "pinn",
+      "MAE_nm": 0.0897123008966446,
+      "RMSE_nm": 0.10753071982923156,
+      "R2": -0.0007670639401045065,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0,
+      "epochs": 1112
+    },
+    {
+      "model": "bounded_nn",
+      "MAE_nm": 0.0890383337934812,
+      "RMSE_nm": 0.10877721941412632,
+      "R2": -0.0241033906264565,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0,
+      "epochs": 1136
+    },
+    {
+      "model": "standard_nn",
+      "MAE_nm": 0.06698813959956168,
+      "RMSE_nm": 0.09538454338875364,
+      "R2": 0.21254833080358393,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0,
+      "epochs": 986
+    },
+    {
+      "model": "random_forest",
+      "MAE_nm": 0.0849093975468974,
+      "RMSE_nm": 0.1096884399030222,
+      "R2": -0.04133296519281915,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    },
+    {
+      "model": "gradient_boosting",
+      "MAE_nm": 0.0856447634892094,
+      "RMSE_nm": 0.10372190379754302,
+      "R2": 0.06887313540370876,
+      "violation_fraction": 0.0,
+      "max_violation_nm": 0.0
+    }
+  ],
+  "data_audit": {
+    "input_rows": 126,
+    "retained_rows": 126,
+    "excluded_rows": 0,
+    "policy": "error",
+    "reason_counts": {
+      "nonpositive_total": 0,
+      "nonpositive_log:concentration_g_l": 0,
+      "bonded_outside_bounds": 0
+    },
+    "excluded_source_rows": []
+  },
+  "finished_at_utc": "2026-11-11T13:51:23.344521+00:00",
+  "duration_seconds": 30.114921,
+  "artifacts": {
+    "bounded_nn.pt": "a33af63d3b6f908a171595a715f52d9721189bf565461e2e8cce00daba02d587",
+    "bounded_nn_history.csv": "5519b00cd6d4477aa8bbd7be014233a074ce8f3dabf6d960716da1f491e06f4e",
+    "data_audit.json": "3d5ae3eee9debbb6859e4cc99df930fca8dff21d2620ff10430032c57374c1a1",
+    "gradient_boosting_parameters.json": "d65c8c6a517d3723838d3f6e2f876c9c77be7dc39d777990536847d5c5b46bcc",
+    "gradient_boosting_trees.npz": "553eeca71eb230dbb8cb7f842e923d0452fd98da81ad2fae8c4639cb72a813b1",
+    "manifest.json": "86bdada7dcf0c96a0cf7f5a91d44cb88e8845ce80ee44fcf4ea0067f722c3844",
+    "metrics.csv": "6c555e6c8b3b1b971c6ed86b6684432a7493035817f144349621ae3be7d6d2d5",
+    "pinn.pt": "9785aa52ca3d98bed76a9c094afdfcbe9201dda00fd62e21fb04bdf504a567d5",
+    "pinn_history.csv": "df4ca9b57e808f126ca7bebf4dae0739acfd5de37e85195536a2d8764c57238b",
+    "pinn_sensitivity.csv": "015b3548c6119e1ffcdbd9311966f2494f0a02dcbd044d8e97cb28fa76f1d0e7",
+    "predictions.csv": "080ec1fee071e57cd552ce59468eb3db6ae706a48fb29015544406713c172083",
+    "random_forest_parameters.json": "552dddc30d6ba0b07efdcf255ed60d314c52398761ba74067963e104be0f1ee9",
+    "random_forest_trees.npz": "4c1ab8d4db6b6ade448803ca54786d75419feba757db1e5b90d8aa0babddb99f",
+    "source\\config.json": "7a8dc64227cc1e549e6b2aa3b42cded63c324cd1535a32afe1e9a5e09525861b",
+    "source\\core.py": "b6a2eb41c8955b480cd95f5fa0ceb048ded49b1251cce66f18cd2d5574705f59",
+    "source\\physics.py": "6618a0eeeba29ad03f3439242b8375518359fa51c4b4fa795d7230f57cb91ae1",
+    "source\\predict.py": "26e820faee9b31f77744fe0948a9782a46ac694d07c8f991b0b3470eba811037",
+    "source\\prepare_data.py": "ae3a62f32d4d5b69a81059eda8817af5f95732b083fd1a1d1146df1bdd46f9bd",
+    "source\\run_followup.py": "fda98dfc1298ec84258000d8c1f4062bbffab5938e898cc7be93c20de72f2802",
+    "source\\run_tracking.py": "351b33ce8a8b5bb6e1547d9521264fc3692776e17d5d95d3e500371b796df507",
+    "source\\summarize_followup.py": "0b1e9923ef267d6b3efe5112bfe646258515da91b543e116c64d90d89bc23243",
+    "source\\test_followup.py": "56ede0a667e3b62f359289e940fc78f8ac4921b6af3702d19309d046ed1d1842",
+    "source\\test_physics_tracking.py": "120bf82b7f4b14c750a4ed419d71d2e652f72c3d8bdce7ca0beb3aac0a6d6d53",
+    "source\\test_pinn.py": "0119314c9dc3887c599145e70b34543228dcb0e031ea6a44cb307c61d49decf3",
+    "source\\train.py": "f71a980f1dfe55cf043b5b9f63a1cde875ddc84792546eb7ec7965d0b233788a",
+    "source\\verify_followup.py": "4e321556a5eb352f3e97760aa076cc8c0de8bb5a900b4d26358b96fcb4b5bb67",
+    "source\\verify_runs.py": "53bf933a3b755c0f8b466c5659cf6be2cde8b61e8c4b60afd8c170e51737af6b",
+    "splits.csv": "0f128af6c22060be16f7f5e107260fb14b7a66e3aac6aef6af7301cd7fefa91b",
+    "standard_nn.pt": "9e95f624cdc757811a992fdc4ba04385593889c634b3965e5a456d237d3882ef",
+    "standard_nn_history.csv": "e1a87d8aac750169b06fdf46b90d9eaac0fff537f6aed7cde2ae8f253f39542c",
+    "training_trend_diagnostics.csv": "dd371de2f478dff8d9ed2343d5019fe45afdc465bb803bdd3fce8f5b90d4a3a9"
+  }
+}

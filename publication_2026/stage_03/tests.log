@@ -1,0 +1,16 @@
+test_coverage_and_metrics (test_baselines.BaselineIntegrity.test_coverage_and_metrics) ... ok
+test_hashes (test_baselines.BaselineIntegrity.test_hashes) ... ok
+test_partitions_and_numeric_holdouts (test_baselines.BaselineIntegrity.test_partitions_and_numeric_holdouts) ... ok
+test_preservation_and_task_B_reuse (test_baselines.BaselineIntegrity.test_preservation_and_task_B_reuse) ... ok
+test_training_budget_and_weights (test_baselines.BaselineIntegrity.test_training_budget_and_weights) ... ok
+test_all_fit_membership_and_preprocessing (test_stage3.NestedIntegrity.test_all_fit_membership_and_preprocessing) ... ok
+test_feature_poison_unknown_categories_and_hybrid_refit (test_stage3.NestedIntegrity.test_feature_poison_unknown_categories_and_hybrid_refit) ... ok
+test_hashes_and_frozen_spec (test_stage3.NestedIntegrity.test_hashes_and_frozen_spec) ... ok
+test_inner_scores_selection_and_no_missing_candidates (test_stage3.NestedIntegrity.test_inner_scores_selection_and_no_missing_candidates) ... ok
+test_outer_coverage_and_selected_configs (test_stage3.NestedIntegrity.test_outer_coverage_and_selected_configs) ... ok
+test_totals_metrics_and_paired_differences (test_stage3.NestedIntegrity.test_totals_metrics_and_paired_differences) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 27.606s
+
+OK

@@ -1,0 +1,40 @@
+{
+  "sources": [
+    {
+      "path": "models/feature engineering v1/data FE-V1/agg.data.xlsx",
+      "sha256": "e6f1aee13956864b544868dedd0bb239731271177eb67948eb712fd4706ff11e",
+      "rows": 58
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/toluene+pdms.csv",
+      "sha256": "38fdc73bdbe424b88926afb67a5b850d3cf024ecfba8101f09934e7fdba9a113",
+      "rows": 51
+    },
+    {
+      "path": "models/feature engineering v1/data FE-V1/ethyl acetate+pdms.csv",
+      "sha256": "3917cb1c386fac2d90d13204a73d0c40cdb483550457d37ce6c424e7d6bf6096",
+      "rows": 33
+    }
+  ],
+  "canonical_builder_sha256": "d82e45803c1f86e0fe991f70e94e1472cbc2ff9e22281a2f235aef46fc82803b",
+  "dataset": "PINN/datasets/20261111T134229Z_measured_followup_measured.csv",
+  "dataset_sha256": "691278376f4fbbb48edba2cfcf55e587f3ac2fd9440fd039cc9e521122e35527",
+  "rows": 126,
+  "groups": 36,
+  "counts": {
+    "ethyl_acetate": 33,
+    "hexane": 58,
+    "toluene": 35
+  },
+  "missing_matched_fields": [
+    "Withdrawal Velocity (mm/s)",
+    "Viscosity (cP)",
+    "Surface Tension (mN/m)",
+    "Solution Density (kg/m3)",
+    "Wet-to-Dry Mobile Factor",
+    "LLD Applicable"
+  ],
+  "physics_status": "No sample-linked validated table found; intake unfilled. Legacy scalar assumptions are not measurements.",
+  "concentration_units": "g/L; numeric values preserved under previously audited canonical schema",
+  "scope": "Conditional bonded inference using measured total and uncoated thickness; not recipe-only prediction."
+}

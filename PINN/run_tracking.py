@@ -8,7 +8,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 HERE = Path(__file__).resolve().parent
-MODEL_VERSION = '0.2.0'
+MODEL_VERSION = '0.3.0'
 
 
 def now():
@@ -88,4 +88,4 @@ def refresh_log():
         r = json.loads(file.read_text(encoding='utf-8'))
         score = next((f"{v['RMSE_nm']:.6f}" for v in r.get('results', []) if v['model'] == 'pinn'), '-')
         lines.append(f"| [{r['run_id']}](runs/{file.parent.name}/run_record.json) | {r.get('started_at_new_york') or 'unknown (legacy)'} | {r['model_version']} | {r['data_kind']} / {r['split_mode']} | {r['status']} | {score} |")
-    (HERE/'RUN_LOG.md').write_text('\n'.join(lines)+'\n', encoding='utf-8')
+    (HERE/'RUN_LOG.md').write_text('\n'.join(lines)+'\n', encoding='utf-8', newline='\n')

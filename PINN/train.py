@@ -11,7 +11,7 @@ import sklearn
 import torch
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import GroupShuffleSplit, train_test_split
+from sklearn.model_selection import GroupShuffleSplit, GroupKFold, train_test_split
 
 from core import load_data, fit_network, predict, sensitivity, Preprocessor
 from run_tracking import start_run, finish_run, save_record, now, MODEL_VERSION
@@ -23,6 +23,17 @@ HERE = Path(__file__).resolve().parent
 def split_indices(df, cfg, mode):
     indices = np.arange(len(df))
     group = cfg['group_column']
+    if 'outer_fold' in cfg:
+        if mode != 'grouped':
+            raise ValueError('outer_fold requires grouped mode.')
+        folds = list(GroupKFold(n_splits=cfg.get('outer_folds', 5)).split(df, groups=df[group]))
+        fold = cfg['outer_fold']
+        if not isinstance(fold, int) or not 0 <= fold < len(folds):
+            raise ValueError('Invalid outer_fold.')
+        dev, test = folds[fold]
+        a, b = next(GroupShuffleSplit(n_splits=1, test_size=cfg['validation_size'],
+                    random_state=cfg.get('split_seed', 42)).split(dev, groups=df.iloc[dev][group]))
+        return dev[a], dev[b], test
     if mode == 'random':
         dev, test = train_test_split(indices, test_size=cfg['test_size'], random_state=cfg['seed'])
         train, val = train_test_split(dev, test_size=cfg['validation_size'], random_state=cfg['seed'])
@@ -59,9 +70,15 @@ def _run(data_path, cfg, out, record, mode='grouped', fraction=1., invalid_polic
     record['data_audit'] = audit
     tr, va, te = split_indices(df, cfg, mode)
     if fraction < 1:
-        # Training-only subsampling; validation and test stay identical across fractions.
-        count = max(2, int(len(tr) * fraction))
-        tr = np.sort(np.random.default_rng(cfg['seed']).choice(tr, count, replace=False))
+        # Validation/test are fixed; whole-condition subsampling is opt-in.
+        rng = np.random.default_rng(cfg.get('subsample_seed', cfg['seed']))
+        if cfg.get('subsample_unit') == 'group':
+            groups = np.array(sorted(df.iloc[tr][cfg['group_column']].unique()))
+            selected = rng.permutation(groups)[:max(2, int(np.ceil(len(groups)*fraction)))]
+            tr = tr[df.iloc[tr][cfg['group_column']].isin(selected).to_numpy()]
+        else:
+            count = max(2, int(len(tr) * fraction))
+            tr = np.sort(rng.choice(tr, count, replace=False))
     train, val, test = df.iloc[tr], df.iloc[va], df.iloc[te]
     split = pd.DataFrame({'source_row': df.index[np.concatenate([tr, va, te])],
                           'split': ['train']*len(tr)+['validation']*len(va)+['test']*len(te)})
