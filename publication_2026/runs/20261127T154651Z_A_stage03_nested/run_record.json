@@ -1,0 +1,36 @@
+{
+  "elapsed_seconds": 97.07800000009593,
+  "source_commit": "0ebeb0406c05f042aef95bb45f06cf123a2d2625",
+  "source_files": {
+    "publication_2026/common.py": "8688bf02c312b03129334c9300bcadaa1b62dff497f607afb3e204972ab50fac",
+    "near_term/run_analysis.py": "d82e45803c1f86e0fe991f70e94e1472cbc2ff9e22281a2f235aef46fc82803b",
+    "near_term/solvent_analysis.py": "95314a22dc84434a515cf424b4c38bf47f91aa348b7a471f4f676d10a0a595f2",
+    "publication_2026/recover_stage12.py": "6382757123572070365c935f6a1b9d2953b77f3a40b439ed2c243498ae3f205f",
+    "publication_2026/stage3.py": "787e221f249d9478ab620b5beee8e2c19ac06a9a9eb027d08f8e99b654417f76"
+  },
+  "artifacts": {
+    "comparison_metrics.csv": "cbb891be75f71e2fb8e0e8c603a9e7f1dd61b8d7a989e47e4ef173e2546bf5c7",
+    "environment.json": "288dba3505a5ab9dae713422615803666e79152a5ada5c9c5c730f423e018e61",
+    "feature_contract.json": "153465ab271efb3bd82af37cfa21a379080d1fcdd56854d791d1f989d4aeca75",
+    "fits.json": "ba020e5712974de941ce996782fae601a146a3dde65789d2e3f0381e3aa94632",
+    "inner_predictions.csv": "935393c7175087b8a8e2889449fbcb25d168ba693836732aaf54167a0e4cb766",
+    "inner_scores.csv": "caaafa4e4e341037552577827b8fddd050ef915ddfcfd335b557259a1cf84983",
+    "inner_splits.csv": "3c9116c5b60ae47674bfbb48307cdf6d55db8496364a1f54cdf40a0b5cd5232d",
+    "inputs.json": "c8e17ebaf5b88b46b0f6e49b38ac908055e985b7456e6680f268790b69bdc6c6",
+    "metrics.csv": "aaef3cc0499f987675f234710bbe134a9cc5146857eb36e2a9ca78372cb3607e",
+    "paired_condition_differences.csv": "9e978e16e0d84d014e6736d6eb191107ad4bfd1963fd8104718eb79f0955a126",
+    "predictions.csv": "15c01bd3ba025d583ff31ca7ef4166e7c8008a14678d9dafdaaa147e58054e7a",
+    "progress.json": "9af7b5eb9973acd6fc43e233c10de1949bec7644e8146f3be1e1814e770475d6",
+    "search_space.json": "644d98a4ca540b6d1ee20d29d5ec34ccabc1612367a1573bec67e550c685f3fb",
+    "seed_summary.csv": "8d9af526b1ec43b6f928ce49636c29b1eaef38d16a2d281d2e2f7f3b0d4e23f5",
+    "selected_configs_by_fold.json": "7f847f260c67cded3ef1439f5c232e2f0ecb3d5f3468f88f5b7133ce60146cfc",
+    "selection_frequency.csv": "672320410411cce437955697553ba3a24db6a34aa72de8134b6e852b31e60ece",
+    "splits.csv": "3491c157c622b318f95916e495e7709aa8e0599469f0383fd41054815138f943",
+    "started.json": "b3356079d58d4874c1d6286d8436622e70e5152195b0688003714051ecf70c2e",
+    "training_diagnostics.csv": "5b205996ed0165903864edee4ddade87d9c29a52b2a81aa46b5fa9882789b415"
+  },
+  "search_space_sha256": "644d98a4ca540b6d1ee20d29d5ec34ccabc1612367a1573bec67e550c685f3fb",
+  "baseline_run": "publication_2026/runs/20261127T154337Z_AB_stage02_regenerated",
+  "inner_fits": 1320,
+  "outer_fits": 150
+}

@@ -1,0 +1,8 @@
+# Recorded Windows Python 3.12 environment. No upgrades were performed.
+numpy==2.3.3
+pandas==2.2.3
+scipy==1.15.3
+scikit-learn==1.7.2
+torch==2.7.1
+matplotlib==3.10.7
+openpyxl==3.1.5

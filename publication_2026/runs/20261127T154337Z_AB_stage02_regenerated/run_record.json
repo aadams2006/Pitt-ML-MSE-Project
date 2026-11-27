@@ -1,0 +1,23 @@
+{
+  "elapsed_seconds": 19.125,
+  "source_commit": "0ebeb0406c05f042aef95bb45f06cf123a2d2625",
+  "source_files": {
+    "publication_2026/common.py": "8688bf02c312b03129334c9300bcadaa1b62dff497f607afb3e204972ab50fac",
+    "near_term/run_analysis.py": "d82e45803c1f86e0fe991f70e94e1472cbc2ff9e22281a2f235aef46fc82803b",
+    "near_term/solvent_analysis.py": "95314a22dc84434a515cf424b4c38bf47f91aa348b7a471f4f676d10a0a595f2",
+    "publication_2026/recover_stage12.py": "6382757123572070365c935f6a1b9d2953b77f3a40b439ed2c243498ae3f205f"
+  },
+  "artifacts": {
+    "audit.json": "4be06145e5a2318f45e9436fa22548e2e44aba0a3ad5b99c06868857b4b8f0e7",
+    "baseline_metrics.csv": "9bf53f1f84fe96455864765e60a077f126bf3f56be0a316be21610467e972591",
+    "benchmark_spec.json": "ea5976f862d72c1d0a6f34693871e49e4d32972f4da315e2c1bc137d4b292a83",
+    "canonical_records.csv": "d5c26c1377b5fa921a32bdb6ebc1ad13954454c976a3e7caba09dfa0c259e486",
+    "environment.json": "288dba3505a5ab9dae713422615803666e79152a5ada5c9c5c730f423e018e61",
+    "excluded_records.csv": "6df98b6717e6989ce9031f1af00559d00432d16b1ffb671097c60d5d287ea3f2",
+    "fits.json": "94f3e31f6bbbf87f1fb3f9d58c0b04f532fa4cb56784f10e5e9a9de28e64596b",
+    "inner_splits.csv": "3c9116c5b60ae47674bfbb48307cdf6d55db8496364a1f54cdf40a0b5cd5232d",
+    "measured_snapshot.csv": "a91c8e26df125d6f0d7a50f4c84838e3408a61b591cd1bab0dd4ef0db063c6a2",
+    "predictions.csv": "ad0d73e6471d9d479a195e69a6168705b0e21aa5ae85ac3064fc7ce28303d51c",
+    "splits.csv": "3491c157c622b318f95916e495e7709aa8e0599469f0383fd41054815138f943"
+  }
+}

@@ -1,0 +1,31 @@
+START grouped_cv 1
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_log_leaf4_depth3', 'tuned_gb': 'gb_descriptors_raw_leaf2_depth2', 'tree_selected': 'rf_descriptors_log_leaf4_depth3', 'simple_selected': 'rf_descriptors_log_leaf4_depth3'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_raw_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'rf_descriptors_raw_leaf1_depthNone', 'simple_selected': 'linear_local'}
+START grouped_cv 2
+SELECT bonded_nm {'tuned_rf': 'rf_identity_log_leaf1_depthNone', 'tuned_gb': 'gb_identity_log_leaf2_depth2', 'tree_selected': 'rf_identity_log_leaf1_depthNone', 'simple_selected': 'rf_identity_log_leaf1_depthNone'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'rf_descriptors_log_leaf1_depthNone', 'simple_selected': 'scaled_lld_plus_ridge_residual'}
+START grouped_cv 3
+SELECT bonded_nm {'tuned_rf': 'rf_identity_raw_leaf4_depth3', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'gb_descriptors_log_leaf2_depth2', 'simple_selected': 'gb_descriptors_log_leaf2_depth2'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_raw_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_raw_leaf2_depth2', 'tree_selected': 'rf_descriptors_raw_leaf1_depthNone', 'simple_selected': 'saturating_mobile_local'}
+START grouped_cv 4
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_raw_leaf4_depth3', 'tuned_gb': 'gb_identity_raw_leaf2_depth2', 'tree_selected': 'rf_descriptors_raw_leaf4_depth3', 'simple_selected': 'rf_descriptors_raw_leaf4_depth3'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'rf_descriptors_log_leaf1_depthNone', 'simple_selected': 'saturating_mobile_local'}
+START grouped_cv 5
+SELECT bonded_nm {'tuned_rf': 'rf_identity_log_leaf1_depthNone', 'tuned_gb': 'gb_identity_log_leaf2_depth2', 'tree_selected': 'rf_identity_log_leaf1_depthNone', 'simple_selected': 'rf_identity_log_leaf1_depthNone'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_raw_leaf2_depth2', 'tree_selected': 'gb_descriptors_raw_leaf2_depth2', 'simple_selected': 'saturating_mobile_local'}
+START leave_one_solvent_out ethyl_acetate
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_raw_leaf4_depth3', 'tuned_gb': 'gb_descriptors_log_leaf4_depth1', 'tree_selected': 'gb_descriptors_log_leaf4_depth1', 'simple_selected': 'gb_descriptors_log_leaf4_depth1'}
+SELECT mobile_nm {'tuned_rf': 'rf_identity_raw_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_raw_leaf2_depth2', 'tree_selected': 'rf_identity_raw_leaf1_depthNone', 'simple_selected': 'linear_local'}
+START leave_one_solvent_out hexane
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_identity_raw_leaf2_depth2', 'tree_selected': 'gb_identity_raw_leaf2_depth2', 'simple_selected': 'gb_identity_raw_leaf2_depth2'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'rf_descriptors_log_leaf1_depthNone', 'simple_selected': 'linear_local'}
+START leave_one_solvent_out toluene
+SELECT bonded_nm {'tuned_rf': 'rf_identity_log_leaf4_depth3', 'tuned_gb': 'gb_descriptors_log_leaf2_depth2', 'tree_selected': 'rf_identity_log_leaf4_depth3', 'simple_selected': 'rf_identity_log_leaf4_depth3'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_raw_leaf2_depth6', 'tuned_gb': 'gb_identity_raw_leaf2_depth2', 'tree_selected': 'gb_identity_raw_leaf2_depth2', 'simple_selected': 'scaled_lld_plus_ridge_residual'}
+START ood_low_concentration low
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_identity_log_leaf2_depth2', 'tree_selected': 'rf_descriptors_log_leaf1_depthNone', 'simple_selected': 'rf_descriptors_log_leaf1_depthNone'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_raw_leaf1_depthNone', 'tuned_gb': 'gb_descriptors_raw_leaf2_depth2', 'tree_selected': 'rf_descriptors_raw_leaf1_depthNone', 'simple_selected': 'scaled_lld_plus_ridge_residual'}
+START ood_high_concentration high
+SELECT bonded_nm {'tuned_rf': 'rf_descriptors_log_leaf4_depth3', 'tuned_gb': 'gb_descriptors_log_leaf4_depth1', 'tree_selected': 'rf_descriptors_log_leaf4_depth3', 'simple_selected': 'rf_descriptors_log_leaf4_depth3'}
+SELECT mobile_nm {'tuned_rf': 'rf_descriptors_log_leaf1_depthNone', 'tuned_gb': 'gb_identity_log_leaf2_depth2', 'tree_selected': 'gb_identity_log_leaf2_depth2', 'simple_selected': 'saturating_mobile_local'}
+DONE C:\Users\alexg\Downloads\Pitt-ML-MSE-Project\publication_2026\runs\20261127T154651Z_A_stage03_nested

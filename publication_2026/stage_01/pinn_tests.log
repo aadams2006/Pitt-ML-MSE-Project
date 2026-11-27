@@ -1,0 +1,17 @@
+test_outer_coverage_and_seed_independence (test_followup.FollowupTests.test_outer_coverage_and_seed_independence) ... ok
+test_unknown_smooth_feature_rejected (test_followup.FollowupTests.test_unknown_smooth_feature_rejected) ... ok
+test_failed_run_has_timestamp_version_and_source (test_physics_tracking.PhysicsTrackingTests.test_failed_run_has_timestamp_version_and_source) ... ok
+test_lld_units_scaling_and_target_separation (test_physics_tracking.PhysicsTrackingTests.test_lld_units_scaling_and_target_separation) ... ok
+test_missing_physics_and_high_ca_rejected (test_physics_tracking.PhysicsTrackingTests.test_missing_physics_and_high_ca_rejected) ... ok
+test_synthetic_exclusion_preserves_source_rows (test_physics_tracking.PhysicsTrackingTests.test_synthetic_exclusion_preserves_source_rows) ... ok
+test_velocity_curvature_and_monotonic_penalty (test_physics_tracking.PhysicsTrackingTests.test_velocity_curvature_and_monotonic_penalty) ... ok
+test_bounds_and_zero_total (test_pinn.PinnTests.test_bounds_and_zero_total) ... ok
+test_group_disjoint_and_extrapolation (test_pinn.PinnTests.test_group_disjoint_and_extrapolation) ... ok
+test_regularizer_backprop_and_sensitivity (test_pinn.PinnTests.test_regularizer_backprop_and_sensitivity) ... ok
+test_scaler_training_only_and_restore (test_pinn.PinnTests.test_scaler_training_only_and_restore) ... ok
+test_training_checkpoint_fidelity (test_pinn.PinnTests.test_training_checkpoint_fidelity) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 6.739s
+
+OK

@@ -1,0 +1,13 @@
+{
+  "source": "publication_2026/report_stage3.py",
+  "source_sha256": "152e79c5cce939f2fbe85a288d218d7ff67b3d2037a85a56f0f03b5e522b772e",
+  "run": "publication_2026/runs/20261127T154651Z_A_stage03_nested",
+  "artifacts": {
+    "REPORT.md": "8efda6fc8c503e1f5cb85f16fcdb6e511f83a9c40ac521b13c7a192cba75b80f",
+    "decision_thresholds.csv": "a8f77a3ca30bba21fbe6cb24697b9dce345eb7140763a58ff006870e2a550ce3",
+    "figures/grouped_comparison.pdf": "319905d9ca043a111a00cddec7ac618d3ae20b664d995da4b3a474b8e7a25c40",
+    "figures/grouped_comparison.png": "7aaf309434d59d9a577cd62be33a845418dbfd001720daad9c20edee69103086",
+    "figures/mobile_stress_tests.pdf": "8df8425b3693efd36087cee95feef3a893b3c9e98ed8f41a89455e98d9bf7d6d",
+    "figures/mobile_stress_tests.png": "9e1c85cd16af7ff037cce2cf63f3061c432b0cd6f8c7709b3323f73b70bc4813"
+  }
+}
